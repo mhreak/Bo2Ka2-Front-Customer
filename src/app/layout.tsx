@@ -8,7 +8,6 @@ import { Inter } from "next/font/google";
 
 import { AuthProvider } from "@/context/AuthProvider";
 import { cn } from "@/lib/utils";
-import BottomNavigation from "./../components/bottomNavigation/BottomNavigation";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -32,7 +31,6 @@ export default function RootLayout({
                 <div className="p-8 h-full w-full overflow-auto">
                   {children}
                 </div>
-                <BottomNavigation />
               </div>
               <Toaster
               // toastOptions={{
