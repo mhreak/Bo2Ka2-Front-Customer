@@ -2,19 +2,13 @@ import type { Metadata } from "next";
 import { DirectionProvider } from "@/components/ui/direction";
 import "./globals.css";
 import { yekanBakh } from "@/fonts";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/toast";
 import { Inter } from "next/font/google";
-import AppSideBar from "../components/sidebar/AppSideBar";
-import NavBar from "@/components/navbar/NavBar";
-import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+
 import { AuthProvider } from "@/context/AuthProvider";
 import { cn } from "@/lib/utils";
+import BottomNavigation from "./../components/bottomNavigation/BottomNavigation";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -29,13 +23,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fa" dir="rtl" className={cn("font-sans", inter.variable)}>
+    <html lang="fa" dir="rtl" className={cn("font-sans", yekanBakh.variable)}>
       <body>
         <AuthProvider>
           <DirectionProvider direction="rtl">
             <SidebarProvider>
               <div className="relative flex h-dvh w-full">
-                <div className="p-8 h-full overflow-auto">{children}</div>
+                <div className="p-8 h-full w-full overflow-auto">
+                  {children}
+                </div>
               </div>
               <Toaster
               // toastOptions={{
@@ -46,6 +42,7 @@ export default function RootLayout({
               // position="top-center"
               // closeButton
               />
+              <BottomNavigation />
             </SidebarProvider>
           </DirectionProvider>
         </AuthProvider>
