@@ -32,6 +32,7 @@ export default function RootLayout({
                 <div className="p-8 h-full w-full overflow-auto">
                   {children}
                 </div>
+                <BottomNavigation />
               </div>
               <Toaster
               // toastOptions={{
@@ -42,7 +43,6 @@ export default function RootLayout({
               // position="top-center"
               // closeButton
               />
-              <BottomNavigation />
             </SidebarProvider>
           </DirectionProvider>
         </AuthProvider>

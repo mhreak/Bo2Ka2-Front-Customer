@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -30,7 +30,7 @@ export function FormDrawer({ drawerTitle, formConfig }: Readonly<Props>) {
 
   function handleConfirm() {
     setOpen(false);
-    toast("مسافر اضافه شد");
+    toast.add({ description: "مسافر ثبت شد." });
   }
 
   return (
