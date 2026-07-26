@@ -3,14 +3,14 @@ import Image from "next/image";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
-import { Zap } from "lucide-react";
+import { Heart, Star, Zap } from "lucide-react";
 
 const productItemVariants = cva("relative flex flex-col", {
   variants: {
     variant: {
       default: "min-w-fit",
       bordered: "rounded-2xl border p-4",
-      card: "rounded-2xl bg-card p-4 shadow-sm min-w-50",
+      card: "rounded-2xl bg-card p-4 shadow-sm w-46",
     },
   },
   defaultVariants: {
@@ -77,6 +77,7 @@ const badgeVariants = cva(
       variant: {
         default: "bg-destructive text-destructive-foreground",
         special: "bg-card",
+        like: "rounded-full bg-card size-12 top-6 right-6",
         primary: "bg-primary text-primary-foreground",
         secondary: "bg-secondary text-secondary-foreground",
         gradient: "bg-gradient text-primary-foreground",
@@ -91,12 +92,15 @@ const badgeVariants = cva(
 
 export interface ProductItemProps
   extends
-    React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof productItemVariants> {
+  React.HTMLAttributes<HTMLDivElement>,
+  VariantProps<typeof productItemVariants> {
   imageSrc: string;
   title: string;
   discountedPrice?: string;
-  price: string;
+  price?: string;
+  discountPercent?: string;
+  storeName?: string;
+  rating?: string;
 
   imageVariant?: VariantProps<typeof imageVariants>["variant"];
   titleVariant?: VariantProps<typeof titleVariants>["variant"];
@@ -104,18 +108,21 @@ export interface ProductItemProps
     typeof discountedPriceVariants
   >["variant"];
   priceVariant?: VariantProps<typeof priceVariants>["variant"];
+  badgeVariant?: VariantProps<typeof badgeVariants>["variant"];
 
   imageClassName?: string;
   titleClassName?: string;
   discountedPriceClassName?: string;
   priceClassName?: string;
+  badgeClassName?: string;
+  storeNameClassName?: string;
+  ratingClassName?: string;
 
   imageWidth?: number;
   imageHeight?: number;
 
-  discountPercent?: string;
-  badgeVariant?: VariantProps<typeof badgeVariants>["variant"];
-  badgeClassName?: string;
+  onLike?: (isLiked:boolean) => void;
+  isLiked?: boolean;
 }
 
 const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
@@ -128,6 +135,8 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
       title,
       discountedPrice,
       price,
+      storeName,
+      rating,
 
       imageVariant,
       titleVariant,
@@ -138,6 +147,8 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
       titleClassName,
       discountedPriceClassName,
       priceClassName,
+      storeNameClassName,
+      ratingClassName,
 
       imageWidth = 155,
       imageHeight = 155,
@@ -145,6 +156,9 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
       discountPercent,
       badgeVariant,
       badgeClassName,
+
+      onLike,
+      isLiked,
 
       ...props
     },
@@ -177,9 +191,22 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
             {badgeVariant === "special" && (
               <Zap className="text-emerald-500 ml-1" size={15} />
             )}
+
+
             {discountPercent}
           </span>
         )}
+
+        {badgeVariant === "like" && (
+          <span
+            className={cn(
+              badgeVariants({ variant: badgeVariant }),
+              badgeClassName,
+            )}
+            onClick={() => onLike?.(true)}
+          >
+            {isLiked ? <Heart className="text-rose-500"  fill="currentColor" />: <Heart className="text-rose-500"/>}
+          </span>)}
 
         <p
           className={cn(
@@ -189,6 +216,17 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
         >
           {title}
         </p>
+
+        {storeName && (
+          <p className="text-muted-foreground text-sm">{storeName}</p>
+        )}
+        {rating && <div className="flex flex-row justify-start gap-2">
+          <Star fill="currentColor" className="text-yellow-400" size={14} />
+          <p className="text-accent-foreground font-semibold">
+            {rating}
+
+          </p>
+        </div>}
 
         <div className="mt-1 flex items-center gap-2">
           {discountedPrice && (
@@ -204,14 +242,16 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
             </span>
           )}
 
-          <span
-            className={cn(
-              priceVariants({ variant: priceVariant }),
-              priceClassName,
-            )}
-          >
-            {price}
-          </span>
+          {price && (
+            <span
+              className={cn(
+                priceVariants({ variant: priceVariant }),
+                priceClassName,
+              )}
+            >
+              {price}
+            </span>
+          )}
         </div>
       </div>
     );
