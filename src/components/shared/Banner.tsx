@@ -15,7 +15,7 @@ const Banner = ({
   return (
     <div className="flex-center w-full">
       <div
-        className={cn("rounded-4xl", containerCalassName)}
+        className={cn("rounded-4xl w-full", containerCalassName)}
         onClick={onClick}
       ></div>
     </div>
