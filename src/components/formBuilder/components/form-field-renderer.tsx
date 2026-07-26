@@ -22,7 +22,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { PersianNumberInput } from "@/components/shared/inputs/PersianNumberInput";
 import { AmountInput } from "@/components/shared/inputs/AmountInput";
 import { Switch } from "@/components/ui/switch";
-import { CustomerSearch } from "@/components/shared/inputs/searchInputs/customerSearch/CustomerSearch";
 import PasswordInput from "@/components/shared/inputs/PasswordInput";
 import DatePicker from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
@@ -527,28 +526,7 @@ export function FormFieldRenderer({
                 );
               }
 
-              case "customerSearch": {
-                return (
-                  <CustomerSearch
-                    id={field.id}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    disabled={isDisabled}
-                    readOnly={isReadOnly || !!field.computedValue}
-                    value={value ?? ""}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    ref={ref}
-                    className={cn(
-                      error &&
-                        "border-destructive focus-visible:ring-destructive",
-                      (isReadOnly || field.computedValue) &&
-                        "bg-muted cursor-not-allowed focus-visible:ring-0",
-                    )}
-                    maxLength={field.maxLength}
-                  />
-                );
-              }
+              
               default:
                 return null;
             }

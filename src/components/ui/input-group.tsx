@@ -128,6 +128,7 @@ function InputGroupInput({
         className,
       )}
       {...props}
+      size={"default"}
     />
   );
 }

@@ -36,6 +36,7 @@ export function PersianNumberInput({
       // dir="ltr"
       value={displayValue}
       onChange={handleChange}
+      size={"default"}
     />
   );
 }
