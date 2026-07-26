@@ -15,7 +15,7 @@ const BottomNavigation = () => {
   const [activeTab, setActiveTab] = useState<string>("home");
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-stone-100 rounded-2xl mx-2 shadow-lg">
+    <div className=" bg-stone-100 rounded-2xl mx-2 shadow-lg mt-5 ">
       <div className="flex items-center justify-around h-20 px-4 max-w-md mx-auto">
         {navItems.map((item) => {
           const isActive = activeTab === item.id;

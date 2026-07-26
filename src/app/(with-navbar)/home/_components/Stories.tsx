@@ -49,11 +49,12 @@ const Stories = () => {
   return (
     <div className="w-full relative">
       {/* Container with horizontal scroll */}
+      {/* <HiddenScrollbar> */}
       <div className="flex flex-row justify-start items-center gap-1 overflow-x-auto overflow-y-hidden py-4 px-2 scroll-smooth hide-scrollbar">
         {items.map((item, idx) => (
           <div
-            key={idx}
-            className="flex-shrink-0 flex flex-col items-center gap-2"
+            key={idx + 1}
+            className="shrink-0 flex flex-col items-center gap-2"
             style={{ width: "80px" }} // Fixed width for each item
           >
             {/* Story ring */}
@@ -75,16 +76,7 @@ const Stories = () => {
           </div>
         ))}
       </div>
-      {/* Styles to hide scrollbar */}
-      <style jsx>{`
-        .hide-scrollbar {
-          scrollbar-width: none; /* Firefox */
-          -ms-overflow-style: none; /* IE and Edge */
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none; /* Chrome, Safari and Opera */
-        }
-      `}</style>
+      {/* </HiddenScrollbar> */}
     </div>
   );
 };

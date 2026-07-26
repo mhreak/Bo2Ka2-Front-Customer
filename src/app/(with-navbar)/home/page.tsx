@@ -8,7 +8,7 @@ import Categories from "./_components/Categories";
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col gap-4 overflow-auto mb-20">
+    <div className="flex flex-col gap-4 overflow-auto">
       <HomePageHeader />
       <SearchInput value="" onChange={() => {}} placeholder="جستجو" />
       <Stories />
