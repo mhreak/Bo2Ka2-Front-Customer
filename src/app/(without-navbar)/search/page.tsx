@@ -8,7 +8,7 @@ import SearchInput from "@/components/shared/inputs/SearchInput";
 const SearchPage = () => {
   return (
     <>
-      <div className="fixed top-10 right-8 left-8 flex flex-row justify-start gap-8 items-center mb-8 z-100">
+      <div className="fixed top-10 right-5 left-5 flex flex-row justify-start gap-5 items-center mb-8 z-100">
         <BackButton />
         <SearchInput
           value=""
