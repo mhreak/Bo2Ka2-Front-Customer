@@ -3,11 +3,11 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const productSectionVariants = cva("flex flex-col gap-5 p-5", {
+const productSectionVariants = cva("flex flex-col gap-5", {
   variants: {
     variant: {
       default: "",
-      contained: "h-fit rounded-xl border bg-card bg-gradient",
+      contained: "h-fit rounded-xl border bg-card bg-gradient p-5",
     },
   },
   defaultVariants: {

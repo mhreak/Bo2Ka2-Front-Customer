@@ -24,7 +24,7 @@ import CategoryBanner from "./_components/CategoryBanner";
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col gap-4 overflow-auto hide-scrollbar">
+    <div className="flex flex-col gap-6 overflow-auto hide-scrollbar">
       <HomePageHeader />
       <SearchInput value="" onChange={() => {}} placeholder="جستجو" />
       <Stories />
@@ -74,7 +74,7 @@ const HomePage = () => {
           linkVariant={"contained"}
           className="items-center"
         />
-        <SectionContent variant="scroll">
+        <SectionContent variant="scroll" className="gap-2">
           <ProductItem
             title="مجموعه اسانس‌های گیاهی"
             imageSrc="/samples/sample-product-1.jpg"
