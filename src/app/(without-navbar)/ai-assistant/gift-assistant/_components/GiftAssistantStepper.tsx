@@ -26,7 +26,7 @@ export default function GiftAssistantStepper() {
         setActiveStep(0);
       };
   return (
-    <div className="w-full h-[92%] max-w-3xl mx-auto md:p-8 flex flex-col justify-between">
+    <div className="w-full h-[92%] max-w-3xl mx-auto md:p-8 flex flex-col justify-start gap-12">
       {/* Stepper Header */}
       <div className="relative flex items-center justify-between w-full">
         {/* Background Connector Line */}
@@ -79,9 +79,9 @@ export default function GiftAssistantStepper() {
               <div className="mt-3 text-center space-y-1 px-2 select-none">
                 <p
                   className={cn(
-                    "text-sm font-medium transition-colors duration-300",
+                    "text-sm font-medium transition-colors duration-300 ",
                     isActive || isCompleted
-                      ? "text-foreground font-semibold"
+                      ? "text-gradient font-semibold"
                       : "text-muted-foreground"
                   )}
                 >
@@ -107,7 +107,7 @@ export default function GiftAssistantStepper() {
       {/* <hr className="border-border/50" /> */}
 
       {/* Stepper Content Area with animations */}
-      <div className="flex flex-col justify-center items-center text-center overflow-auto hide-scrollbar">
+      <div className="flex flex-col justify-center items-center text-center overflow-auto hide-scrollbar mb-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeStep}
@@ -115,7 +115,7 @@ export default function GiftAssistantStepper() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="space-y-2 w-full"
+            className="w-full px-6 sm:px-2"
           >
               {steps[activeStep].contentNode}
             

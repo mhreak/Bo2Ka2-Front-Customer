@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { DirectionProvider } from "@/components/ui/direction";
-import "./globals.css";
 import { yekanBakh } from "@/fonts";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/toast";
@@ -8,6 +7,7 @@ import { Inter } from "next/font/google";
 
 import { AuthProvider } from "@/context/AuthProvider";
 import { cn } from "@/lib/utils";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -23,12 +23,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl" className={cn("font-sans", yekanBakh.variable)}>
-      <body>
+      <body className="bg-gradient-light">
         <AuthProvider>
           <DirectionProvider direction="rtl">
             <SidebarProvider>
               <div className="relative flex h-dvh w-full">
-                <div className="p-5 h-full w-full overflow-auto hide-scrollbar">
+                <div className="p-5 h-full w-full overflow-auto hide-scrollbar bg-grad">
                   {children}
                 </div>
               </div>

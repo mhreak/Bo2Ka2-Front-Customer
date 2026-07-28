@@ -1,26 +1,44 @@
-import Image from 'next/image'
-import React from 'react'
+"use client";
+
+import BadgeSelect, { BadgeSelectItem } from "@/components/shared/BadgeSelect";
+import ImageSelect from "@/components/shared/ImageSelect";
+import Image from "next/image";
+import React, { useState } from "react";
 
 export default function GiftReceiver() {
-    return (
-        <div className='space-y-5 w-full'>
-            <div className='size-60 bg-fuchsia-500 rounded-2xl'></div>
-            <h3 className="font-semibold text-lg text-right">جنسیت</h3>
-            <div className='flex flex-row justify-start gap-4'>
-                <div className='flex flex-col gap-3'>
-
-                    <div className='relative size-12 bg-gradient rounded-lg overflow-visible'>
-                        <Image src={"/icons/woman-icon.png"} alt="man-icon" width={64} height={64} className="absolute top-0 left-0 scale-150 object-contain" />
-                    </div>
-                    <p className="text-sm text-muted-foreground">خانم</p>
-                </div>
-                <div className='flex flex-col gap-3'>
-                    <div className='relative size-12 bg-gradient rounded-lg'>
-                        <Image src={"/icons/man-icon.png"} alt="man-icon" width={64} height={64} className="absolute top-0 left-0 scale-150 object-contain" />
-                    </div>
-                    <p className="text-sm text-muted-foreground">آقا</p>
-                </div>
-            </div>
-        </div>
-    )
+  const [relationId, setRelationId] = useState<number>(1);
+  return (
+    <>
+      <div className="size-60 bg-fuchsia-300 rounded-2xl mx-auto mb-10"></div>
+      
+      <ImageSelect
+      headerText="جنسیت"
+        items={[
+          {
+            id: 1,
+            title: "خانم",
+            imagePath: "/icons/woman-icon.png",
+          },
+          {
+            id: 2,
+            title: "آقا",
+            imagePath: "/icons/man-icon.png",
+          },
+        ]}
+        onSelect={() => {}}
+        className="mb-8"
+      />
+      <h3 className="font-semibold text-lg text-right mb-4">رابطه</h3>
+      <BadgeSelect
+        items={[
+          { id: 1, title: "همسر" },
+          { id: 2, title: "دوست" },
+          { id: 3, title: "پدر یا مادر" },
+          { id: 4, title: "همکلاسی" },
+        ]}
+        selectedId={relationId}
+        onSelect={(id) => setRelationId(id)}
+      />
+    </>
+  );
 }
