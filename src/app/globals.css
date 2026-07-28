@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "../styles/keyframes.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -50,6 +51,9 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 
   --color-link: var(--link);
+
+  --color-select: var(--select);
+  --color-select-foreground: var(--select-foreground);
 }
 
 :root {
@@ -89,6 +93,9 @@
   --foreground: oklch(0.148 0.004 228.8);
 
   --link: oklch(0.7499 0.0854 82.08);
+
+  --select: oklch(1 0 0);
+  --select-foreground: oklch(0.3092 0 0);
 }
 
 .dark {
@@ -162,6 +169,17 @@
 
 .bg-gradient {
   @apply bg-linear-to-r from-primary-lighter to-primary;
+}
+
+.bg-gradient-light {
+  @apply bg-linear-to-br from-[#FDD0E7] via-[#FFFFFF] to-[#FDD0E7]
+}
+
+.border-gradient {
+  @apply border-transparent;
+  background:
+    linear-gradient(white, white) padding-box,
+    linear-gradient(to right, var(--color-primary-lighter), var(--color-primary)) border-box;
 }
 
 .text-gradient {
