@@ -10,7 +10,7 @@ const productItemVariants = cva("relative flex flex-col", {
     variant: {
       default: "min-w-fit",
       bordered: "rounded-2xl border p-4",
-      card: "rounded-2xl bg-card p-4 shadow-sm w-46",
+      card: "rounded-2xl bg-card p-4 shadow-sm w-full",
     },
   },
   defaultVariants: {

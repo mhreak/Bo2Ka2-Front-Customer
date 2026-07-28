@@ -23,7 +23,7 @@ const IntroPage1 = ({ onNext }: { onNext: () => void }) => {
           height={62}
           alt="intro-logo"
         />
-        <div className="border border-neutral-300 backdrop-blur-md rounded-full flex-center p-1">
+        <div className="border bg-neutral-200/20 border-neutral-300/30 backdrop-blur-lg rounded-full flex-center p-1">
           <X size={25} className="text-neutral-400" />
         </div>
       </div>
