@@ -3,11 +3,16 @@
 import { ProductItem } from "@/app/(with-navbar)/home/_components/product/ProductItem";
 import BackButton from "@/components/shared/BackButton";
 import SearchInput from "@/components/shared/inputs/SearchInput";
+import SearchingPage from "./_components/SearchingPage";
 
 const SearchPage = () => {
+  const isLoading = false;
+
+  if (isLoading) return <SearchingPage />
+  else 
   return (
     <>
-      <div className="sticky top-2 right-5 left-5 flex flex-row justify-start gap-5 items-center mb-8 z-100">
+      <div className="sticky top-2 right-5 left-5 flex flex-row justify-start gap-5 items-center mb-8 z-100 animate-slide-down">
         <BackButton />
         <SearchInput
           value=""
@@ -23,7 +28,7 @@ const SearchPage = () => {
             title="پرالین‌های دست‌ساز"
             imageSrc={`/samples/sample-product-${i % 2 ? 5 : 6}.jpg`}
             variant="card"
-            className="gap-2"
+            className="gap-2 animate-zoom-in"
             imageWidth={143}
             imageHeight={125}
             imageClassName="w-[143px] max-h-[125px]"
@@ -31,6 +36,9 @@ const SearchPage = () => {
             storeName="مجموعه نوآر"
             rating="4.9"
             badgeVariant="like"
+            style={{
+              animationDelay: `${(i + 4) * 50}ms`,
+            }}
           />
         ))}
       </div>
