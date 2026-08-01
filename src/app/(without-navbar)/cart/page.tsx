@@ -1,7 +1,7 @@
 "use client";
 
 import BackButton from "@/components/shared/BackButton";
-import React from "react";
+import React, { useState } from "react";
 import { CartItem } from "./_components/CartItem";
 import { ProductSection } from "@/app/(with-navbar)/home/_components/product/ProductSection";
 import { ProductSectionHeader } from "@/app/(with-navbar)/home/_components/product/ProductSectionHeader";
@@ -10,11 +10,15 @@ import Image from "next/image";
 import ColorItem from "./_components/ColorItem";
 import RibbonItem from "./_components/RibbonItem";
 import BoxScentItem from "./_components/BoxScentItem";
-import { Citrus, Flower2 } from "lucide-react";
 import AddressSection from "./_components/address-section/AddressSection";
 import AddressDetailSection from "./_components/address-section/AddressDetailSection";
+import { getRemainingDaysOfMonth } from "@/lib/calendar";
+import DateItem from "./_components/DateItem";
 
 const CartPage = () => {
+  const remainingDays = getRemainingDaysOfMonth();
+  const [selectedDay, setSelectedDay] = useState<number>(10);
+
   return (
     <div className="space-y-6">
       <div className="flex flex-row">
@@ -176,10 +180,27 @@ const CartPage = () => {
           </SectionContent>
         </ProductSection>
       </div>
-      <ProductSectionHeader title="جزئیات تحویل" titleVariant={"hero"} className="mb-4"/>
+      <ProductSectionHeader
+        title="جزئیات تحویل"
+        titleVariant={"hero"}
+        className="mb-4"
+      />
       <AddressSection>
-        <AddressDetailSection title="مجتمع لاله"  descrption="اصفهان،خیابان نظرشرقی،کوچه 2"/>
+        <AddressDetailSection
+          title="مجتمع لاله"
+          descrption="اصفهان،خیابان نظرشرقی،کوچه 2"
+        />
       </AddressSection>
+      <SectionContent>
+        {remainingDays.days.map((day) => (
+          <DateItem
+            key={day.date.day}
+            day={day}
+            isSelected={day.date.day === selectedDay}
+            onSelect={(d) => setSelectedDay(d)}
+          />
+        ))}
+      </SectionContent>
     </div>
   );
 };
