@@ -1,7 +1,187 @@
+"use client";
+
+import BackButton from "@/components/shared/BackButton";
 import React from "react";
+import { CartItem } from "./_components/CartItem";
+import { ProductSection } from "@/app/(with-navbar)/home/_components/product/ProductSection";
+import { ProductSectionHeader } from "@/app/(with-navbar)/home/_components/product/ProductSectionHeader";
+import { SectionContent } from "@/app/(with-navbar)/home/_components/SectionContent";
+import Image from "next/image";
+import ColorItem from "./_components/ColorItem";
+import RibbonItem from "./_components/RibbonItem";
+import BoxScentItem from "./_components/BoxScentItem";
+import { Citrus, Flower2 } from "lucide-react";
+import AddressSection from "./_components/address-section/AddressSection";
+import AddressDetailSection from "./_components/address-section/AddressDetailSection";
 
 const CartPage = () => {
-  return <div>CartPage</div>;
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-row">
+        <BackButton />
+        <h3 className="flex-1 text-center text-2xl font-semibold">سبد خرید</h3>
+      </div>
+      <div className="">
+        {Array.from({ length: 2 }).map((_, i) => (
+          <CartItem
+            key={i}
+            imagePath={`/samples/sample-product-${i % 2 ? "8" : "7"}.jpg`}
+            title="چراغ رومیزی"
+            description="نور گرم/ درخشش گرم"
+            price={300000}
+            quantity={1}
+            onQuantityChange={() => {}}
+            onRemove={() => {}}
+          />
+        ))}
+      </div>
+      <div className="my-16 space-y-7">
+        <ProductSection>
+          <ProductSectionHeader
+            title="کارت پستال"
+            link="/postal-cards"
+            titleVariant={"hero"}
+            variant={"centered"}
+          />
+          <SectionContent variant={"scroll"}>
+            <Image
+              src={"/samples/postal-card-1.png"}
+              width={192}
+              height={313}
+              alt="postal-1"
+            />
+            <Image
+              src={"/samples/postal-card-2.png"}
+              width={130}
+              height={313}
+              alt="postal-1"
+            />
+            <Image
+              src={"/samples/postal-card-1.png"}
+              width={192}
+              height={313}
+              alt="postal-1"
+            />
+          </SectionContent>
+        </ProductSection>
+        <ProductSection>
+          <ProductSectionHeader
+            title="رنگ کاغذ کادو"
+            link="/postal-cards"
+            titleVariant={"hero"}
+            variant={"centered"}
+          />
+          <SectionContent>
+            <ColorItem
+              colorId={1}
+              colorCode="#1A1A1A"
+              isSelected={true}
+              onSelect={() => {}}
+            />
+            <ColorItem
+              colorId={2}
+              colorCode="#1D1D1D"
+              isSelected={false}
+              onSelect={() => {}}
+            />
+            <ColorItem
+              colorId={3}
+              colorCode="#E5E2E1"
+              isSelected={false}
+              onSelect={() => {}}
+            />
+            <ColorItem
+              colorId={4}
+              colorCode="#B62417"
+              isSelected={false}
+              onSelect={() => {}}
+            />
+          </SectionContent>
+        </ProductSection>
+        <ProductSection>
+          <ProductSectionHeader
+            title="سبک روبان"
+            link="/postal-cards"
+            titleVariant={"hero"}
+            variant={"centered"}
+          />
+          <SectionContent>
+            <RibbonItem
+              ribbonId={1}
+              imagePath="/samples/ribbon-1.jpg"
+              title="مخملی زرشکی"
+              isSelected={true}
+              onSelect={() => {}}
+            />
+            <RibbonItem
+              ribbonId={1}
+              imagePath="/samples/ribbon-1.jpg"
+              title="ساتن طلایی"
+              isSelected={false}
+              onSelect={() => {}}
+            />
+            <RibbonItem
+              ribbonId={1}
+              imagePath="/samples/ribbon-1.jpg"
+              title="ابریشم"
+              isSelected={false}
+              onSelect={() => {}}
+            />
+          </SectionContent>
+        </ProductSection>
+        <ProductSection>
+          <ProductSectionHeader
+            title="بوی جعبه"
+            link="/postal-cards"
+            titleVariant={"hero"}
+            variant={"centered"}
+          />
+          <SectionContent className="gap-2">
+            <BoxScentItem
+              scentId={1}
+              title="مخملی زرشکی"
+              imagePath="/samples/box-scent.jpg"
+              isSelected={true}
+              onSelect={() => {}}
+            />
+
+            <BoxScentItem
+              scentId={2}
+              title="ساتن طلایی"
+              imagePath="/samples/box-scent.jpg"
+              isSelected={false}
+              onSelect={() => {}}
+            />
+            <BoxScentItem
+              scentId={3}
+              title="چوب عود"
+              imagePath="/samples/box-scent.jpg"
+              isSelected={false}
+              onSelect={() => {}}
+            />
+            <BoxScentItem
+              scentId={4}
+              title="ساویج"
+              imagePath="/samples/box-scent.jpg"
+              isSelected={false}
+              onSelect={() => {}}
+            />
+            <BoxScentItem
+              scentId={5}
+              title="ساتن طلایی"
+              imagePath="/samples/box-scent.jpg"
+              isSelected={false}
+              onSelect={() => {}}
+            />
+          </SectionContent>
+        </ProductSection>
+      </div>
+      <ProductSectionHeader title="جزئیات تحویل" titleVariant={"hero"} className="mb-4"/>
+      <AddressSection>
+        <AddressDetailSection title="مجتمع لاله"  descrption="اصفهان،خیابان نظرشرقی،کوچه 2"/>
+      </AddressSection>
+    </div>
+  );
 };
 
 export default CartPage;

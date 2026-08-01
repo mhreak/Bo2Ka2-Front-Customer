@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Heart, Star, Zap } from "lucide-react";
 
-const productItemVariants = cva("relative flex flex-col animate-slide-right", {
+const productItemVariants = cva("relative flex flex-col items-center animate-slide-right", {
   variants: {
     variant: {
       default: "min-w-fit",

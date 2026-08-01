@@ -1,6 +1,7 @@
 export const ENV = {
 
     API_BASE_URL: process.env.API_BASE_URL!,
+    NESHAN_MAP_API_KEY:process.env.NEXT_NESHAN_MAP_API_KEY!
 
 
 } as const;

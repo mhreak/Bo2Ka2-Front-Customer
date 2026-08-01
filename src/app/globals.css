@@ -155,7 +155,7 @@
 @utility flex-between {
   display: flex;
 
-  display-direction: row;
+  flex-direction: row;
 
   align-items: center;
 
@@ -172,7 +172,7 @@
 }
 
 .bg-gradient-light {
-  @apply bg-linear-to-br from-[#FDD0E7] via-[#FFFFFF] to-[#FDD0E7]
+  @apply bg-linear-to-br from-[rgba(253,208,231,0.5)] via-[#FFFFFF] to-[rgba(253,208,231,0.5)];
 }
 
 .border-gradient {
@@ -192,4 +192,12 @@
 }
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari and Opera */
+}
+
+.gradient-ring {
+  @apply rounded-full p-[2px] bg-linear-to-r from-primary-lighter to-primary;
+}
+
+.gradient-ring-content {
+  @apply size-full rounded-full bg-background;
 }

@@ -13,7 +13,7 @@ const SectionContentVariants = cva("", {
     },
   },
   defaultVariants: {
-    variant: "default",
+    variant: "scroll",
   },
 });
 
