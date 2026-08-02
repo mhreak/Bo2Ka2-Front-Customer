@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { DirectionProvider } from "@/components/ui/direction";
-import { yekanBakh } from "@/fonts";
+import {modam} from "@/fonts"
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/toast";
 import { Inter } from "next/font/google";
@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fa" dir="rtl" className={cn("font-sans", yekanBakh.variable)}>
+    <html lang="fa" dir="rtl" className={cn(modam.variable)}>
       <body className="bg-gradient-light">
         <AuthProvider>
           <DirectionProvider direction="rtl">

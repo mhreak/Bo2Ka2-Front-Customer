@@ -51,7 +51,7 @@ const descriptionVariants = cva("", {
 const linkVariants = cva("flex items-center gap-1 p-0", {
   variants: {
     variant: {
-      default: "text-link",
+      default: "text-link text-sm",
       contained: "text-primary-foreground",
       primary: "text-primary",
       muted: "text-muted-foreground",

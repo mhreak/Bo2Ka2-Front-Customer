@@ -44,10 +44,9 @@ export default function CampaignCard() {
         
             <Button
               variant="link"
-              
             >
               <span className="text-gradient font-semibold">{"مشارکت"}</span>
-              <ArrowLeft className="size-4" />
+              <ArrowLeft className="size-6" />
           
             </Button>
       </div>

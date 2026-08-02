@@ -12,10 +12,10 @@ export default function AccountSettingSection({}: AccountSettingSectionProps) {
   return (
     <div className="mb-8">
       <h3 className="font-semibold text-2xl my-5">تنظیمات حساب</h3>
-      <div className="border border-border rounded-3xl p-5 flex flex-col gap-8">
+      <div className="border border-border rounded-3xl flex flex-col">
         {PROFILE_SETTING_ITEMS.map((item) => (
-          <Link key={item.id} href={item.link}>
-            <div className="flex flex-row justify-start items-center gap-4 cursor-pointer hover:bg-muted">
+          <Link key={item.id} href={item.link} >
+            <div className="flex flex-row justify-start items-center gap-4 cursor-pointer active:bg-muted active:scale-[97%] transition-all duration-100 ease-out p-5 rounded-3xl">
               <div className="bg-muted rounded-full p-2">{item.icon}</div>
               <div className="flex-1">
                 <h5 className="flex-1 font-bold text-lg">{item.title}</h5>
