@@ -14,10 +14,56 @@ import AddressSection from "./_components/address-section/AddressSection";
 import AddressDetailSection from "./_components/address-section/AddressDetailSection";
 import { getRemainingDaysOfMonth } from "@/lib/calendar";
 import DateItem from "./_components/DateItem";
+import { InvoiceItem, Time } from "./types";
+import TimeItem from "./_components/TimeItem";
+import PayMethodItem from "./_components/PayMethodItem";
+import { Banknote, Wallet } from "lucide-react";
+import InvoiceSection from "./_components/InvoiceSection";
+import { Button } from "@/components/ui/button";
+
+const times: Time[] = [
+  {
+    id: 1,
+    startTime: 9,
+    endTime: 12,
+  },
+  {
+    id: 2,
+    startTime: 14,
+    endTime: 17,
+  },
+  {
+    id: 3,
+    startTime: 18,
+    endTime: 21,
+  },
+];
+
+const invoicItmes: InvoiceItem[] = [
+  {
+    id:1,
+    title: "جمع فرعی",
+    value: 150000
+  },
+  {
+    id:2,
+    title: "هزینه بسته بندی (ابریشم)",
+    value: 15000
+  },
+  {
+    id:3,
+    title: "تحویل (پرمیوم)",
+    value: 15000
+  },
+]
 
 const CartPage = () => {
   const remainingDays = getRemainingDaysOfMonth();
-  const [selectedDay, setSelectedDay] = useState<number>(10);
+  const [selectedDay, setSelectedDay] = useState<number>(
+    remainingDays.currentMonth.day,
+  );
+  const [selectedTime, setSelectedTime] = useState<number>(9);
+  const [t, setT] = useState(true);
 
   return (
     <div className="space-y-6">
@@ -201,6 +247,32 @@ const CartPage = () => {
           />
         ))}
       </SectionContent>
+      <SectionContent>
+        {times.map((time) => (
+          <TimeItem
+            key={time.id}
+            time={time}
+            isSelected={selectedTime === time.startTime}
+            onSelect={(id) => setSelectedTime(id)}
+          />
+        ))}
+      </SectionContent>
+      <PayMethodItem
+        title="پرداخت از کیف پول"
+        description="موجودی: ۱۵۰،۰۰۰ تومان"
+        value={t}
+        onChange={(v) => setT(v)}
+        icon={<Wallet className="text-primary-light" />}
+      />
+      <PayMethodItem
+        title="پرداخت قسطی"
+        description="پرداخت در ۴ قسط بدون سود"
+        value={false}
+        onChange={() => {}}
+        icon={<Banknote className="text-primary-light" />}
+      />
+      <InvoiceSection invoices={invoicItmes}/>
+      <Button variant={"secondary"} className="w-full">تکمیل خرید</Button>
     </div>
   );
 };

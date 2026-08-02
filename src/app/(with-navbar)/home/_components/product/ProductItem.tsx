@@ -34,8 +34,8 @@ const imageVariants = cva("rounded-2xl object-cover", {
 const titleVariants = cva("mt-3 font-semibold", {
   variants: {
     variant: {
-      default: "text-base text-accent-foreground",
-      large: "text-lg text-accent-foreground",
+      default: "text-base text-text",
+      large: "text-lg text-text",
       muted: "text-base text-muted-foreground",
     },
   },

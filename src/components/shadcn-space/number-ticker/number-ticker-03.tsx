@@ -27,13 +27,13 @@ export function NumberTicker({
       <NumberFlow
         value={s}
         format={{ minimumIntegerDigits: 2 }}
-        className="bg-card rounded-lg size-12 flex-center text-accent-foreground"
+        className="bg-card rounded-lg size-12 flex-center text-text"
       />
       <span className="text-primary-foreground">:</span>
       <NumberFlow
         value={m}
         format={{ minimumIntegerDigits: 2 }}
-        className="bg-card rounded-lg size-12 flex-center text-accent-foreground"
+        className="bg-card rounded-lg size-12 flex-center text-text"
       />
       <span className="text-primary-foreground">:</span>
       <NumberFlowGroup>
@@ -42,7 +42,7 @@ export function NumberTicker({
             <NumberFlow
               value={h}
               format={{ minimumIntegerDigits: 2 }}
-              className="bg-card rounded-lg size-12 flex-center text-accent-foreground"
+              className="bg-card rounded-lg size-12 flex-center text-text"
             />
           </>
         )}

@@ -45,7 +45,7 @@ const BottomNavigation = () => {
               <span
                 className={`text-xs transition-all duration-200 ${
                   isActive
-                    ? "text-primary-lighter bg-clip-text bg-linear-to-r from-primary-lighter to-primary font-medium"
+                    ? "text-primary-light bg-clip-text bg-linear-to-r from-primary-light to-primary font-medium"
                     : "text-gray-500 group-hover:text-gray-700"
                 }`}
               >

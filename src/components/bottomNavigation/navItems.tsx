@@ -20,7 +20,7 @@ export const navItems: NavItem[] = [
       </Link>
     ),
     activeIcon: (
-      <div className="text-primary-lighter bg-clip-text bg-linear-to-r from-primary-lighter to-primary">
+      <div className="text-primary-light bg-clip-text bg-linear-to-r from-primary-light to-primary">
         <Home size={24} />
       </div>
     ),
@@ -34,7 +34,7 @@ export const navItems: NavItem[] = [
       </Link>
     ),
     activeIcon: (
-      <div className="text-primary-lighter bg-clip-text bg-linear-to-r from-primary-lighter to-primary">
+      <div className="text-primary-light bg-clip-text bg-linear-to-r from-primary-light to-primary">
         <Search size={24} />
       </div>
     ),
@@ -82,7 +82,7 @@ export const navItems: NavItem[] = [
       </Link>
     ),
     activeIcon: (
-      <div className="text-primary-lighter bg-clip-text bg-linear-to-r from-primary-lighter to-primary">
+      <div className="text-primary-light bg-clip-text bg-linear-to-r from-primary-light to-primary">
         <ShoppingBag size={24} />
       </div>
     ),
@@ -96,7 +96,7 @@ export const navItems: NavItem[] = [
       </Link>
     ),
     activeIcon: (
-      <div className="text-primary-lighter bg-clip-text bg-linear-to-r from-primary-lighter to-primary">
+      <div className="text-primary-light bg-clip-text bg-linear-to-r from-primary-light to-primary">
         <User size={24} />
       </div>
     ),

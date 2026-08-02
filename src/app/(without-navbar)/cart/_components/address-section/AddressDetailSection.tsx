@@ -21,7 +21,7 @@ export default function AddressDetailSection({
       </div>
       <div>
         <Link href="/map">
-          <Button variant={"link"} className={"text-primary-lighter"}>
+          <Button variant={"link"} className={"text-primary-light"}>
             {changeButtonText}
           </Button>
         </Link>
