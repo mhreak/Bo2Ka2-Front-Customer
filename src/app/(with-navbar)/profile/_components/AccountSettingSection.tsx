@@ -14,7 +14,7 @@ export default function AccountSettingSection({}: AccountSettingSectionProps) {
       <h3 className="font-semibold text-2xl my-5">تنظیمات حساب</h3>
       <div className="border border-border rounded-3xl flex flex-col">
         {PROFILE_SETTING_ITEMS.map((item) => (
-          <Link key={item.id} href={item.link} >
+          <Link key={item.id} href={item.link}>
             <div className="flex flex-row justify-start items-center gap-4 cursor-pointer active:bg-muted active:scale-[97%] transition-all duration-100 ease-out p-5 rounded-3xl">
               <div className="bg-muted rounded-full p-2">{item.icon}</div>
               <div className="flex-1">
