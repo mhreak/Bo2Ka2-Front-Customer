@@ -18,7 +18,7 @@ export default function AccountSettingSection({}: AccountSettingSectionProps) {
             <div className="flex flex-row justify-start items-center gap-4 cursor-pointer active:bg-muted active:scale-[97%] transition-all duration-100 ease-out p-5 rounded-3xl">
               <div className="bg-muted rounded-full p-2">{item.icon}</div>
               <div className="flex-1">
-                <h5 className="flex-1 font-bold text-lg">{item.title}</h5>
+                <h5 className="flex-1 font-semibold text-lg">{item.title}</h5>
                 {item.description && (
                   <p className="text-sm text-muted-foreground font-light">
                     {item.description}
