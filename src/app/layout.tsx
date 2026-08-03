@@ -23,12 +23,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl" className={cn(modam.variable)}>
-      <body className="bg-gradient-light">
+      <body>
         <AuthProvider>
           <DirectionProvider direction="rtl">
             <SidebarProvider>
               <div className="relative flex h-dvh w-full">
-                <div className="p-5 h-full w-full overflow-auto hide-scrollbar bg-grad">
+                <div className="h-full w-full overflow-auto hide-scrollbar bg-grad">
                   {children}
                 </div>
               </div>

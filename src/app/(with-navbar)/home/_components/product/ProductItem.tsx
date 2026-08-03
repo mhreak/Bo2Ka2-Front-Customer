@@ -6,18 +6,21 @@ import { cn } from "@/lib/utils";
 import { Heart, Star, Zap } from "lucide-react";
 import { toPersianDigits } from "@/utils/numberConversions";
 
-const productItemVariants = cva("relative flex flex-col items-center animate-slide-right", {
-  variants: {
-    variant: {
-      default: "min-w-fit",
-      bordered: "rounded-2xl border p-4",
-      card: "rounded-2xl bg-card p-4 shadow-sm w-full",
+const productItemVariants = cva(
+  "relative flex flex-col items-center animate-slide-right",
+  {
+    variants: {
+      variant: {
+        default: "min-w-fit",
+        bordered: "rounded-2xl border p-4",
+        card: "rounded-2xl bg-card p-4 shadow-sm w-full",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
     },
   },
-  defaultVariants: {
-    variant: "default",
-  },
-});
+);
 
 const imageVariants = cva("rounded-2xl object-cover", {
   variants: {
@@ -93,13 +96,13 @@ const badgeVariants = cva(
 
 export interface ProductItemProps
   extends
-  React.HTMLAttributes<HTMLDivElement>,
-  VariantProps<typeof productItemVariants> {
+    React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof productItemVariants> {
   imageSrc: string;
   title: string;
-  discountedPrice?: string|number;
-  price?: string|number;
-  discountPercent?: string|number;
+  discountedPrice?: string | number;
+  price?: string | number;
+  discountPercent?: string | number;
   storeName?: string;
   rating?: string;
 
@@ -122,7 +125,7 @@ export interface ProductItemProps
   imageWidth?: number;
   imageHeight?: number;
 
-  onLike?: (isLiked:boolean) => void;
+  onLike?: (isLiked: boolean) => void;
   isLiked?: boolean;
 }
 
@@ -193,9 +196,7 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
               <Zap className="text-emerald-500 ml-1" size={15} />
             )}
 
-            
-            {`${toPersianDigits(discountPercent)}% -`}
-            
+            {`${toPersianDigits(discountPercent)}${badgeVariant === "default" ? "% -" : ""}`}
           </span>
         )}
 
@@ -207,8 +208,13 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
             )}
             onClick={() => onLike?.(true)}
           >
-            {isLiked ? <Heart className="text-rose-500"  fill="currentColor" />: <Heart className="text-rose-500"/>}
-          </span>)}
+            {isLiked ? (
+              <Heart className="text-rose-500" fill="currentColor" />
+            ) : (
+              <Heart className="text-rose-500" />
+            )}
+          </span>
+        )}
 
         <p
           className={cn(
@@ -222,13 +228,12 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
         {storeName && (
           <p className="text-muted-foreground text-sm">{storeName}</p>
         )}
-        {rating && <div className="flex flex-row justify-start gap-2">
-          <Star fill="currentColor" className="text-yellow-400" size={14} />
-          <p className="text-accent-foreground font-semibold">
-            {rating}
-
-          </p>
-        </div>}
+        {rating && (
+          <div className="flex flex-row justify-start gap-2">
+            <Star fill="currentColor" className="text-yellow-400" size={14} />
+            <p className="text-accent-foreground font-semibold">{rating}</p>
+          </div>
+        )}
 
         <div className="mt-1 flex items-center gap-2">
           {discountedPrice && (
@@ -240,8 +245,7 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
                 discountedPriceClassName,
               )}
             >
-              {toPersianDigits(Number(discountedPrice).toLocaleString())}
-              {" "}
+              {toPersianDigits(Number(discountedPrice).toLocaleString())}{" "}
               {"تومان"}
             </span>
           )}
@@ -253,9 +257,7 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
                 priceClassName,
               )}
             >
-              {toPersianDigits(Number(price).toLocaleString())}
-              {" "}
-              {"تومان"}
+              {toPersianDigits(Number(price).toLocaleString())} {"تومان"}
             </span>
           )}
         </div>

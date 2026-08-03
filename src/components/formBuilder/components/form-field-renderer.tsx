@@ -33,8 +33,8 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import AddressSection from "@/app/(without-navbar)/cart/_components/address-section/AddressSection";
-import AddressDetailSection from "@/app/(without-navbar)/cart/_components/address-section/AddressDetailSection";
+import AddressSection from "@/app/(without-navbar)/(empty-background)/cart/_components/address-section/AddressSection";
+import AddressDetailSection from "@/app/(without-navbar)/(empty-background)/cart/_components/address-section/AddressDetailSection";
 interface FormFieldRendererProps {
   field: BaseFieldConfig;
   parentName?: string; // ارسال نام پدر برای پشتیبانی از آرایه‌های تودرتو
