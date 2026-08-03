@@ -4,6 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 import { Heart, Star, Zap } from "lucide-react";
+import { toPersianDigits } from "@/utils/numberConversions";
 
 const productItemVariants = cva("relative flex flex-col items-center animate-slide-right", {
   variants: {
@@ -96,9 +97,9 @@ export interface ProductItemProps
   VariantProps<typeof productItemVariants> {
   imageSrc: string;
   title: string;
-  discountedPrice?: string;
-  price?: string;
-  discountPercent?: string;
+  discountedPrice?: string|number;
+  price?: string|number;
+  discountPercent?: string|number;
   storeName?: string;
   rating?: string;
 
@@ -192,8 +193,9 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
               <Zap className="text-emerald-500 ml-1" size={15} />
             )}
 
-
-            {discountPercent}
+            
+            {`${toPersianDigits(discountPercent)}% -`}
+            
           </span>
         )}
 
@@ -238,7 +240,9 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
                 discountedPriceClassName,
               )}
             >
-              {discountedPrice}
+              {toPersianDigits(Number(discountedPrice).toLocaleString())}
+              {" "}
+              {"تومان"}
             </span>
           )}
 
@@ -249,7 +253,9 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
                 priceClassName,
               )}
             >
-              {price}
+              {toPersianDigits(Number(price).toLocaleString())}
+              {" "}
+              {"تومان"}
             </span>
           )}
         </div>
