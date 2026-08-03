@@ -17,7 +17,7 @@ interface Props extends Omit<
 
 const SearchInput = ({ value, onChange, ...props }: Readonly<Props>) => {
   return (
-    <InputGroup>
+    <InputGroup className="rounded-4xl bg-input">
       <InputGroupInput
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}

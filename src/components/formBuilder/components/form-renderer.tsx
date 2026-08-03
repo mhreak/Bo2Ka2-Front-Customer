@@ -111,7 +111,7 @@ export function FormRenderer({
         onSubmit={methods.handleSubmit(onSubmit)}
         className="relative flex flex-col justify-between h-full"
       >
-        <div className="grid grid-cols-12 gap-4">
+        <div className="space-y-5">
           {config.map((node) => {
             if (isLayoutConfig(node)) {
               return <FormLayoutRenderer key={node.id} layout={node} />;
@@ -119,14 +119,17 @@ export function FormRenderer({
             return <FormFieldRenderer key={node.id} field={node} />;
           })}
         </div>
-        <div className="flex-between mt-16 sticky bottom-0 right-0 left-0 bg-background py-5 rounded-xl">
+        {/* <div className="flex-between mt-16 sticky bottom-0 right-0 left-0 bg-background py-5 rounded-xl">
           <Button type="submit" >
             {submitButtonText}
           </Button>
           <Button variant={"destructive"} onClick={onCancel}>
             {cancelButtonText}
           </Button>
-        </div>
+        </div> */}
+        <Button type="submit" className={"w-full mt-8"} variant={"gradient"}>
+            {submitButtonText}
+          </Button>
       </form>
     </FormProvider>
   );

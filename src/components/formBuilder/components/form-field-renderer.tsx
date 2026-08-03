@@ -28,6 +28,13 @@ import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { CustomDatePicker } from "@/components/shared/inputs/CustomDatePicker";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import AddressSection from "@/app/(without-navbar)/cart/_components/address-section/AddressSection";
+import AddressDetailSection from "@/app/(without-navbar)/cart/_components/address-section/AddressDetailSection";
 interface FormFieldRendererProps {
   field: BaseFieldConfig;
   parentName?: string; // ارسال نام پدر برای پشتیبانی از آرایه‌های تودرتو
@@ -94,7 +101,7 @@ export function FormFieldRenderer({
 
   const colSpanClass = field.colSpan
     ? colSpanMap[field.colSpan]
-    : "col-span-12";
+    : "sm:col-span-12 col-span-1";
 
   return (
     <div className={cn(colSpanClass, "space-y-2")}>
@@ -102,7 +109,10 @@ export function FormFieldRenderer({
       {field.type !== "checkbox" && field.type !== "switch" && (
         <Label
           htmlFor={field.id}
-          className={cn(isDisabled && "opacity-50", "mr-2")}
+          className={cn(
+            isDisabled && "opacity-50",
+            "mr-2 mb-2 text-lg text-text",
+          )}
         >
           {field.label}{" "}
           {isRequired && <span className="text-destructive">*</span>}
@@ -118,28 +128,34 @@ export function FormFieldRenderer({
         }) => {
           const renderInput = () => {
             switch (field.type) {
-
               case "text":
               case "email":
                 return (
-                  <Input
-                    id={field.id}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    disabled={isDisabled}
-                    readOnly={isReadOnly || !!field.computedValue}
-                    value={value ?? ""}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    ref={ref}
-                    className={cn(
-                      error &&
-                        "border-destructive focus-visible:ring-destructive",
-                      (isReadOnly || field.computedValue) &&
-                        "bg-muted cursor-not-allowed focus-visible:ring-0",
+                  <InputGroup>
+                    <InputGroupInput
+                      id={field.id}
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      disabled={isDisabled}
+                      readOnly={isReadOnly || !!field.computedValue}
+                      value={value ?? ""}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      ref={ref}
+                      className={cn(
+                        error &&
+                          "border-destructive focus-visible:ring-destructive",
+                        (isReadOnly || field.computedValue) &&
+                          "bg-muted cursor-not-allowed focus-visible:ring-0",
+                      )}
+                      maxLength={field.maxLength}
+                    />
+                    {field.icon && (
+                      <InputGroupAddon align="inline-start">
+                        {field.icon}
+                      </InputGroupAddon>
                     )}
-                    maxLength={field.maxLength}
-                  />
+                  </InputGroup>
                 );
 
               case "number":
@@ -164,6 +180,7 @@ export function FormFieldRenderer({
                         "bg-muted cursor-not-allowed focus-visible:ring-0",
                     )}
                     maxLength={field.maxLength}
+                    icon={field.icon}
                   />
                 );
 
@@ -244,16 +261,13 @@ export function FormFieldRenderer({
                 return (
                   <DatePicker
                     disableDayPicker
-                    plugins={[<TimePicker key={1} hideSeconds/>]}
+                    plugins={[<TimePicker key={1} hideSeconds />]}
                     value={value || ""}
                     onChange={(date) => {
                       onChange(date?.isValid ? date : "");
                     }}
                     render={
-                      <CustomDatePicker
-                        iconName="Clock"
-                        onClear={() => ""}
-                      />
+                      <CustomDatePicker iconName="Clock" onClear={() => ""} />
                     }
                     format={"HH:mm"}
                     calendar={persian}
@@ -271,13 +285,10 @@ export function FormFieldRenderer({
                 );
               }
 
-              case "datetime":
-                {
-
-                  return (
-                    <DatePicker
-                    
-                    plugins={[<TimePicker key={1} hideSeconds/>]}
+              case "datetime": {
+                return (
+                  <DatePicker
+                    plugins={[<TimePicker key={1} hideSeconds />]}
                     value={value || ""}
                     onChange={(date) => {
                       onChange(date?.isValid ? date : "");
@@ -296,14 +307,13 @@ export function FormFieldRenderer({
                       error &&
                         "border-destructive focus-visible:ring-destructive",
                       (isReadOnly || field.computedValue) &&
-                      "bg-muted cursor-not-allowed focus-visible:ring-0",
+                        "bg-muted cursor-not-allowed focus-visible:ring-0",
                       "w-full",
                     )}
                     containerClassName="w-full"
-                    />
-                  );
-                  
-                }
+                  />
+                );
+              }
               case "textarea":
                 return (
                   <Textarea
@@ -315,7 +325,8 @@ export function FormFieldRenderer({
                     onChange={onChange}
                     onBlur={onBlur}
                     ref={ref}
-                    className={cn(
+                    rows={5}
+                    className={cn("w-full",
                       error &&
                         "border-destructive focus-visible:ring-destructive",
                       isReadOnly &&
@@ -438,7 +449,6 @@ export function FormFieldRenderer({
                   </RadioGroup>
                 );
 
-             
               case "multiselect": {
                 const currentValues = Array.isArray(value) ? value : [];
                 const toggleOption = (optValue: string) => {
@@ -526,14 +536,24 @@ export function FormFieldRenderer({
                 );
               }
 
-              
+              case "location": {
+                return (
+                  <AddressSection>
+                          <AddressDetailSection
+                            title="مجتمع لاله"
+                            descrption="اصفهان،خیابان نظرشرقی،کوچه 2"
+                          />
+                        </AddressSection>
+                )
+              }
+
               default:
                 return null;
             }
           };
 
           return (
-            <div>
+            <>
               {renderInput()}
               {field.description && !error && (
                 <p className="text-sm text-muted-foreground mt-2 ">
@@ -545,7 +565,7 @@ export function FormFieldRenderer({
                   {error.message}
                 </p>
               )}
-            </div>
+            </>
           );
         }}
       />

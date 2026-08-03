@@ -3,6 +3,11 @@ import { Input } from "@/components/ui/input";
 import { DynamicIcon } from "@/components/formBuilder/components/icon-renderer";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 
 interface CustomInputProps {
   value?: string;
@@ -27,12 +32,7 @@ export const CustomDatePicker = forwardRef<HTMLInputElement, CustomInputProps>(
     ref,
   ) => {
     return (
-      <div className="relative">
-        <DynamicIcon
-          name={iconName}
-          className={`absolute left-3 top-1/2 size-6 -translate-y-1/2 text-muted-foreground cursor-pointer`}
-          onClick={openCalendar}
-        />
+      <InputGroup>
         {/* {value && (
           <button
             type="button"
@@ -47,15 +47,22 @@ export const CustomDatePicker = forwardRef<HTMLInputElement, CustomInputProps>(
             <X className="h-4 w-4 text-destructive" />
           </button>
         )} */}
-        <Input
+        <InputGroupInput
           ref={ref}
           value={value ?? ""}
           readOnly
           onClick={openCalendar}
-          className={cn("pl-10", className)}
+          className={cn("pr-7", className)}
           {...props}
         />
-      </div>
+        <InputGroupAddon>
+          <DynamicIcon
+            name={iconName}
+            className={`absolute right-3 top-1/2 size-6 -translate-y-1/2 text-muted-foreground cursor-pointer`}
+            onClick={openCalendar}
+          />
+        </InputGroupAddon>
+      </InputGroup>
     );
   },
 );

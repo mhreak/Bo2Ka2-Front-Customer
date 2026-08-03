@@ -21,7 +21,8 @@ export type FieldType =
   | "file" // جدید
   | "image"
   | "postalcode"
-  | "customerSearch";
+  | "customerSearch"
+  | "location";
 export type LayoutType = "grid" | "section" | "tabs" | "accordion";
 export interface FieldValidation {
   pattern?: string; // الگوی ریجکس به صورت رشته (مثلا "^09\\d{9}$")
@@ -57,6 +58,8 @@ export interface BaseFieldConfig {
 
   isRial?: boolean;
   maxLength?: number;
+
+  icon?: React.ReactNode;
 
 }
 
