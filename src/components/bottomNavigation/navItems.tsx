@@ -7,6 +7,7 @@ export interface NavItem {
   id: string;
   label: string;
   icon: React.ReactNode;
+  link: string;
   activeIcon?: React.ReactNode;
 }
 
@@ -14,10 +15,9 @@ export const navItems: NavItem[] = [
   {
     id: "home",
     label: "خانه",
+    link: "/home",
     icon: (
-      <Link href="/home">
         <Home size={24} />
-      </Link>
     ),
     activeIcon: (
       <div className="text-primary-light bg-clip-text bg-linear-to-r from-primary-light to-primary">
@@ -28,10 +28,9 @@ export const navItems: NavItem[] = [
   {
     id: "search",
     label: "جستجو",
+    link: "/search",
     icon: (
-      <Link href="/search">
-        <Search size={24} />
-      </Link>
+       <Search size={24} />     
     ),
     activeIcon: (
       <div className="text-primary-light bg-clip-text bg-linear-to-r from-primary-light to-primary">
@@ -42,8 +41,8 @@ export const navItems: NavItem[] = [
   {
     id: "assistant",
     label: "دستیار هوشمند",
+    link: "/ai-assistant",
     icon: (
-      <Link href="/ai-assistant">
         <div className="relative -mt-8">
           <Image
             src="/images/orb-symbol.png"
@@ -53,7 +52,6 @@ export const navItems: NavItem[] = [
             className="object-contain"
           />
         </div>
-      </Link>
     ),
     activeIcon: (
       <motion.div
@@ -76,10 +74,10 @@ export const navItems: NavItem[] = [
   {
     id: "cart",
     label: "سبدخرید",
-    icon: (
-      <Link href="/cart">
+    link: "/cart",
+    icon: (      
         <ShoppingBag size={24} />
-      </Link>
+
     ),
     activeIcon: (
       <div className="text-primary-light bg-clip-text bg-linear-to-r from-primary-light to-primary">
@@ -90,10 +88,9 @@ export const navItems: NavItem[] = [
   {
     id: "profile",
     label: "پروفایل",
+    link: "/profile",
     icon: (
-      <Link href="/profile">
         <User size={24} />
-      </Link>
     ),
     activeIcon: (
       <div className="text-primary-light bg-clip-text bg-linear-to-r from-primary-light to-primary">

@@ -3,16 +3,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { navItems } from "./navItems";
+import { usePathname } from "next/navigation";
+import Link from "next/link"
 
-interface NavItem {
-  id: string;
-  label: string;
-  icon: React.ReactNode;
-  activeIcon?: React.ReactNode;
-}
 
 const BottomNavigation = () => {
-  const [activeTab, setActiveTab] = useState<string>("home");
+  const pathname = usePathname();
+  const activeTab = pathname.split("/")[1];
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-stone-100 rounded-2xl mx-2 shadow-lg">
@@ -21,9 +18,9 @@ const BottomNavigation = () => {
           const isActive = activeTab === item.id;
 
           return (
-            <button
+            <Link
+              href={item.link}
               key={item.id}
-              onClick={() => setActiveTab(item.id)}
               className="flex flex-col items-center justify-center gap-1 relative group"
             >
               <div className="relative">
@@ -51,7 +48,7 @@ const BottomNavigation = () => {
               >
                 {item.label}
               </span>
-            </button>
+            </Link>
           );
         })}
       </div>
