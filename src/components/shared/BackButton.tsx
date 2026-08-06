@@ -7,7 +7,7 @@ const BackButton = () => {
   return (
     <Button
       variant={"outline"}
-      size={"icon-sm"}
+      size={"icon-lg"}
       onClick={() => {
         router.back();
       }}
