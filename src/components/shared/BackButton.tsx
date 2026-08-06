@@ -1,9 +1,9 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
+import { useTransitionRouter } from "next-view-transitions";
 
 const BackButton = () => {
-  const router = useRouter();
+  const router = useTransitionRouter();
   return (
     <Button
       variant={"outline"}

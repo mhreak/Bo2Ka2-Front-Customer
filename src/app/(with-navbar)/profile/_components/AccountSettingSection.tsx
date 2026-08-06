@@ -3,7 +3,7 @@ import {
   ProfileSettingItem,
 } from "@/constants/profileSettingItems";
 import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import React from "react";
 
 interface AccountSettingSectionProps {}

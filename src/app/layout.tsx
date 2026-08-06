@@ -8,6 +8,7 @@ import { Inter } from "next/font/google";
 import { AuthProvider } from "@/context/AuthProvider";
 import { cn } from "@/lib/utils";
 import "./globals.css";
+import { ViewTransitions } from "next-view-transitions";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -29,7 +30,11 @@ export default function RootLayout({
             <SidebarProvider>
               <div className="relative flex h-dvh w-full">
                 <div className="h-full w-full overflow-auto hide-scrollbar bg-grad">
-                  {children}
+                  <ViewTransitions>
+
+                    {children}
+                  
+                  </ViewTransitions>
                 </div>
               </div>
               <Toaster

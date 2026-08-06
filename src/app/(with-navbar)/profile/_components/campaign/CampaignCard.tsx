@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 
 
 export default function CampaignCard() {

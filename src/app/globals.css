@@ -213,3 +213,32 @@
 .gradient-ring-content {
   @apply size-full rounded-full bg-background;
 }
+
+::view-transition-old(root) {
+  animation: old-page 400ms ease forwards;
+}
+
+::view-transition-new(root) {
+  animation: new-page 400ms ease forwards;
+}
+
+@keyframes old-page {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+    opacity: .9;
+  }
+}
+
+@keyframes new-page {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}

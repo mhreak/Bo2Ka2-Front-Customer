@@ -1,7 +1,7 @@
 import { Home, Search, ShoppingBag, User } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 
 export interface NavItem {
   id: string;

@@ -2,7 +2,7 @@ import { Bot } from "lucide-react";
 import React from "react";
 import ProfileHeader from "./ProfileHeader";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 
 const HomePageHeader = () => {
   return (

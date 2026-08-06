@@ -1,5 +1,5 @@
 import * as React from "react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { ChevronLeft } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
 

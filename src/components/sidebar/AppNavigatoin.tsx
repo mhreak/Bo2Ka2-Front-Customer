@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronUp, Squircle } from "lucide-react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { SIDEBAR_ITEMS } from "@/constants/sidebar/sidbarItems";
 import { AnimatePresence, motion } from "framer-motion";
 

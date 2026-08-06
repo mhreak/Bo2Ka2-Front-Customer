@@ -77,7 +77,7 @@ const FavoriteProductItem = React.forwardRef<
             <span className="font-bold text-lg text-foreground">
               {toPersianDigits(price.toLocaleString())} تومان
             </span>
-            <Button variant={"secondary"} size={"sm"}>سبد خرید</Button>
+            <Button variant={"secondary"} size={"sm"} className={"w-fit"}>سبد خرید</Button>
           </div>
         </div>
 

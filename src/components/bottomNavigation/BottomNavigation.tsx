@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { navItems } from "./navItems";
 import { usePathname } from "next/navigation";
-import Link from "next/link"
+import { Link } from "next-view-transitions"
 
 
 const BottomNavigation = () => {
