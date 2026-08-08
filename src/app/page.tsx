@@ -172,7 +172,7 @@ export default function Page() {
       <AnimatePresence mode="wait">
         <motion.div
           key={pageIndex}
-          className="h-full"
+          className="h-full p-5"
           initial={{ x: 300, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -300, opacity: 0 }}

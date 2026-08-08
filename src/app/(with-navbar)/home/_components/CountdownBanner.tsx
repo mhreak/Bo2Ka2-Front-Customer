@@ -21,9 +21,9 @@ const CountdownBanner = ({ seconds }: Props) => {
     return () => clearInterval(timer);
   }, []);
   return (
-    <div className="bg-gradient rounded-4xl min-w-54 h-64 flex flex-col justify-center items-center p-3 gap-8">
-      <NumberTicker seconds={sec} className="text-3xl " />
-      <p className="font-extrabold text-4xl text-primary-foreground text-center">
+    <div className="bg-gradient rounded-4xl w-44 h-64 flex flex-col justify-center items-center p-3 gap-8">
+      <NumberTicker seconds={sec} className="text-xl w-40" />
+      <p className="font-extrabold text-3xl text-primary-foreground text-center">
         تخفیف های ویژه
       </p>
     </div>

@@ -13,7 +13,7 @@ const productItemVariants = cva(
       variant: {
         default: "min-w-fit",
         bordered: "rounded-2xl border p-4",
-        card: "rounded-2xl bg-card p-4 shadow-sm w-full",
+        card: "rounded-2xl bg-card p-3 shadow-sm w-full",
       },
     },
     defaultVariants: {
@@ -183,6 +183,7 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
             imageVariants({ variant: imageVariant }),
             imageClassName,
           )}
+          
         />
 
         {discountPercent && (

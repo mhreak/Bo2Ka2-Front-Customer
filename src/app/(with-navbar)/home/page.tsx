@@ -75,36 +75,19 @@ const HomePage = () => {
           className="items-center"
         />
         <SectionContent variant="scroll" className="gap-2">
-          <ProductItem
-            title="مجموعه اسانس‌های گیاهی"
-            imageSrc="/samples/sample-product-1.jpg"
-            discountedPrice="۱۸۰,۰۰۰ تومان"
-            price="۱۵۰,۰۰۰ تومان"
-            variant={"card"}
-          />
+          {Array.from({length: 4}).map((_,i) => (
+            <ProductItem
+              title="مجموعه اسانس‌های گیاهی"
+              imageSrc={`/samples/sample-product-${i%2?"1.jpg":"2.png"}`}
+              discountedPrice="۱۸۰,۰۰۰ تومان"
+              price="۱۵۰,۰۰۰ تومان"
+              variant={"card"}
+              imageWidth={300}
+              imageHeight={300}
+              className="min-w-42"
+            />
+          ))}
 
-          <ProductItem
-            title="مجموعه اسانس‌های گیاهی"
-            imageSrc="/samples/sample-product-2.png"
-            discountedPrice="۱۸۰,۰۰۰ تومان"
-            price="۱۵۰,۰۰۰ تومان"
-            variant={"card"}
-          />
-          <ProductItem
-            title="مجموعه اسانس‌های گیاهی"
-            imageSrc="/samples/sample-product-1.jpg"
-            discountedPrice="۱۸۰,۰۰۰ تومان"
-            price="۱۵۰,۰۰۰ تومان"
-            variant={"card"}
-          />
-
-          <ProductItem
-            title="مجموعه اسانس‌های گیاهی"
-            imageSrc="/samples/sample-product-2.png"
-            discountedPrice="۱۸۰,۰۰۰ تومان"
-            price="۱۵۰,۰۰۰ تومان"
-            variant={"card"}
-          />
         </SectionContent>
       </ProductSection>
       <ProductSection>
