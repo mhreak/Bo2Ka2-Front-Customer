@@ -1,35 +1,77 @@
 "use client";
+
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import React from "react";
 
 export interface BadgeSelectItem {
-  id: number;
+  id: number | string;
   title: string;
 }
 
-interface Props {
+interface SingleSelectProps {
   items: BadgeSelectItem[];
-  selectedId?: number;
-  onSelect: (id: number) => void;
+  selectionMode?: "single";
+  selectedId?: number | string;
+  onSelect: (id: number | string) => void;
 }
 
-export default function BadgeSelect({ items, selectedId, onSelect }: Props) {
+interface MultiSelectProps {
+  items: BadgeSelectItem[];
+  selectionMode: "multiple";
+  selectedIds?: (number | string)[];
+  onSelect: (ids: (number | string)[]) => void;
+}
+
+type Props = SingleSelectProps | MultiSelectProps;
+
+export default function BadgeSelect(props: Props) {
+  const { items } = props;
+
+  const handleSelect = (id: number | string) => {
+    // Single Select
+    if (props.selectionMode !== "multiple") {
+      props.onSelect(id);
+      return;
+    }
+
+    // Multiple Select
+    const selectedIds = props.selectedIds ?? [];
+
+    const isSelected = selectedIds.includes(id);
+
+    const newSelectedIds = isSelected
+      ? selectedIds.filter((selectedId) => selectedId !== id)
+      : [...selectedIds, id];
+
+    props.onSelect(newSelectedIds);
+  };
+
+  const isSelected = (id: number | string) => {
+    // Single Select
+    if (props.selectionMode !== "multiple") {
+      return props.selectedId === id;
+    }
+
+    // Multiple Select
+    return props.selectedIds?.includes(id) ?? false;
+  };
+
   return (
-    <div className="flex flex-row gap-5 overflow-x-auto hide-scrollbar" >
+    <div className="flex flex-row gap-5 overflow-x-auto hide-scrollbar">
       {items.map((item) => {
-        const colorClasses =
-          item.id === selectedId
-            ? "bg-select-foreground text-select "
-            : "bg-select text-select-foreground";
+        const selected = isSelected(item.id);
+
         return (
           <div
             key={item.id}
+            onClick={() => handleSelect(item.id)}
             className={cn(
-              "border border-select/30 rounded-3xl cursor-pointer px-4 py-2 whitespace-nowrap text-sm",
+              "cursor-pointer whitespace-nowrap rounded-3xl border border-select px-4 py-2 text-sm",
               "transition-all duration-300 ease-in-out",
-              colorClasses,
+              selected
+                ? "bg-select-foreground text-select"
+                : "bg-select text-select-foreground"
             )}
-            onClick={() => onSelect(item.id)}
           >
             {item.title}
           </div>
