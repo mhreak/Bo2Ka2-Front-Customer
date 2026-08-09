@@ -6,6 +6,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { Search } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Props extends Omit<
   React.ComponentProps<"input">,
@@ -13,11 +14,12 @@ interface Props extends Omit<
 > {
   value: string;
   onChange: (value: string) => void;
+  className?:string;
 }
 
-const SearchInput = ({ value, onChange, ...props }: Readonly<Props>) => {
+const SearchInput = ({ value, onChange,className, ...props }: Readonly<Props>) => {
   return (
-    <InputGroup className="rounded-4xl bg-input">
+    <InputGroup className={cn("rounded-4xl bg-input", className)}>
       <InputGroupInput
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
@@ -25,7 +27,7 @@ const SearchInput = ({ value, onChange, ...props }: Readonly<Props>) => {
         {...props}
       />
       <InputGroupAddon align="inline-start">
-        <Search />
+        <Search className="size-6"/>
       </InputGroupAddon>
     </InputGroup>
   );

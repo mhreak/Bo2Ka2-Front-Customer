@@ -82,7 +82,7 @@ const badgeVariants = cva(
       variant: {
         default: "bg-destructive text-destructive-foreground",
         special: "bg-card",
-        like: "rounded-full bg-card size-12 top-6 right-6",
+        like: "rounded-full bg-card size-12 top-3 right-3",
         primary: "bg-primary text-primary-foreground",
         secondary: "bg-secondary text-secondary-foreground",
         gradient: "bg-gradient text-primary-foreground",
@@ -178,17 +178,35 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
         className={cn(productItemVariants({ variant }), className)}
         {...props}
       >
-        <Image
-          src={imageSrc}
-          alt={title}
-          width={imageWidth}
-          height={imageHeight}
-          className={cn(
-            imageVariants({ variant: imageVariant }),
-            imageClassName,
-          )}
+        <div className="relative w-full aspect-square">
+          <Image
+            src={imageSrc}
+            alt={title}
+            // width={imageWidth}
+            // height={imageHeight}
+            fill
+            className={cn(
+              imageVariants({ variant: imageVariant }),
+              imageClassName,
+            )}
           
-        />
+          />
+          {badgeVariant === "like" && (
+            <span
+              className={cn(
+                badgeVariants({ variant: badgeVariant }),
+                badgeClassName,
+              )}
+              onClick={() => onLike?.(true)}
+            >
+              {isLiked ? (
+                <Heart className="text-rose-500" fill="currentColor" />
+              ) : (
+                <Heart className="text-rose-500" />
+              )}
+            </span>
+          )}
+        </div>
 
         {discountPercent && (
           <span
@@ -205,21 +223,6 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
           </span>
         )}
 
-        {badgeVariant === "like" && (
-          <span
-            className={cn(
-              badgeVariants({ variant: badgeVariant }),
-              badgeClassName,
-            )}
-            onClick={() => onLike?.(true)}
-          >
-            {isLiked ? (
-              <Heart className="text-rose-500" fill="currentColor" />
-            ) : (
-              <Heart className="text-rose-500" />
-            )}
-          </span>
-        )}
 
         <p
           className={cn(
@@ -236,7 +239,7 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
         {rating && (
           <div className="flex flex-row justify-start gap-2">
             <Star fill="currentColor" className="text-yellow-400" size={14} />
-            <p className="text-accent-foreground font-semibold">{rating}</p>
+            <p className="text-text font-semibold">{rating}</p>
           </div>
         )}
 

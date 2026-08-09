@@ -1,12 +1,13 @@
-"use client";
+
 
 import { ProductItem } from "@/components/product/ProductItem";
+import SearchingPage from "@/components/SearchingPage";
 import BackButton from "@/components/shared/BackButton";
 import SearchInput from "@/components/shared/inputs/SearchInput";
-import SearchingPage from "./_components/SearchingPage";
 
-const SearchPage = () => {
-  const isLoading = false;
+
+export default function GiftAssistantResult() {
+      const isLoading = false;
 
   if (isLoading) return <SearchingPage />
   else 
@@ -44,6 +45,4 @@ const SearchPage = () => {
       </div>
     </>
   );
-};
-
-export default SearchPage;
+}

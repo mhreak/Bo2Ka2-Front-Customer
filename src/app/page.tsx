@@ -18,10 +18,10 @@ const IntroPage1 = ({ onNext }: { onNext: () => void }) => {
     >
       <div className="flex-between">
         <Image
-          src="/images/intro-logo.png"
+          src="/images/bodokado-logo.png"
           width={62}
           height={62}
-          alt="intro-logo"
+          alt="bodokado-logo"
         />
         <div className="border bg-neutral-200/20 border-neutral-300/30 backdrop-blur-lg rounded-full flex-center p-1">
           <X size={25} className="text-neutral-400" />
@@ -65,10 +65,10 @@ const IntroPage2 = ({ onNext }: { onNext: () => void }) => {
     >
       <div className="flex-between">
         <Image
-          src="/images/intro-logo.png"
+          src="/images/bodokado-logo.png"
           width={62}
           height={62}
-          alt="intro-logo"
+          alt="bodokado-logo"
         />
         <div className="border border-gray-400 rounded-full flex-center p-1">
           <X size={30} className="text-gray-400" />
@@ -112,10 +112,10 @@ const IntroPage3 = ({ onNext }: { onNext: () => void }) => {
     >
       <div className="flex-between">
         <Image
-          src="/images/intro-logo.png"
+          src="/images/bodokado-logo.png"
           width={62}
           height={62}
-          alt="intro-logo"
+          alt="bodokado-logo"
         />
         <div className="border border-gray-400 rounded-full flex-center p-1">
           <X size={30} className="text-gray-400" />
