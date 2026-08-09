@@ -3,9 +3,9 @@
 import BackButton from "@/components/shared/BackButton";
 import React, { useState } from "react";
 import { CartItem } from "./_components/CartItem";
-import { ProductSection } from "@/app/(with-navbar)/home/_components/product/ProductSection";
-import { ProductSectionHeader } from "@/app/(with-navbar)/home/_components/product/ProductSectionHeader";
-import { SectionContent } from "@/app/(with-navbar)/home/_components/SectionContent";
+import { ProductSection } from "@/components/product/ProductSection";
+import { ProductSectionHeader } from "@/components/product/ProductSectionHeader";
+import { SectionContent } from "@/components/SectionContent";
 import Image from "next/image";
 import ColorItem from "./_components/ColorItem";
 import RibbonItem from "./_components/RibbonItem";

@@ -60,8 +60,10 @@ export default function GiftPrice() {
           },
         ]}
         onSelect={(id) => {
-          id !== 0 && setPrice((prev) => [prev[0], id]);
-          setLimit(id);
+          if (typeof id === "number") {
+            id !== 0 && setPrice((prev) => [prev[0], id]);
+            setLimit(id);
+          }
         }}
         selectedId={limit}
       />

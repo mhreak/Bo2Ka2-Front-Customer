@@ -3,10 +3,10 @@ import SharedProfileHeader from "../_components/SharedProfileHeader";
 import { ListSortDescending } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FavoriteProductItem } from "./_components/FavoriteProductItem";
-import { ProductSection } from "../../home/_components/product/ProductSection";
-import { ProductSectionHeader } from "../../home/_components/product/ProductSectionHeader";
-import { SectionContent } from "../../home/_components/SectionContent";
-import { ProductItem } from "../../home/_components/product/ProductItem";
+import { ProductSection } from "@/components/product/ProductSection";
+import { ProductSectionHeader } from "@/components/product/ProductSectionHeader";
+import { SectionContent } from "@/components/SectionContent";
+import { ProductItem } from "@/components/product/ProductItem";
 
 export interface Product {
   id: number;

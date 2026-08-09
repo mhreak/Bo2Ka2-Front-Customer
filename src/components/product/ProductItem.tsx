@@ -5,9 +5,10 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Heart, Star, Zap } from "lucide-react";
 import { toPersianDigits } from "@/utils/numberConversions";
+import { Link } from "next-view-transitions";
 
 const productItemVariants = cva(
-  "relative flex flex-col items-center animate-slide-right",
+  "relative flex flex-col items-center animate-slide-right active:scale-95 transition-default",
   {
     variants: {
       variant: {
@@ -98,6 +99,7 @@ export interface ProductItemProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof productItemVariants> {
+  productId?:number;
   imageSrc: string;
   title: string;
   discountedPrice?: string | number;
@@ -135,6 +137,7 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
       className,
       variant,
 
+      productId,
       imageSrc,
       title,
       discountedPrice,
@@ -169,6 +172,7 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
     ref,
   ) => {
     return (
+      <Link href={`/product/${productId}`}>
       <div
         ref={ref}
         className={cn(productItemVariants({ variant }), className)}
@@ -263,6 +267,7 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
           )}
         </div>
       </div>
+      </Link>
     );
   },
 );

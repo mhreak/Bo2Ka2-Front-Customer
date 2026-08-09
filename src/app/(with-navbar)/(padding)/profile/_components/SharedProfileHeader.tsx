@@ -13,7 +13,7 @@ interface SharedProfileHeaderProps {
 
 export default function SharedProfileHeader({ title, description,actionButton, className }: SharedProfileHeaderProps) {
   return (
-    <div className={cn('flex flex-row justify-start items-center, mb-5',className)}>
+    <div className={cn('flex flex-row justify-start items-center mb-5',className)}>
         <BackButton />
         <div className="flex-1">
           <h3 className='flex-1 font-semibold text-xl text-center'>{title}</h3>

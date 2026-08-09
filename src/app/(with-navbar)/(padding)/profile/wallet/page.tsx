@@ -3,8 +3,8 @@ import SharedProfileHeader from "../_components/SharedProfileHeader";
 import { toPersianDigits } from "@/utils/numberConversions";
 import { BanknoteArrowUp, CircleAlert, Plus, ShoppingBag, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ProductSection } from "../../home/_components/product/ProductSection";
-import { ProductSectionHeader } from "../../home/_components/product/ProductSectionHeader";
+import { ProductSection } from "@/components/product/ProductSection";
+import { ProductSectionHeader } from "@/components/product/ProductSectionHeader";
 import RecentTransactionItem, { TransactionItem } from "./_components/RecentTransactionItem";
 
 const transactionMockData:TransactionItem[] = [

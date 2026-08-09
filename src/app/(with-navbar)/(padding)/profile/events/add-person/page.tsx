@@ -23,7 +23,7 @@ import { CustomDatePicker } from "@/components/shared/inputs/CustomDatePicker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import BadgeSelect from "@/components/shared/BadgeSelect";
-import { SectionContent } from "@/app/(with-navbar)/home/_components/SectionContent";
+import { SectionContent } from "@/components/SectionContent";
 
 const relations = ["همسر", "خانواده", "دوست", "همکار"];
 

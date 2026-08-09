@@ -37,7 +37,9 @@ export default function GiftReceiver() {
           { id: 4, title: "همکلاسی" },
         ]}
         selectedId={relationId}
-        onSelect={(id) => setRelationId(id)}
+        onSelect={(id) =>{ 
+          if (typeof id ==="number")
+          setRelationId(id)}}
       />
     </>
   );

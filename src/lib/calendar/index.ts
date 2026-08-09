@@ -9,7 +9,6 @@ export {
   isLeapYear,
   isSamePersianDate,
   addDaysToPersianDate,
-  getCurrentMonthRange,
 } from './persianDate';
 
 // توابع محاسبه روزهای ماه

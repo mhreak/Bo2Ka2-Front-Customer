@@ -3,14 +3,13 @@ import { DirectionProvider } from "@/components/ui/direction";
 import {modam} from "@/fonts"
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/toast";
-import { Inter } from "next/font/google";
 
 import { AuthProvider } from "@/context/AuthProvider";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import { ViewTransitions } from "next-view-transitions";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+
 
 export const metadata: Metadata = {
   title: "بدو کادو",

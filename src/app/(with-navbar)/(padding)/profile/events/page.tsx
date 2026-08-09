@@ -1,7 +1,7 @@
 import React from "react";
 import SharedProfileHeader from "../_components/SharedProfileHeader";
 import UpComingEvnetItem from "./_components/UpComingEvnetItem";
-import { SectionContent } from "../../home/_components/SectionContent";
+import { SectionContent } from "@/components/SectionContent";
 import SpecialPersonItem from "./_components/SpecialPersonItem";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
@@ -73,7 +73,8 @@ export default function EventsPage() {
             avatarImagePath={u.avatarImagePath}
             personName={u.personName}
             iconPathName={u.iconPathName}
-            variant={u.variant}
+            //@ts-ignore
+            variant={u.variant as "primary" | "default"}
           />
         ))}
       </SectionContent>

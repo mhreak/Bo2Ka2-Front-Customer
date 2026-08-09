@@ -5,9 +5,9 @@ import HomePageHeader from "./_components/HomePageHeader";
 import Stories from "./_components/Stories";
 import Banner from "@/components/shared/Banner";
 import Categories from "./_components/Categories";
-import { ProductSection } from "./_components/product/ProductSection";
-import { ProductItem } from "./_components/product/ProductItem";
-import { ProductSectionHeader } from "./_components/product/ProductSectionHeader";
+import { ProductSection } from "@/components/product/ProductSection";
+import { ProductItem } from "@/components/product/ProductItem";
+import { ProductSectionHeader } from "@/components/product/ProductSectionHeader";
 
 import CountdownBanner from "./_components/CountdownBanner";
 import {
@@ -19,7 +19,7 @@ import {
   StoreCardTitle,
 } from "./_components/store";
 import { Button } from "@/components/ui/button";
-import { SectionContent } from "./_components/SectionContent";
+import { SectionContent } from "@/components/SectionContent";
 import CategoryBanner from "./_components/CategoryBanner";
 
 const HomePage = () => {
@@ -48,6 +48,7 @@ const HomePage = () => {
         />
         <SectionContent variant="scroll">
           <ProductItem
+            productId={1}
             title="مجموعه اسانس‌های گیاهی"
             imageSrc="/samples/sample-product-1.jpg"
             discountedPrice="۱۸۰,۰۰۰ تومان"
@@ -55,6 +56,7 @@ const HomePage = () => {
           />
 
           <ProductItem
+            productId={2}
             title="مجموعه اسانس‌های گیاهی"
             imageSrc="/samples/sample-product-2.png"
             discountedPrice="۱۸۰,۰۰۰ تومان"

@@ -1,9 +1,9 @@
 import { MessageScroller, MessageScrollerContent, MessageScrollerProvider, MessageScrollerViewport } from "@/components/ui/message-scroller";
 import { Bubble, BubbleContent } from "@/components/ui/bubble";
-import { ProductSection } from "@/app/(with-navbar)/home/_components/product/ProductSection";
-import { ProductSectionHeader } from "@/app/(with-navbar)/home/_components/product/ProductSectionHeader";
-import { SectionContent } from "@/app/(with-navbar)/home/_components/SectionContent";
-import { ProductItem } from "@/app/(with-navbar)/home/_components/product/ProductItem";
+import { ProductSection } from "@/components/product/ProductSection";
+import { ProductSectionHeader } from "@/components/product/ProductSectionHeader";
+import { SectionContent } from "@/components/SectionContent";
+import { ProductItem } from "@/components/product/ProductItem";
 import { toPersianDigits } from "@/utils/numberConversions";
 
 export const chatMessages = [

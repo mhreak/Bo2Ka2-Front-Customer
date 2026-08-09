@@ -12,7 +12,7 @@ const BottomNavigation = () => {
   const activeTab = pathname.split("/")[1];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-stone-100 rounded-2xl mx-2 shadow-lg">
+    <div className="fixed bottom-0 left-0 right-0 z-999 bg-stone-100 rounded-2xl mx-2 shadow-lg">
       <div className="flex items-center justify-around h-20 px-4 max-w-md mx-auto">
         {navItems.map((item) => {
           const isActive = activeTab === item.id;

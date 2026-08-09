@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductItem } from "@/app/(with-navbar)/home/_components/product/ProductItem";
+import { ProductItem } from "@/components/product/ProductItem";
 import BackButton from "@/components/shared/BackButton";
 import SearchInput from "@/components/shared/inputs/SearchInput";
 import SearchingPage from "./_components/SearchingPage";
