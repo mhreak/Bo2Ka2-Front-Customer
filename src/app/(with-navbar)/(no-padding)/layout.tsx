@@ -7,7 +7,7 @@ export default function NoPaddingWithNavBarLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-full">
+    <div className="w-full mb-20">
       {children}
       <BottomNavigation />
     </div>
