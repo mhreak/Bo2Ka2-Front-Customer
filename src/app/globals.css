@@ -55,10 +55,10 @@
 
   --color-select: var(--select);
   --color-select-foreground: var(--select-foreground);
+  --color-select-border: var(--select-border);
 
   --color-text: var(--text);
 }
-
 
 :root {
   --card: oklch(1 0 0);
@@ -67,7 +67,7 @@
   --popover-foreground: oklch(0.148 0.004 228.8);
   --primary: oklch(0.3796 0.2084 294.44);
   --primary-foreground: oklch(0.977 0.014 308.299);
-  --primary-light:oklch(0.6611 0.1836 290.17);
+  --primary-light: oklch(0.6611 0.1836 290.17);
   --primary-lighter: oklch(0.931 0.0408 304.32);
   --secondary: oklch(0.2244 0.0087 351.69);
   --secondary-foreground: oklch(1 0 0);
@@ -101,6 +101,7 @@
 
   --select: oklch(1 0 0);
   --select-foreground: oklch(0.3092 0 0);
+  --select-border: oklch(0.831 0.0221 3.19);
 
   --text: oklch(0.3791 0 0);
 }
@@ -150,6 +151,24 @@
   html {
     @apply font-sans;
   }
+  .maplibregl-popup-content {
+    @apply bg-transparent! shadow-none! p-0! rounded-none!;
+  }
+  .maplibregl-popup-tip {
+    @apply hidden!;
+  }
+  .maplibregl-ctrl-attrib {
+    @apply bg-background! text-muted-foreground! border-border! rounded-md! border! shadow-sm!;
+  }
+  .maplibregl-ctrl-attrib a {
+    @apply text-muted-foreground!;
+  }
+  .maplibregl-ctrl-attrib a:hover {
+    @apply text-foreground!;
+  }
+  .maplibregl-ctrl-attrib-button {
+    @apply bg-transparent! dark:invert;
+  }
 }
 
 @utility flex-center {
@@ -190,13 +209,13 @@
   @apply border-transparent;
   background:
     linear-gradient(white, white) padding-box,
-    linear-gradient(to right, var(--color-primary-light), var(--color-primary)) border-box;
+    linear-gradient(to right, var(--color-primary-light), var(--color-primary))
+      border-box;
 }
 
 @utility text-gradient {
   @apply text-transparent bg-clip-text bg-linear-to-r from-primary-light to-primary;
 }
-
 
 .hide-scrollbar {
   scrollbar-width: none; /* Firefox */
@@ -229,7 +248,7 @@
 
   to {
     transform: translateX(-50%);
-    opacity: .9;
+    opacity: 0.9;
   }
 }
 

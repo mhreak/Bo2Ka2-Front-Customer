@@ -21,7 +21,9 @@ const buttonVariants = cva(
         gradient:
           "bg-gradient-to-r from-primary-light to-primary text-primary-foreground border-0",
         accent: "bg-accent text-accent-foreground hover:bg-accent/80",
-        outlineSecondary: "border-secondary text-secondary bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:bg-transparent dark:hover:bg-input/30"
+        outlineSecondary:
+          "border-secondary text-secondary bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:bg-transparent dark:hover:bg-input/30",
+        glass: "bg-white/60 backdrop-blur-sm text-text",
       },
       size: {
         default:
@@ -36,7 +38,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "gradient",
       size: "default",
     },
   },

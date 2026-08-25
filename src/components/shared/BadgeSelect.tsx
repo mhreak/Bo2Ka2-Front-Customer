@@ -66,11 +66,11 @@ export default function BadgeSelect(props: Props) {
             key={item.id}
             onClick={() => handleSelect(item.id)}
             className={cn(
-              "cursor-pointer whitespace-nowrap rounded-3xl border border-select px-4 py-2 text-sm",
+              "cursor-pointer whitespace-nowrap rounded-3xl border border-select-border px-4 py-2 text-sm",
               "transition-all duration-300 ease-in-out",
               selected
                 ? "bg-select-foreground text-select"
-                : "bg-select text-select-foreground"
+                : "bg-select text-select-foreground",
             )}
           >
             {item.title}

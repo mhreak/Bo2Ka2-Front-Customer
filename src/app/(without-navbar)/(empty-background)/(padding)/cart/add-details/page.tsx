@@ -1,6 +1,5 @@
 "use client";
 
-import BackButton from "@/components/shared/BackButton";
 import React, { useState } from "react";
 import { CartItem } from "./_components/CartItem";
 import { ProductSection } from "@/components/product/ProductSection";
@@ -20,6 +19,8 @@ import PayMethodItem from "./_components/PayMethodItem";
 import { Banknote, Wallet } from "lucide-react";
 import InvoiceSection from "./_components/InvoiceSection";
 import { Button } from "@/components/ui/button";
+import SharedProfileHeader from "@/app/(with-navbar)/(padding)/profile/_components/SharedProfileHeader";
+import { Link } from "next-view-transitions";
 
 const times: Time[] = [
   {
@@ -41,24 +42,25 @@ const times: Time[] = [
 
 const invoicItmes: InvoiceItem[] = [
   {
-    id:1,
+    id: 1,
     title: "جمع فرعی",
-    value: 150000
+    value: 150000,
   },
   {
-    id:2,
+    id: 2,
     title: "هزینه بسته بندی (ابریشم)",
-    value: 15000
+    value: 15000,
   },
   {
-    id:3,
+    id: 3,
     title: "تحویل (پرمیوم)",
-    value: 15000
+    value: 15000,
   },
-]
+];
 
-const CartPage = () => {
+export default function CartAddDetailsPage() {
   const remainingDays = getRemainingDaysOfMonth();
+
   const [selectedDay, setSelectedDay] = useState<number>(
     remainingDays.currentMonth.day,
   );
@@ -66,26 +68,9 @@ const CartPage = () => {
   const [t, setT] = useState(true);
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-row">
-        <BackButton />
-        <h3 className="flex-1 text-center text-2xl font-semibold">سبد خرید</h3>
-      </div>
-      <div className="">
-        {Array.from({ length: 2 }).map((_, i) => (
-          <CartItem
-            key={i}
-            imagePath={`/samples/sample-product-${i % 2 ? "8" : "7"}.jpg`}
-            title="چراغ رومیزی"
-            description="نور گرم/ درخشش گرم"
-            price={300000}
-            quantity={1}
-            onQuantityChange={() => {}}
-            onRemove={() => {}}
-          />
-        ))}
-      </div>
-      <div className="my-16 space-y-7">
+    <div>
+      <SharedProfileHeader title="اضافه کردن جزيیات" />
+      <div className="space-y-7">
         <ProductSection>
           <ProductSectionHeader
             title="کارت پستال"
@@ -94,12 +79,14 @@ const CartPage = () => {
             variant={"centered"}
           />
           <SectionContent variant={"scroll"}>
-            <Image
-              src={"/samples/postal-card-1.png"}
-              width={192}
-              height={313}
-              alt="postal-1"
-            />
+            <Link href={`/postal-cards/${1}`}>
+              <Image
+                src={"/samples/postal-card-1.png"}
+                width={192}
+                height={313}
+                alt="postal-1"
+              />
+            </Link>
             <Image
               src={"/samples/postal-card-2.png"}
               width={130}
@@ -271,10 +258,10 @@ const CartPage = () => {
         onChange={() => {}}
         icon={<Banknote className="text-primary-light" />}
       />
-      <InvoiceSection invoices={invoicItmes}/>
-      <Button variant={"secondary"} className="w-full">تکمیل خرید</Button>
+      <InvoiceSection invoices={invoicItmes} />
+      <Button variant={"secondary"} className="w-full">
+        تکمیل خرید
+      </Button>
     </div>
   );
-};
-
-export default CartPage;
+}

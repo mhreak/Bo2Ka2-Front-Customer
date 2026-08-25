@@ -99,7 +99,7 @@ export interface ProductItemProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof productItemVariants> {
-  productId?:number;
+  productId?: number;
   imageSrc: string;
   title: string;
   discountedPrice?: string | number;
@@ -173,103 +173,106 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
   ) => {
     return (
       <Link href={`/product/${productId}`}>
-      <div
-        ref={ref}
-        className={cn(productItemVariants({ variant }), className)}
-        {...props}
-      >
-        <div className="relative w-full aspect-square">
-          <Image
-            src={imageSrc}
-            alt={title}
-            // width={imageWidth}
-            // height={imageHeight}
-            fill
-            className={cn(
-              imageVariants({ variant: imageVariant }),
-              imageClassName,
+        <div
+          ref={ref}
+          className={cn(productItemVariants({ variant }), className)}
+          {...props}
+        >
+          <div className="relative w-full aspect-square">
+            <Image
+              src={imageSrc}
+              alt={title}
+              // width={imageWidth}
+              // height={imageHeight}
+              fill
+              className={cn(
+                imageVariants({ variant: imageVariant }),
+                imageClassName,
+              )}
+            />
+            {badgeVariant === "like" && (
+              <span
+                className={cn(
+                  badgeVariants({ variant: badgeVariant }),
+                  badgeClassName,
+                )}
+                onClick={() => onLike?.(true)}
+              >
+                {isLiked ? (
+                  <Heart className="text-rose-500" fill="currentColor" />
+                ) : (
+                  <Heart className="text-rose-500" />
+                )}
+              </span>
             )}
-          
-          />
-          {badgeVariant === "like" && (
+          </div>
+
+          {discountPercent && (
             <span
               className={cn(
                 badgeVariants({ variant: badgeVariant }),
                 badgeClassName,
               )}
-              onClick={() => onLike?.(true)}
             >
-              {isLiked ? (
-                <Heart className="text-rose-500" fill="currentColor" />
-              ) : (
-                <Heart className="text-rose-500" />
+              {badgeVariant === "special" && (
+                <Zap className="text-emerald-500 ml-1" size={15} />
               )}
+
+              {`${toPersianDigits(discountPercent)}${badgeVariant === "default" ? "% -" : ""}`}
             </span>
           )}
-        </div>
 
-        {discountPercent && (
-          <span
+          <p
             className={cn(
-              badgeVariants({ variant: badgeVariant }),
-              badgeClassName,
+              titleVariants({ variant: titleVariant }),
+              titleClassName,
             )}
           >
-            {badgeVariant === "special" && (
-              <Zap className="text-emerald-500 ml-1" size={15} />
+            {title}
+          </p>
+
+          {storeName && (
+            <p className="text-muted-foreground text-sm">{storeName}</p>
+          )}
+
+          <div className="mt-1 flex items-center gap-2">
+            {discountedPrice && (
+              <span
+                className={cn(
+                  discountedPriceVariants({
+                    variant: discountedPriceVariant,
+                  }),
+                  discountedPriceClassName,
+                )}
+              >
+                {toPersianDigits(Number(discountedPrice).toLocaleString())}{" "}
+                {"تومان"}
+              </span>
             )}
 
-            {`${toPersianDigits(discountPercent)}${badgeVariant === "default" ? "% -" : ""}`}
-          </span>
-        )}
-
-
-        <p
-          className={cn(
-            titleVariants({ variant: titleVariant }),
-            titleClassName,
-          )}
-        >
-          {title}
-        </p>
-
-        {storeName && (
-          <p className="text-muted-foreground text-sm">{storeName}</p>
-        )}
-        {rating && (
-          <div className="flex flex-row justify-start gap-2">
-            <Star fill="currentColor" className="text-yellow-400" size={14} />
-            <p className="text-text font-semibold">{rating}</p>
+            {price && (
+              <span
+                className={cn(
+                  priceVariants({ variant: priceVariant }),
+                  priceClassName,
+                )}
+              >
+                {toPersianDigits(Number(price).toLocaleString())} {"تومان"}
+              </span>
+            )}
           </div>
-        )}
-
-        <div className="mt-1 flex items-center gap-2">
-          {discountedPrice && (
-            <span
+          {rating && (
+            <div
               className={cn(
-                discountedPriceVariants({
-                  variant: discountedPriceVariant,
-                }),
-                discountedPriceClassName,
+                "flex flex-row justify-start gap-2",
+                ratingClassName,
               )}
             >
-              {toPersianDigits(Number(discountedPrice).toLocaleString())}{" "}
-              {"تومان"}
-            </span>
-          )}
-
-          {price && (
-            <span
-              className={cn(
-                priceVariants({ variant: priceVariant }),
-                priceClassName,
-              )}
-            >
-              {toPersianDigits(Number(price).toLocaleString())} {"تومان"}
-            </span>
+              <Star fill="currentColor" className="text-yellow-400" size={14} />
+              <p className="text-text font-semibold">{rating}</p>
+            </div>
           )}
         </div>
-      </div>
       </Link>
     );
   },
