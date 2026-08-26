@@ -12,6 +12,7 @@ import { useParams } from "next/navigation";
 
 const shopMockData = {
   name: "سیمین",
+  imageUrl: "/samples/sample-shop.png",
   rating: 4.9,
   address: "اصفهان نظر",
   commentCount: 124,
@@ -64,7 +65,7 @@ export default function ShopPage() {
         <MoreVertical />
       </div>
       <div className="relative w-full aspect-video mb-16">
-        <Image src={"/samples/sample-shop.png"} alt="shop-image" fill />
+        <Image src={shopMockData.imageUrl} alt="shop-image" fill />
         <div className="absolute bottom-0 translate-y-1/2 right-3 rounded-full size-30 bg-zinc-700 border-8 border-background flex-center">
           <div className="size-12 bg-stone-300 rounded-full flex-center text-2xl font-extralight text-tex">
             M
@@ -80,10 +81,10 @@ export default function ShopPage() {
           <p className="text-muted-foreground">{`(${toPersianDigits(shopMockData.commentCount)} کامنت)`}</p>
         </div>
         <div className="flex flex-row items-center gap-3 w-full mt-5 mb-8">
-          <Button variant={"outline"} className={"w-1/2"}>
+          <Button variant={"outlineSecondary"} className={"w-1/2"}>
             پیام
           </Button>
-          <Button variant={"outlineSecondary"} className={"w-1/2"}>
+          <Button variant={"secondary"} className={"w-1/2"}>
             دنبال کردن
           </Button>
         </div>

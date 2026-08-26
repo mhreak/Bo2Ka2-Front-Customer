@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { createRoot, Root } from "react-dom/client";
 
 const NESHAN_CSS_URL =
@@ -144,6 +144,24 @@ export default function NeshanLeafletMap({
     onMapReady,
   });
 
+  const cleanupMarkerRoots = () => {
+    const roots = Array.from(markerRootsRef.current.values());
+
+    markerRootsRef.current.clear();
+
+    requestAnimationFrame(() => {
+      roots.forEach((root) => {
+        try {
+          root.unmount();
+        } catch {
+          // root ممکن است قبلاً unmount شده باشد
+        }
+      });
+    });
+  };
+
+  const [mapReady, setMapReady] = useState(false);
+
   useEffect(() => {
     callbacksRef.current = {
       onMapClick,
@@ -213,6 +231,8 @@ export default function NeshanLeafletMap({
       const markersLayer = L.layerGroup().addTo(map);
 
       markersLayerRef.current = markersLayer;
+
+      setMapReady(true);
 
       map.on("click", (event: any) => {
         callbacksRef.current.onMapClick?.({
@@ -295,11 +315,7 @@ export default function NeshanLeafletMap({
     /**
      * Unmount previous React roots
      */
-    markerRootsRef.current.forEach((root) => {
-      root.unmount();
-    });
-
-    markerRootsRef.current.clear();
+    cleanupMarkerRoots();
 
     markerRefs.current.clear();
 
@@ -439,7 +455,7 @@ export default function NeshanLeafletMap({
 
       markerRefs.current.set(markerData.id, marker);
     });
-  }, [markers]);
+  }, [markers, mapReady]);
 
   /**
    * Cleanup
@@ -461,6 +477,8 @@ export default function NeshanLeafletMap({
       markersLayerRef.current = null;
 
       markerRefs.current.clear();
+
+      setMapReady(false);
     };
   }, []);
 

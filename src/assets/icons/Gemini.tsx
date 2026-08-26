@@ -6,6 +6,7 @@ export default function Gemini(props: React.SVGProps<SVGSVGElement>) {
       viewBox="0 0 36 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <g clip-path="url(#clip0_70_2337)">
         <path
