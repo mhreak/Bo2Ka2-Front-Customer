@@ -22,6 +22,7 @@
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.42.2",
+    "input-otp": "^1.5.0",
     "lucide-react": "^1.26.0",
     "maplibre-gl": "^6.6.0",
     "moment-jalaali": "^0.10.4",

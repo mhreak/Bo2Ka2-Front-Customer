@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { DirectionProvider } from "@/components/ui/direction";
-import {modam} from "@/fonts"
+import { modam } from "@/fonts";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/toast";
 
@@ -8,8 +8,6 @@ import { AuthProvider } from "@/context/AuthProvider";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import { ViewTransitions } from "next-view-transitions";
-
-
 
 export const metadata: Metadata = {
   title: "بدو کادو",
@@ -29,11 +27,7 @@ export default function RootLayout({
             <SidebarProvider>
               <div className="relative flex h-dvh w-full">
                 <div className="h-full w-full overflow-auto hide-scrollbar bg-grad">
-                  <ViewTransitions>
-
-                    {children}
-                  
-                  </ViewTransitions>
+                  <ViewTransitions>{children}</ViewTransitions>
                 </div>
               </div>
               <Toaster

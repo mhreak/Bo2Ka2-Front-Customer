@@ -241,6 +241,11 @@
   animation: new-page 400ms ease forwards;
 }
 
+[dir="rtl"] .input-otp input {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
 @keyframes old-page {
   from {
     transform: translateX(0);

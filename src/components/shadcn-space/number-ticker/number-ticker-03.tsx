@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import NumberFlow, { type Value, NumberFlowGroup } from "@number-flow/react";
+import { cn } from "@/lib/utils";
 
 type NumberTickerProps = {
   seconds: number;
   className?: string;
   showHours?: boolean;
+  numberClassName?: string;
+  seperatorClassName?: string;
 };
 
 /**
@@ -17,36 +20,51 @@ export function NumberTicker({
   seconds,
   className,
   showHours = true,
+  numberClassName,
+  seperatorClassName,
 }: NumberTickerProps) {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   const s = seconds % 60;
 
   return (
-    <div className={`${className} inline-flex items-center gap-2`}>
+    <div className={cn(`inline-flex items-center gap-2`, className)}>
       <NumberFlow
         value={s}
         format={{ minimumIntegerDigits: 2 }}
-        className="bg-card rounded-lg size-12 flex-center text-text"
+        className={cn(
+          "bg-card rounded-lg size-12 flex-center text-text",
+          numberClassName,
+        )}
       />
-      <span className="text-primary-foreground">:</span>
+      <span className={cn("text-primary-foreground", seperatorClassName)}>
+        :
+      </span>
       <NumberFlow
         value={m}
         format={{ minimumIntegerDigits: 2 }}
-        className="bg-card rounded-lg size-12 flex-center text-text"
-      />
-      <span className="text-primary-foreground">:</span>
-      <NumberFlowGroup>
-        {showHours && (
-          <>
-            <NumberFlow
-              value={h}
-              format={{ minimumIntegerDigits: 2 }}
-              className="bg-card rounded-lg size-12 flex-center text-text"
-            />
-          </>
+        className={cn(
+          "bg-card rounded-lg size-12 flex-center text-text",
+          numberClassName,
         )}
-      </NumberFlowGroup>
+      />
+      {showHours && (
+        <span className={cn("text-primary-foreground", seperatorClassName)}>
+          :
+        </span>
+      )}
+      {showHours && (
+        <NumberFlowGroup>
+          <NumberFlow
+            value={h}
+            format={{ minimumIntegerDigits: 2 }}
+            className={cn(
+              "bg-card rounded-lg size-12 flex-center text-text",
+              numberClassName,
+            )}
+          />
+        </NumberFlowGroup>
+      )}
     </div>
   );
 }

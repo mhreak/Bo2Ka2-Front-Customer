@@ -13,12 +13,18 @@ interface Props extends Omit<
 > {
   value: string;
   onChange: (value: string) => void;
+  inputClassName?: string;
 }
 
-const PasswordInput = ({ value, onChange, ...props }: Readonly<Props>) => {
+const PasswordInput = ({
+  value,
+  onChange,
+  inputClassName,
+  ...props
+}: Readonly<Props>) => {
   const [isShowPassword, setIsShowPassword] = React.useState<boolean>(false);
   return (
-    <InputGroup>
+    <InputGroup className={inputClassName}>
       <InputGroupInput
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
@@ -29,15 +35,14 @@ const PasswordInput = ({ value, onChange, ...props }: Readonly<Props>) => {
         {isShowPassword ? (
           <EyeOffIcon
             onClick={() => setIsShowPassword((prev) => !prev)}
-            className="cursor-pointer size-5"
+            className="cursor-pointer size-6 text-muted-foreground/50 animate-fade-in"
           />
         ) : (
           <EyeIcon
             onClick={() => setIsShowPassword((prev) => !prev)}
-            className="cursor-pointer size-5"
+            className="cursor-pointer size-6 text-muted-foreground/50 animate-fade-in"
           />
         )}
-       
       </InputGroupAddon>
     </InputGroup>
   );
