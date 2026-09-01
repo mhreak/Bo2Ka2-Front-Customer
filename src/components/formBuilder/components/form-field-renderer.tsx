@@ -33,8 +33,8 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import AddressSection from "@/app/(without-navbar)/(empty-background)/cart/_components/address-section/AddressSection";
-import AddressDetailSection from "@/app/(without-navbar)/(empty-background)/cart/_components/address-section/AddressDetailSection";
+import AddressSection from "@/app/(without-navbar)/(empty-background)/(padding)/cart/_components/address-section/AddressSection";
+import AddressDetailSection from "@/app/(without-navbar)/(empty-background)/(padding)/cart/_components/address-section/AddressDetailSection";
 interface FormFieldRendererProps {
   field: BaseFieldConfig;
   parentName?: string; // ارسال نام پدر برای پشتیبانی از آرایه‌های تودرتو
@@ -326,7 +326,8 @@ export function FormFieldRenderer({
                     onBlur={onBlur}
                     ref={ref}
                     rows={5}
-                    className={cn("w-full",
+                    className={cn(
+                      "w-full",
                       error &&
                         "border-destructive focus-visible:ring-destructive",
                       isReadOnly &&
@@ -539,12 +540,12 @@ export function FormFieldRenderer({
               case "location": {
                 return (
                   <AddressSection>
-                          <AddressDetailSection
-                            title="مجتمع لاله"
-                            descrption="اصفهان،خیابان نظرشرقی،کوچه 2"
-                          />
-                        </AddressSection>
-                )
+                    <AddressDetailSection
+                      title="مجتمع لاله"
+                      descrption="اصفهان،خیابان نظرشرقی،کوچه 2"
+                    />
+                  </AddressSection>
+                );
               }
 
               default:
