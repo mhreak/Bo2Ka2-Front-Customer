@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 
 const upComingEvnetItemVariants = cva(
-  "relative rounded-2xl p-5 flex flex-row justify-between items-center min-w-80 mb-16",
+  "relative rounded-2xl p-5 flex flex-row justify-between items-center min-w-80 mb-16 lg:min-w-0 lg:w-full",
   {
     variants: {
       variant: {

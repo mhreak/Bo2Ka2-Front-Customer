@@ -67,19 +67,20 @@ export default function ProductItemPage() {
             fill={isLike ? "currentColor" : "var(--color-background)"}
           />
         }
-        className="mb-0 p-5"
+        className="mb-0 p-5 lg:px-0"
       />
-      <div className="mb-5">
-        <CustomCarousel
-          imagePaths={[
-            "/samples/sample-product-3.jpg",
-            "/samples/sample-product-4.jpg",
-            "/samples/sample-product-5.jpg",
-            "/samples/sample-product-6.jpg",
-          ]}
-        />
-      </div>
-      <div className="p-5 mt-2 space-y-6">
+      <div className="flex flex-col lg:grid lg:grid-cols-2 lg:items-start lg:gap-10">
+        <div className="mb-5 lg:sticky lg:top-24 lg:mb-0">
+          <CustomCarousel
+            imagePaths={[
+              "/samples/sample-product-3.jpg",
+              "/samples/sample-product-4.jpg",
+              "/samples/sample-product-5.jpg",
+              "/samples/sample-product-6.jpg",
+            ]}
+          />
+        </div>
+        <div className="p-5 mt-2 space-y-6 lg:px-0">
         <div className="flex-between">
           <span className="text-accent text-sm">
             {productMockData.provider}
@@ -153,6 +154,7 @@ export default function ProductItemPage() {
             content={c.comment}
           />
         ))}
+        </div>
       </div>
     </>
   );

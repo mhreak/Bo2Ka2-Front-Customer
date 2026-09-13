@@ -128,7 +128,9 @@ export default function ActiveOrdersTab() {
   return (
     <div>
       <p className="mb-3">در حال انجام</p>
-      {orderCardMock.map((order) => <ActiveOrderItem key={order.id} order={order}/>)}
+      <div className="lg:grid lg:grid-cols-2 lg:gap-5 lg:items-start">
+        {orderCardMock.map((order) => <ActiveOrderItem key={order.id} order={order}/>)}
+      </div>
     </div>
   );
 }

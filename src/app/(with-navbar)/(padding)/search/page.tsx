@@ -32,7 +32,7 @@ const categories = [
 const SearchPage = () => {
   return (
     <>
-      <div className="flex-between mb-5">
+      <div className="flex-between mb-5 lg:hidden">
         <Menu />
         <Image
           src="/images/bodokado-logo.png"
@@ -59,8 +59,12 @@ const SearchPage = () => {
           ))}
         </TabsList>
         {categories.map((category) => (
-          <TabsContent key={category.id} value={category.value} className={"animate-none"}>
-            <div className="grid grid-cols-2 gap-5">
+          <TabsContent
+            key={category.id}
+            value={category.value}
+            className={"animate-none"}
+          >
+            <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {Array.from({ length: 2 }).map((_, i) => (
                 <ProductItem
                   key={i}

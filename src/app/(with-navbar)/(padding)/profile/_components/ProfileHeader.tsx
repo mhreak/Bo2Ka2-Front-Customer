@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function ProfileHeader() {
   return (
-    <div className="flex flex-row justify-start items-center">
+    <div className="flex flex-row justify-start items-center lg:hidden">
         <Button variant={"outline"} size={"icon-lg"}><ShoppingBag /></Button>
         <div className='flex-1 text-xl font-semibold text-center'>پروفایل</div>
         <Button variant={"outline"} size={"icon-lg"}><Menu /></Button>

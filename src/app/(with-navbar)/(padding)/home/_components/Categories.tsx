@@ -67,7 +67,7 @@ const Categories = () => {
 
   return (
     <div className="w-full relative">
-      <div className="flex flex-row justify-start items-center gap-8 overflow-x-auto overflow-y-hidden py-4 px-2 scroll-smooth hide-scrollbar">
+      <div className="flex flex-row justify-start items-center gap-8 overflow-x-auto overflow-y-hidden py-4 px-2 scroll-smooth hide-scrollbar lg:justify-between lg:px-0">
         {categories.map((category) => (
           <div key={category.id} className="relative">
             <div className="bg-[#EED5FF] size-13 rounded-full" />

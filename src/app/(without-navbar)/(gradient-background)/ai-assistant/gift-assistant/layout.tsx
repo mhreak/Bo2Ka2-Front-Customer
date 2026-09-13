@@ -5,7 +5,7 @@ import React from 'react'
 
 export default function GiftAssistantLayout({ children }: { children: React.ReactNode }) {
     return (
-        <>
+        <div className="mx-auto w-full lg:max-w-5xl">
             <div className='flex flex-row mb-7'>
                 <BackButton />
                 <div className="text-center flex-center w-full">
@@ -17,6 +17,6 @@ export default function GiftAssistantLayout({ children }: { children: React.Reac
                 </div>
                 </div>
                 {children}
-        </>
+        </div>
     )
 }

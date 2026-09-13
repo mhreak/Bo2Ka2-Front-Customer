@@ -266,3 +266,34 @@
     transform: translateX(0);
   }
 }
+
+@media (min-width: 768px) {
+  ::view-transition-old(root) {
+    animation: desktop-old 400ms var(--animation-timing-function, ease-in-out) forwards;
+  }
+  ::view-transition-new(root) {
+    animation: desktop-new 400ms var(--animation-timing-function, ease-in-out) forwards;
+  }
+}
+
+@keyframes desktop-old {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0.97;
+    transform: scale(0.98) translateX(-1%);
+  }
+}
+
+@keyframes desktop-new {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateX(1%);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+}

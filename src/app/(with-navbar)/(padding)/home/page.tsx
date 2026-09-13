@@ -24,18 +24,20 @@ import CategoryBanner from "./_components/CategoryBanner";
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col gap-6 overflow-auto hide-scrollbar">
-      <HomePageHeader />
-      <SearchInput value="" onChange={() => {}} placeholder="جستجو" />
+    <div className="flex flex-col gap-6 overflow-auto hide-scrollbar lg:gap-10">
+      <div className="lg:hidden">
+        <HomePageHeader />
+        <SearchInput value="" onChange={() => {}} placeholder="جستجو" />
+      </div>
       <Stories />
       <Banner
         onClick={() => {}}
-        containerCalassName="bg-pink-300 w-[326px] h-[188px]"
+        containerCalassName="bg-pink-300 w-[326px] h-[188px] lg:w-full lg:h-64"
       />
       <Categories />
       <Banner
         onClick={() => {}}
-        containerCalassName="bg-gradient w-[326px] h-[100px]"
+        containerCalassName="bg-gradient w-[326px] h-[100px] lg:w-full lg:h-40"
       />
       <ProductSection>
         <ProductSectionHeader
@@ -46,13 +48,17 @@ const HomePage = () => {
           linkVariant={"default"}
           className="items-center"
         />
-        <SectionContent variant="scroll">
+        <SectionContent
+          variant="scroll"
+          className="lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible"
+        >
           <ProductItem
             productId={1}
             title="مجموعه اسانس‌های گیاهی"
             imageSrc="/samples/sample-product-1.jpg"
             discountedPrice="۱۸۰,۰۰۰ تومان"
             price="۱۵۰,۰۰۰ تومان"
+            className="lg:w-full lg:min-w-0"
           />
 
           <ProductItem
@@ -61,12 +67,13 @@ const HomePage = () => {
             imageSrc="/samples/sample-product-2.png"
             discountedPrice="۱۸۰,۰۰۰ تومان"
             price="۱۵۰,۰۰۰ تومان"
+            className="lg:w-full lg:min-w-0"
           />
         </SectionContent>
       </ProductSection>
       <Banner
         onClick={() => {}}
-        containerCalassName="bg-linear-to-r from-[#9A0606] to-[#FF0000] w-[326px] h-[100px]"
+        containerCalassName="bg-linear-to-r from-[#9A0606] to-[#FF0000] w-[326px] h-[100px] lg:w-full lg:h-40"
       />
       <ProductSection variant={"contained"}>
         <ProductSectionHeader
@@ -76,20 +83,23 @@ const HomePage = () => {
           linkVariant={"contained"}
           className="items-center"
         />
-        <SectionContent variant="scroll" className="gap-2">
-          {Array.from({length: 4}).map((_,i) => (
+        <SectionContent
+          variant="scroll"
+          className="gap-2 lg:grid lg:grid-cols-4 lg:overflow-visible"
+        >
+          {Array.from({ length: 4 }).map((_, i) => (
             <ProductItem
+              key={i}
               title="مجموعه اسانس‌های گیاهی"
-              imageSrc={`/samples/sample-product-${i%2?"1.jpg":"2.png"}`}
+              imageSrc={`/samples/sample-product-${i % 2 ? "1.jpg" : "2.png"}`}
               discountedPrice="۱۸۰,۰۰۰ تومان"
               price="۱۵۰,۰۰۰ تومان"
               variant={"card"}
               imageWidth={300}
               imageHeight={300}
-              className="min-w-42"
+              className="min-w-42 lg:w-full lg:min-w-0"
             />
           ))}
-
         </SectionContent>
       </ProductSection>
       <ProductSection>
@@ -100,12 +110,16 @@ const HomePage = () => {
           titleVariant={"default"}
           linkVariant={"default"}
         />
-        <SectionContent variant="scroll">
+        <SectionContent
+          variant="scroll"
+          className="lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible"
+        >
           <ProductItem
             title="مجموعه اسانس‌های گیاهی"
             imageSrc="/samples/sample-story-4.jpg"
             discountedPrice="۱۸۰,۰۰۰ تومان"
             price="۱۵۰,۰۰۰ تومان"
+            className="lg:w-full lg:min-w-0"
           />
 
           <ProductItem
@@ -113,12 +127,13 @@ const HomePage = () => {
             imageSrc="/samples/sample-story-2.jpg"
             discountedPrice="۱۸۰,۰۰۰ تومان"
             price="۱۵۰,۰۰۰ تومان"
+            className="lg:w-full lg:min-w-0"
           />
         </SectionContent>
       </ProductSection>
       <Banner
         onClick={() => {}}
-        containerCalassName="bg-linear-to-r from-[#48B6ED] to-[#4BC1FD] w-[326px] h-[100px]"
+        containerCalassName="bg-linear-to-r from-[#48B6ED] to-[#4BC1FD] w-[326px] h-[100px] lg:w-full lg:h-40"
       />
       <ProductSection>
         <ProductSectionHeader
@@ -128,12 +143,16 @@ const HomePage = () => {
           titleVariant={"default"}
           linkVariant={"default"}
         />
-        <SectionContent variant="scroll">
+        <SectionContent
+          variant="scroll"
+          className="lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible"
+        >
           <ProductItem
             title="مجموعه اسانس‌های گیاهی"
             imageSrc="/samples/sample-story-4.jpg"
             discountedPrice="۱۸۰,۰۰۰ تومان"
             price="۱۵۰,۰۰۰ تومان"
+            className="lg:w-full lg:min-w-0"
           />
 
           <ProductItem
@@ -141,10 +160,14 @@ const HomePage = () => {
             imageSrc="/samples/sample-story-2.jpg"
             discountedPrice="۱۸۰,۰۰۰ تومان"
             price="۱۵۰,۰۰۰ تومان"
+            className="lg:w-full lg:min-w-0"
           />
         </SectionContent>
       </ProductSection>
-      <SectionContent variant="scroll">
+      <SectionContent
+        variant="scroll"
+        className="lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible"
+      >
         <CountdownBanner seconds={365} />
         <ProductItem
           title="مجموعه اسانس‌های گیاهی"
@@ -152,6 +175,7 @@ const HomePage = () => {
           price="۱۵۰,۰۰۰ تومان"
           discountPercent="۱ ساعت"
           badgeVariant={"special"}
+          className="lg:w-full lg:min-w-0"
         />
 
         <ProductItem
@@ -160,12 +184,16 @@ const HomePage = () => {
           price="۱۵۰,۰۰۰ تومان"
           discountPercent="۱ ساعت"
           badgeVariant={"special"}
+          className="lg:w-full lg:min-w-0"
         />
       </SectionContent>
       <h2 className="font-medium text-2xl">فروشگاه های معروف</h2>
-      <SectionContent variant="scroll">
+      <SectionContent
+        variant="scroll"
+        className="lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible"
+      >
         <StoreCard
-          className="min-w-72"
+          className="min-w-72 lg:w-full lg:min-w-0"
           badge={
             <div className="flex-center size-14 rounded-full border-4 border-background bg-white shadow-lg">
               <div className="bg-black rounded-lg size-10 text-white flex-center text-2xl">
@@ -189,7 +217,7 @@ const HomePage = () => {
           </StoreCardContent>
         </StoreCard>
         <StoreCard
-          className="min-w-72"
+          className="min-w-72 lg:w-full lg:min-w-0"
           badge={
             <div className="flex-center size-14 rounded-full border-4 border-background bg-white shadow-lg">
               <div className="bg-black rounded-lg size-10 text-white flex-center text-2xl">
@@ -220,16 +248,21 @@ const HomePage = () => {
           linkVariant={"primary"}
           variant={"centered"}
         />
-        <SectionContent variant={"scroll"}>
+        <SectionContent
+          variant={"scroll"}
+          className="lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible"
+        >
           <CategoryBanner
             imageSrc="/samples/sample-category-2.png"
             title="هدیه های لوکس"
             onClick={() => {}}
+            className="lg:w-full"
           />
           <CategoryBanner
             imageSrc="/samples/sample-category-3.png"
             title="زیور آلات ترند"
             onClick={() => {}}
+            className="lg:w-full"
           />
         </SectionContent>
       </ProductSection>

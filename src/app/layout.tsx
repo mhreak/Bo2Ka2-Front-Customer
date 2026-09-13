@@ -26,7 +26,7 @@ export default function RootLayout({
           <DirectionProvider direction="rtl">
             <SidebarProvider>
               <div className="relative flex h-dvh w-full">
-                <div className="h-full w-full overflow-auto hide-scrollbar bg-grad">
+                <div className="h-full w-full overflow-auto hide-scrollbar">
                   <ViewTransitions>{children}</ViewTransitions>
                 </div>
               </div>

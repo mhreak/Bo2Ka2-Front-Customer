@@ -23,7 +23,7 @@ export default function OtpPage() {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center gap-14 mx-12 h-full">
+    <div className="mx-auto flex h-full w-full max-w-md flex-col justify-center items-center gap-14">
       <div className="flex flex-col items-center justify-center gap-5 mt-30">
         <Image
           src="/images/bodokado-logo.png"

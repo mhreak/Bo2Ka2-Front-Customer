@@ -59,12 +59,12 @@ export default function ShopPage() {
   const shopId = params.id;
 
   return (
-    <div>
-      <div className="flex-between p-5 mb-3">
+    <div className="mx-auto w-full lg:max-w-7xl lg:px-8 lg:py-6">
+      <div className="flex-between p-5 mb-3 lg:px-0">
         <BackButton />
         <MoreVertical />
       </div>
-      <div className="relative w-full aspect-video mb-16">
+      <div className="relative w-full aspect-video mb-16 lg:aspect-21/9 lg:rounded-3xl lg:overflow-hidden">
         <Image src={shopMockData.imageUrl} alt="shop-image" fill />
         <div className="absolute bottom-0 translate-y-1/2 right-3 rounded-full size-30 bg-zinc-700 border-8 border-background flex-center">
           <div className="size-12 bg-stone-300 rounded-full flex-center text-2xl font-extralight text-tex">
@@ -72,43 +72,45 @@ export default function ShopPage() {
           </div>
         </div>
       </div>
-      <div className="p-5 ">
-        <h3 className="font-bold text-xl mb-3">{shopMockData.name}</h3>
-        <div className="flex flex-row gap-3 items-center">
-          <span>{toPersianDigits(shopMockData.rating)}</span>
-          <Star className="text-[#B62417] size-4" fill="currentColor" />
-          <p className="text-muted-foreground">{shopMockData.address}</p>
-          <p className="text-muted-foreground">{`(${toPersianDigits(shopMockData.commentCount)} کامنت)`}</p>
+      <div className="p-5 lg:px-0 lg:grid lg:grid-cols-[1fr_18rem] lg:gap-10 lg:items-start">
+        <div className="lg:col-start-1">
+          <h3 className="font-bold text-xl mb-3">{shopMockData.name}</h3>
+          <div className="flex flex-row gap-3 items-center">
+            <span>{toPersianDigits(shopMockData.rating)}</span>
+            <Star className="text-[#B62417] size-4" fill="currentColor" />
+            <p className="text-muted-foreground">{shopMockData.address}</p>
+            <p className="text-muted-foreground">{`(${toPersianDigits(shopMockData.commentCount)} کامنت)`}</p>
+          </div>
+          <p className="text-muted-foreground leading-7 text-right mt-8 mb-10">
+            {shopMockData.description}
+          </p>
+          <div className="flex flex-row items-center justify-evenly lg:mx-0 lg:justify-start lg:gap-16">
+            <div className="flex flex-col items-center gap-3">
+              <span className="text-xl">{shopMockData.answer}</span>
+              <span className="text-muted-foreground text-lg">پاسخ</span>
+            </div>
+            <div className="h-0.5 w-11 bg-muted rotate-90 my-5" />
+
+            <div className="flex flex-col items-center gap-3">
+              <span className="text-xl">{shopMockData.sale}</span>
+              <span className="text-muted-foreground text-lg">فروش</span>
+            </div>
+            <div className="h-0.5 w-11 bg-muted rotate-90 my-5" />
+            <div className="flex flex-col items-center gap-3">
+              <span className="text-xl">{shopMockData.fallowers}</span>
+              <span className="text-muted-foreground text-lg">دنبال کننده</span>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-row items-center gap-3 w-full mt-5 mb-8">
-          <Button variant={"outlineSecondary"} className={"w-1/2"}>
+        <div className="flex flex-row items-center gap-3 w-full mt-5 mb-8 lg:col-start-2 lg:row-start-1 lg:mt-0 lg:flex-col lg:sticky lg:top-24">
+          <Button variant={"outlineSecondary"} className={"w-1/2 lg:w-full"}>
             پیام
           </Button>
-          <Button variant={"secondary"} className={"w-1/2"}>
+          <Button variant={"secondary"} className={"w-1/2 lg:w-full"}>
             دنبال کردن
           </Button>
         </div>
-        <p className="text-muted-foreground leading-7 text-right mb-10">
-          {shopMockData.description}
-        </p>
-        <div className="flex flex-row items-center justify-evenly mx-16">
-          <div className="flex flex-col items-center gap-3">
-            <span className="text-xl">{shopMockData.answer}</span>
-            <span className="text-muted-foreground text-lg">پاسخ</span>
-          </div>
-          <div className="h-0.5 w-11 bg-muted rotate-90 my-5" />
-
-          <div className="flex flex-col items-center gap-3">
-            <span className="text-xl">{shopMockData.sale}</span>
-            <span className="text-muted-foreground text-lg">فروش</span>
-          </div>
-          <div className="h-0.5 w-11 bg-muted rotate-90 my-5" />
-          <div className="flex flex-col items-center gap-3">
-            <span className="text-xl">{shopMockData.fallowers}</span>
-            <span className="text-muted-foreground text-lg">دنبال کننده</span>
-          </div>
-        </div>
-        <Tabs className={"mt-8"}>
+        <Tabs className={"mt-8 lg:col-span-2"}>
           <TabsList className={"w-full"} variant={"secondary"}>
             <SectionContent className="h-10">
               <TabsTrigger value={"all"} className={"w-fit"}>
@@ -126,7 +128,7 @@ export default function ShopPage() {
             </SectionContent>
           </TabsList>
           <TabsContent value={"all"}>
-            <div className="grid grid-cols-2 gap-5 min-h-180">
+            <div className="grid grid-cols-2 gap-5 min-h-180 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {shopMockData.products.map((product) => (
                 <ProductItem
                   imageSrc={product.imagePath}
@@ -140,7 +142,7 @@ export default function ShopPage() {
             </div>
           </TabsContent>
           <TabsContent value={"most-sale"}>
-            <div className="grid grid-cols-2 gap-5 min-h-180">
+            <div className="grid grid-cols-2 gap-5 min-h-180 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {shopMockData.products.map((product) => (
                 <ProductItem
                   imageSrc={product.imagePath}
@@ -154,7 +156,7 @@ export default function ShopPage() {
             </div>
           </TabsContent>
           <TabsContent value={"newest"}>
-            <div className="grid grid-cols-2 gap-5 min-h-180">
+            <div className="grid grid-cols-2 gap-5 min-h-180 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {shopMockData.products.map((product) => (
                 <ProductItem
                   imageSrc={product.imagePath}
@@ -168,7 +170,7 @@ export default function ShopPage() {
             </div>
           </TabsContent>
           <TabsContent value={"newestr"}>
-            <div className="grid grid-cols-2 gap-5 min-h-180">
+            <div className="grid grid-cols-2 gap-5 min-h-180 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {shopMockData.products.map((product) => (
                 <ProductItem
                   imageSrc={product.imagePath}

@@ -49,10 +49,12 @@ export default function FavoritesPage() {
     <div>
       <SharedProfileHeader title="علاقه مندی ها" className="mb-8" />
       <div className="flex-between">
-        <p className="text-muted-foreground">محصولات ذخیره شده</p>
-        <Button variant={"link"} className={"text-accent"}>
+        <div className="text-muted-foreground text-nowrap">
+          محصولات ذخیره شده
+        </div>
+        <Button variant={"link"} className={"text-accent w-fit"}>
           <ListSortDescending className="text-accent" />
-          <span>مرتب کردن</span>
+          مرتب کردن
         </Button>
       </div>
       {mockProducts.map((product) => (
@@ -68,19 +70,21 @@ export default function FavoritesPage() {
       ))}
       <ProductSection className="mt-5">
         <ProductSectionHeader title="پیشنهادی" />
-        <SectionContent>
+        <SectionContent className="lg:grid lg:grid-cols-3 lg:gap-5 lg:overflow-visible">
           <ProductItem
             imageSrc="/samples/sample-product-13.jpg"
             title="مجموعه اسانس های گیاهی"
             discountedPrice={180000}
             price={150000}
             discountPercent={20}
+            className="lg:w-full"
           />
           <ProductItem
             imageSrc="/samples/sample-product-14.jpg"
             title="مجموعه اسانس های گیاهی"
             discountedPrice={180000}
             price={"150000"}
+            className="lg:w-full"
           />
         </SectionContent>
       </ProductSection>

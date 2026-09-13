@@ -8,13 +8,14 @@ import { toPersianDigits } from "@/utils/numberConversions";
 import { Link } from "next-view-transitions";
 
 const productItemVariants = cva(
-  "relative flex flex-col items-center animate-slide-right active:scale-95 transition-default",
+  "relative flex flex-col items-center active:scale-95 transition-default",
   {
     variants: {
       variant: {
         default: "min-w-fit",
         bordered: "rounded-2xl border p-4",
         card: "rounded-2xl bg-card p-3 shadow-sm w-full",
+        animate: "animate-slide-right",
       },
     },
     defaultVariants: {
@@ -196,13 +197,17 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
                   badgeVariants({ variant: badgeVariant }),
                   badgeClassName,
                 )}
-                onClick={() => onLike?.(true)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onLike?.(true);
+                }}
               >
-                {isLiked ? (
-                  <Heart className="text-rose-500" fill="currentColor" />
-                ) : (
-                  <Heart className="text-rose-500" />
-                )}
+                {
+                  <Heart
+                    className="text-rose-500 transition-all duration-300"
+                    fill={isLiked ? "currentColor" : "var(--color-background)"}
+                  />
+                }
               </span>
             )}
           </div>

@@ -50,7 +50,7 @@ const Stories = () => {
     <div className="w-full relative">
       {/* Container with horizontal scroll */}
       {/* <HiddenScrollbar> */}
-      <div className="flex flex-row justify-start items-center gap-1 overflow-x-auto overflow-y-hidden py-4 px-2 scroll-smooth hide-scrollbar">
+      <div className="flex flex-row justify-start items-center gap-1 overflow-x-auto overflow-y-hidden py-4 px-2 scroll-smooth hide-scrollbar lg:gap-3 lg:px-0">
         {items.map((item, idx) => (
           <div
             key={idx + 1}

@@ -5,5 +5,4 @@ export default function EmptyBackgroundNoPaddingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="h-full overflow-y-auto">{children}</div>;
-}
+  return <div className="h-full overflow-y-auto">{children}</div>;}

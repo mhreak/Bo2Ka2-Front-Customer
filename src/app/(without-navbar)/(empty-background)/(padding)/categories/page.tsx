@@ -43,7 +43,7 @@ const complexItems = [
 export default function CategoriesPage() {
   return (
     <div>
-      <div className="flex-between">
+      <div className="flex-between lg:hidden">
         <Menu />
         <Image
           src="/images/bodokado-logo.png"
@@ -59,22 +59,26 @@ export default function CategoriesPage() {
         className="bg-background my-8"
       />
       <h2 className="font-semibold text-2xl mb-7">دسته بندی ها</h2>
-      {categorItems.map((item) => (
-        <CategoryItem
-          key={item.id}
-          imageUrl={item.imageUrl}
-          title={item.title}
-        />
-      ))}
+      <div className="lg:grid lg:grid-cols-2 lg:gap-x-5">
+        {categorItems.map((item) => (
+          <CategoryItem
+            key={item.id}
+            imageUrl={item.imageUrl}
+            title={item.title}
+          />
+        ))}
+      </div>
       <h2 className="font-semibold text-2xl my-10">مجموعه های انتخاب شده</h2>
-      {complexItems.map((complex) => (
-        <ComplexItem
-          key={complex.id}
-          title={complex.title}
-          imageUrl={complex.imageUrl}
-          description={complex.description}
-        />
-      ))}
+      <div className="lg:grid lg:grid-cols-2 lg:gap-x-5">
+        {complexItems.map((complex) => (
+          <ComplexItem
+            key={complex.id}
+            title={complex.title}
+            imageUrl={complex.imageUrl}
+            description={complex.description}
+          />
+        ))}
+      </div>
 
       <div className="mb-5 rounded-4xl bg-cover bg-center p-8 h-60 bg-[#69647B]">
         <div className="mt-auto h-full flex flex-col justify-center items-center gap-3">

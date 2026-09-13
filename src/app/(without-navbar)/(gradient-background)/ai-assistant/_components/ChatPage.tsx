@@ -96,7 +96,7 @@ const ChatPage = () => {
                         link="/products"
                         className="items-center"
                       />
-                      <SectionContent variant="scroll">
+                      <SectionContent variant="scroll" className="lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible">
                         {message.products?.map((product) => (
                           <ProductItem
                             key={product.id}

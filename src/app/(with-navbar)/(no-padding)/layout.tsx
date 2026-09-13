@@ -1,4 +1,4 @@
-import BottomNavigation from "@/components/bottomNavigation/BottomNavigation";
+import AppShell from "@/components/layout/AppShell";
 import React from "react";
 
 export default function NoPaddingWithNavBarLayout({
@@ -7,9 +7,10 @@ export default function NoPaddingWithNavBarLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-full mb-20">
-      {children}
-      <BottomNavigation />
-    </div>
+    <AppShell>
+      <div className="w-full mb-20 lg:mx-auto lg:mb-0 lg:max-w-7xl lg:px-8 lg:py-6">
+        {children}
+      </div>
+    </AppShell>
   );
 }

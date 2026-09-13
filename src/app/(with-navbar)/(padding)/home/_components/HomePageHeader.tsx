@@ -9,10 +9,13 @@ const HomePageHeader = () => {
     <div className="flex flex-between">
       <ProfileHeader />
       <Link href={"/ai-assistant/gift-assistant"}>
-      <Button variant={"gradient"} size={"icon"} className="[&_svg:not([class*='size-'])]:size-5" >
-        <Bot className="text-primary-foreground" />
-
-      </Button>
+        <Button
+          variant={"gradient"}
+          size={"icon"}
+          className="[&_svg:not([class*='size-'])]:size-5"
+        >
+          <Bot className="text-primary-foreground" />
+        </Button>
       </Link>
     </div>
   );

@@ -64,7 +64,7 @@ export default function EventsPage() {
         }
       />
       <h5 className="mb-5">نزدیک شدن سریع</h5>
-      <SectionContent>
+      <SectionContent className="lg:grid lg:grid-cols-2 lg:gap-5 lg:overflow-visible">
         {upComingMockData.map((u) => (
           <UpComingEvnetItem
             key={u.id}
@@ -79,18 +79,20 @@ export default function EventsPage() {
         ))}
       </SectionContent>
       <h5 className="mb-5">افراد خاص</h5>
-      {personsMockData.map((p) => (
-        <SpecialPersonItem
-          key={p.id}
-          id={p.id}
-          name={p.name}
-          description={p.description}
-          avatarImagePath={p.avatarImagePath}
-          colorPalette={p.colorPalette}
-          favorites={p.favorites}
-          notes={p.notes}
-        />
-      ))}
+      <div className="lg:grid lg:grid-cols-2 lg:gap-5">
+        {personsMockData.map((p) => (
+          <SpecialPersonItem
+            key={p.id}
+            id={p.id}
+            name={p.name}
+            description={p.description}
+            avatarImagePath={p.avatarImagePath}
+            colorPalette={p.colorPalette}
+            favorites={p.favorites}
+            notes={p.notes}
+          />
+        ))}
+      </div>
     </div>
   );
 }

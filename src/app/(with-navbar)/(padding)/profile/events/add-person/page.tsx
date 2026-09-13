@@ -283,7 +283,7 @@ const AddPerson = () => {
             name="favorites"
             control={control}
             render={({ field }) => (
-              <SectionContent>
+              <SectionContent className="flex-wrap gap-5">
                 {favoriteOptions.map((item) => {
                   const selected = field.value?.includes(item.label);
 
@@ -306,6 +306,7 @@ const AddPerson = () => {
                         `
                       h-32
                       w-40
+                      shrink-0
                       rounded-4xl
                       border
                       border-border

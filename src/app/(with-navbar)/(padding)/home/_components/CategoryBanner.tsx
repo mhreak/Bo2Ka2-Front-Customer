@@ -8,6 +8,7 @@ interface Props {
   width?: number;
   height?: number;
   imageClassName?: string;
+  className?: string;
   onClick?: () => void;
 }
 
@@ -18,10 +19,11 @@ const CategoryBanner = ({
   width = 170,
   height = 114,
   imageClassName,
+  className,
   onClick,
 }: Props) => {
   return (
-    <div className="relative" onClick={onClick}>
+    <div className={cn("relative", className)} onClick={onClick}>
       <Image
         src={imageSrc}
         alt={alt}
@@ -33,8 +35,7 @@ const CategoryBanner = ({
         <h3 className="font-medium text-2xl absolute top-5 right-3 text-white">
           {title}
         </h3>
-      )}
-    </div>
+      )}    </div>
   );
 };
 

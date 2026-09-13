@@ -55,7 +55,7 @@ export default function PostalCardPage() {
   });
 
   return (
-    <div>
+    <div className="mx-auto w-full lg:max-w-2xl">
       <SharedProfileHeader title="تنظیم متن تبریک" />
       <div
         className={cn(

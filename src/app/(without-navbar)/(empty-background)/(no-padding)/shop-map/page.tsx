@@ -118,12 +118,12 @@ export default function MapPage() {
       <SearchInput
         value=""
         onChange={() => {}}
-        className="absolute top-5 left-5 w-[80%] z-999  bg-white/60 backdrop-blur-sm"
+        className="absolute top-5 left-5 w-[80%] z-999 bg-white/60 backdrop-blur-sm lg:w-100"
         placeholder="جستجو..."
       />
 
       {t && (
-        <div className="bg-white/60 backdrop-blur-sm rounded-4xl z-999 h-130 w-[92%] absolute bottom-5 right-5 left-0 animate-slide-up ">
+        <div className="bg-white/60 backdrop-blur-sm rounded-4xl z-999 h-130 w-[92%] absolute bottom-5 right-5 left-0 animate-slide-up lg:left-auto lg:right-5 lg:w-100 lg:h-auto">
           <div className="relative w-full aspect-video">
             <Button
               variant={"glass"}

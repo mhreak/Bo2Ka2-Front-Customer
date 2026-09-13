@@ -22,7 +22,7 @@ export default function GiftAssistantResult() {
           className="flex-1"
         />
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl-grid-cols-10 gap-5 mt-10">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-5 mt-10">
         {Array.from({ length: 30 }).map((_, i) => (
           <ProductItem
             key={i}

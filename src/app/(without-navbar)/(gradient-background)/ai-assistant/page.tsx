@@ -7,7 +7,7 @@ import ChatPage from "./_components/ChatPage";
 
 const AIAssistant = () => {
   return (
-    <div className="flex h-full flex-col justify-start">
+    <div className="mx-auto flex h-full w-full max-w-3xl flex-col justify-start">
 
       <ChatHeader />
         <div className="flex-1 min-h-0 py-4 ">
