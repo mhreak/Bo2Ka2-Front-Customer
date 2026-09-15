@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useTransitionRouter } from "next-view-transitions";
 
 const IntroPage1 = ({ onNext }: { onNext: () => void }) => {
   return (
@@ -150,7 +150,7 @@ const IntroPage3 = ({ onNext }: { onNext: () => void }) => {
 
 export default function Page() {
   const [pageIndex, setPageIndex] = useState<number>(0);
-  const router = useRouter()
+  const router = useTransitionRouter();
 
   const pages = [
     <IntroPage1
@@ -161,14 +161,11 @@ export default function Page() {
       key="page2"
       onNext={() => setPageIndex((prev) => (prev + 1) % 3)}
     />,
-    <IntroPage3
-      key="page3"
-      onNext={() => router.push("/home")}
-    />,
+    <IntroPage3 key="page3" onNext={() => router.push("/home")} />,
   ];
 
   return (
-    <div className="h-full overflow-hidden">
+    <div className="h-full overflow-hidden mx-auto xl:60 2xl:mx-100">
       <AnimatePresence mode="wait">
         <motion.div
           key={pageIndex}

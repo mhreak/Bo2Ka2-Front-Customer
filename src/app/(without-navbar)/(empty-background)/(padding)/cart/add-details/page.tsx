@@ -68,7 +68,7 @@ export default function CartAddDetailsPage() {
   const [t, setT] = useState(true);
 
   return (
-    <div className="mx-auto w-full lg:max-w-3xl">
+    <div className="mx-auto w-full lg:max-w-3xl space-y-5">
       <SharedProfileHeader title="اضافه کردن جزيیات" />
       <div className="space-y-7">
         <ProductSection>

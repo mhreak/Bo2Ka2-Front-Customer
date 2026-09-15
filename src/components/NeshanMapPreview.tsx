@@ -16,10 +16,10 @@ export default function NeshanMapPreview() {
   useEffect(() => {
     if (mapRef.current) {
       const map = mapRef.current;
-      
+
       // ایجاد موقعیت مارکر
       const position = fromLonLat([esfahanLatLng.lng, esfahanLatLng.lat]);
-      
+
       // ایجاد Feature برای مارکر
       const markerFeature = new Feature({
         geometry: new Point(position),
@@ -33,7 +33,7 @@ export default function NeshanMapPreview() {
             anchor: [0.5, 1],
             scale: 0.8,
           }),
-        })
+        }),
       );
 
       // ایجاد لایه برداری
@@ -46,7 +46,7 @@ export default function NeshanMapPreview() {
       });
 
       // اضافه کردن لایه به نقشه
-    //   map.addLayer(vectorLayer);
+      //   map.addLayer(vectorLayer);
     }
 
     return () => {
@@ -58,7 +58,7 @@ export default function NeshanMapPreview() {
   }, []);
 
   return (
-    <div className="relative h-40 w-full">
+    <div className="relative h-40 w-full rounded-3xl">
       <NeshanMap
         ref={mapRef}
         mapKey={"web.af8eff1729b84f7092e833040161aaaa"}

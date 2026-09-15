@@ -6,14 +6,18 @@ import { toPersianDigits } from "@/utils/numberConversions";
 interface TimeItemProps {
   time: Time;
   isSelected: boolean;
-  onSelect: (id:number) => void;
+  onSelect: (id: number) => void;
 }
 
-export default function TimeItem({ time, isSelected, onSelect }: TimeItemProps) {
+export default function TimeItem({
+  time,
+  isSelected,
+  onSelect,
+}: TimeItemProps) {
   return (
     <div
       className={cn(
-        "border border-border rounded-3xl text-muted-foreground px-4 py-2",
+        "border border-border rounded-3xl text-muted-foreground px-4 py-2 cursor-pointer",
         "transition-default",
         isSelected && "bg-primary-lighter text-primary-light",
       )}

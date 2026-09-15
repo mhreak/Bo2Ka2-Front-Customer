@@ -49,7 +49,7 @@ export default function LoginPage() {
   });
 
   return (
-    <div className="mx-auto flex h-full w-full max-w-md flex-col justify-end items-start gap-5 h-full">
+    <div className="mx-auto flex h-full w-full max-w-md flex-col justify-end items-start gap-5">
       <div className="flex flex-row justify-start items-center gap-5 mt-30">
         <Image
           src="/images/bodokado-logo.png"
