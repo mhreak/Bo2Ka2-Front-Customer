@@ -28,7 +28,9 @@ export function NumberTicker({
   const s = seconds % 60;
 
   return (
-    <div className={cn(`inline-flex items-center gap-2`, className)}>
+    <div
+      className={cn(`flex items-center justify-center w-full gap-2`, className)}
+    >
       <NumberFlow
         value={s}
         format={{ minimumIntegerDigits: 2 }}

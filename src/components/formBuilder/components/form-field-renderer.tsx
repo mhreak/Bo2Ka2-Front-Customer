@@ -33,8 +33,19 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import AddressSection from "@/app/(without-navbar)/(empty-background)/(padding)/cart/_components/address-section/AddressSection";
-import AddressDetailSection from "@/app/(without-navbar)/(empty-background)/(padding)/cart/_components/address-section/AddressDetailSection";
+import { DynamicIcon } from "./icon-renderer";
+import { PersianDatePicker } from "@/components/persianDatePicker/PersianDatePicker";
+import {
+  gregorianDateTimeToJalali,
+  gregorianToJalali,
+  jalaliDateTimeToGregorian,
+  jalaliToGregorian,
+  stringToTimeValue,
+  timeValueToString,
+} from "../utils/date-converter";
+import { PersianTimePicker } from "@/components/persianDatePicker/PersianTimePicker";
+import { PersianDateTimePicker } from "@/components/persianDatePicker/PersianDateTimePicker";
+
 interface FormFieldRendererProps {
   field: BaseFieldConfig;
   parentName?: string; // ارسال نام پدر برای پشتیبانی از آرایه‌های تودرتو
@@ -152,7 +163,7 @@ export function FormFieldRenderer({
                     />
                     {field.icon && (
                       <InputGroupAddon align="inline-start">
-                        {field.icon}
+                        <DynamicIcon name={field.icon} className="size-5" />
                       </InputGroupAddon>
                     )}
                   </InputGroup>
@@ -180,7 +191,11 @@ export function FormFieldRenderer({
                         "bg-muted cursor-not-allowed focus-visible:ring-0",
                     )}
                     maxLength={field.maxLength}
-                    icon={field.icon}
+                    icon={
+                      field.icon ? (
+                        <DynamicIcon name={field.icon} className="size-5" />
+                      ) : undefined
+                    }
                   />
                 );
 
@@ -231,21 +246,14 @@ export function FormFieldRenderer({
 
               case "date": {
                 return (
-                  <DatePicker
-                    value={value || ""}
+                  <PersianDatePicker
+                    value={gregorianToJalali(value)}
                     onChange={(date) => {
-                      onChange(date?.isValid ? date : "");
+                      onChange(jalaliToGregorian(date));
                     }}
-                    render={
-                      <CustomDatePicker
-                        iconName="Calendar"
-                        onClear={() => ""}
-                      />
-                    }
-                    format={"YYYY/MM/DD"}
-                    calendar={persian}
-                    locale={persian_fa}
-                    calendarPosition="bottom-center"
+                    placeholder={field.placeholder ?? "انتخاب تاریخ"}
+                    disabled={isReadOnly || !!field.computedValue}
+                    error={error?.message}
                     className={cn(
                       error &&
                         "border-destructive focus-visible:ring-destructive",
@@ -253,26 +261,19 @@ export function FormFieldRenderer({
                         "bg-muted cursor-not-allowed focus-visible:ring-0",
                       "w-full",
                     )}
-                    containerClassName="w-full"
                   />
                 );
               }
               case "time": {
                 return (
-                  <DatePicker
-                    disableDayPicker
-                    plugins={[<TimePicker key={1} hideSeconds />]}
-                    value={value || ""}
-                    onChange={(date) => {
-                      onChange(date?.isValid ? date : "");
+                  <PersianTimePicker
+                    value={stringToTimeValue(value)}
+                    onChange={(time) => {
+                      onChange(timeValueToString(time));
                     }}
-                    render={
-                      <CustomDatePicker iconName="Clock" onClear={() => ""} />
-                    }
-                    format={"HH:mm"}
-                    calendar={persian}
-                    locale={persian_fa}
-                    calendarPosition="bottom-center"
+                    placeholder={field.placeholder ?? "انتخاب زمان"}
+                    disabled={isReadOnly || isDisabled || !!field.computedValue}
+                    error={error?.message}
                     className={cn(
                       error &&
                         "border-destructive focus-visible:ring-destructive",
@@ -280,37 +281,26 @@ export function FormFieldRenderer({
                         "bg-muted cursor-not-allowed focus-visible:ring-0",
                       "w-full",
                     )}
-                    containerClassName="w-full"
+                    format="24h"
+                    minuteStep={5}
                   />
                 );
               }
 
               case "datetime": {
                 return (
-                  <DatePicker
-                    plugins={[<TimePicker key={1} hideSeconds />]}
-                    value={value || ""}
-                    onChange={(date) => {
-                      onChange(date?.isValid ? date : "");
+                  <PersianDateTimePicker
+                    value={gregorianDateTimeToJalali(value)}
+                    onChange={(dateTime) => {
+                      onChange(jalaliDateTimeToGregorian(dateTime));
                     }}
-                    render={
-                      <CustomDatePicker
-                        iconName="CalendarClock"
-                        onClear={() => ""}
-                      />
-                    }
-                    format={"YYYY/MM/DD HH:mm"}
-                    calendar={persian}
-                    locale={persian_fa}
-                    calendarPosition="bottom-center"
-                    className={cn(
-                      error &&
-                        "border-destructive focus-visible:ring-destructive",
-                      (isReadOnly || field.computedValue) &&
-                        "bg-muted cursor-not-allowed focus-visible:ring-0",
-                      "w-full",
-                    )}
-                    containerClassName="w-full"
+                    placeholder="انتخاب تاریخ و زمان"
+                    disabled={isReadOnly || !!field.computedValue}
+                    error={error?.message}
+                    className="w-full"
+                    timeFormat="24h"
+                    minuteStep={5}
+                    showTimePicker
                   />
                 );
               }
@@ -538,14 +528,7 @@ export function FormFieldRenderer({
               }
 
               case "location": {
-                return (
-                  <AddressSection>
-                    <AddressDetailSection
-                      title="مجتمع لاله"
-                      descrption="اصفهان،خیابان نظرشرقی،کوچه 2"
-                    />
-                  </AddressSection>
-                );
+                return null;
               }
 
               default:

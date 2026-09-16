@@ -202,7 +202,7 @@
 }
 
 @utility bg-gradient-light {
-  @apply bg-linear-to-br from-[rgba(253,208,231,0.5)] via-[#FFFFFF] to-[rgba(253,208,231,0.5)];
+  @apply bg-linear-to-br from-[rgba(253,208,231,0.5)] via-[#FFFFFF] to-[rgba(162,213,255,0.5)];
 }
 
 @utility border-gradient {
@@ -269,10 +269,12 @@
 
 @media (min-width: 768px) {
   ::view-transition-old(root) {
-    animation: desktop-old 400ms var(--animation-timing-function, ease-in-out) forwards;
+    animation: desktop-old 400ms var(--animation-timing-function, ease-in-out)
+      forwards;
   }
   ::view-transition-new(root) {
-    animation: desktop-new 400ms var(--animation-timing-function, ease-in-out) forwards;
+    animation: desktop-new 400ms var(--animation-timing-function, ease-in-out)
+      forwards;
   }
 }
 

@@ -1,28 +1,32 @@
-// توابع اصلی تبدیل تاریخ
-export {
-  toPersianDate,
-  toGregorianDate,
-  createPersianDate,
-  getPersianMonthDays,
-  getPersianMonthName,
-  getPersianDayOfWeek,
-  isLeapYear,
-  isSamePersianDate,
-  addDaysToPersianDate,
-} from './persianDate';
+// lib/calendar/index.ts
+import { PersianCalendar } from './calendar';
+import { CalendarConfig } from './types';
 
-// توابع محاسبه روزهای ماه
-export {
-  getRemainingDaysOfMonth,
-  getFullMonthDays,
-  getDaysInRange,
-  getWeeksOfMonth,
-} from './monthDays';
+// Singleton
+let calendarInstance: PersianCalendar | null = null;
 
-// تایپ‌ها
-export type {
-  PersianDate,
-  CalendarDay,
-  MonthDaysResult,
-  MonthRange,
-} from './types';
+/**
+ * دریافت نمونه یکتا از تقویم
+ */
+export function getCalendar(): PersianCalendar {
+  if (!calendarInstance) {
+    calendarInstance = new PersianCalendar();
+  }
+  return calendarInstance;
+}
+
+/**
+ * ایجاد نمونه جدید از تقویم با تنظیمات دلخواه
+ */
+export function createCalendar(config?: Partial<CalendarConfig>): PersianCalendar {
+  return new PersianCalendar(config);
+}
+
+// Export همه چیز
+export * from './types';
+export * from './constants';
+export * from './services';
+export * from './calendar';
+
+// Export پیش‌فرض
+export default PersianCalendar;

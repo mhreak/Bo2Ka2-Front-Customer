@@ -59,8 +59,7 @@ export interface BaseFieldConfig {
   isRial?: boolean;
   maxLength?: number;
 
-  icon?: React.ReactNode;
-
+  icon?: string;
 }
 
 // ساختار جدید برای چیدمان‌ها

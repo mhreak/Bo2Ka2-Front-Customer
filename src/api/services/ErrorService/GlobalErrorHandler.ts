@@ -1,10 +1,16 @@
-import { toast } from "@/components/ui/toast";
 import ApiError from "./ApiError";
+import { toast } from "@/lib/toast/toast";
 
 export class GlobalErrorHandler {
   static handle(error: ApiError) {
-    error.type !== "NOT_FOUND_404" &&
-      error.type !== "SERVER_500" &&
-      toast.add({ type: "error", description: error.message });
+    // خطاهای موردنظر را می‌توانی فیلتر کنی
+    // if (
+    //   error.type === "NOT_FOUND_404" ||
+    //   error.type === "SERVER_500"
+    // ) {
+    //   return;
+    // }
+
+    toast.error(error.message);
   }
 }

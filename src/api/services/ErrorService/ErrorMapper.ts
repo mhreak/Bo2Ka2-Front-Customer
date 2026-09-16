@@ -9,10 +9,7 @@ const handleApiErrorMessage = (
 ): string | undefined => {
   let dataError: string | undefined = undefined;
 
-  if (typeof data?.error === "string") dataError = data?.error;
-  else if (typeof data?.error?.message === "string")
-    dataError = data?.error?.message;
-
+  if (typeof data?.message === "string") dataError = data?.message;
 
   return dataError;
 };
@@ -27,7 +24,7 @@ export class ErrorMapper {
 
     const dataError: string | undefined = handleApiErrorMessage(data);
 
-    console.log(dataError, status, data);
+    console.log(dataError, status, data, error);
 
     if (status === 401) {
       // 401

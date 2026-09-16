@@ -1,23 +1,14 @@
-import {
-  AxiosRequestConfig,
-  AxiosResponse,
-} from "axios";
+import { AxiosRequestConfig, AxiosResponse } from "axios";
 import { axiosInstance } from "../axios/axios.instance";
 
 class HttpService {
-  private async request<T>(
-    config: AxiosRequestConfig
-  ): Promise<T> {
-    const response: AxiosResponse<T> =
-      await axiosInstance.request<T>(config);
+  private async request<T>(config: AxiosRequestConfig): Promise<T> {
+    const response: AxiosResponse<T> = await axiosInstance.request<T>(config);
 
     return response.data;
   }
 
-  get<T>(
-    url: string,
-    config?: AxiosRequestConfig
-  ): Promise<T> {
+  get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return this.request<T>({
       ...config,
       method: "GET",
@@ -28,7 +19,7 @@ class HttpService {
   post<T, D = unknown>(
     url: string,
     data?: D,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<T> {
     return this.request<T>({
       ...config,
@@ -41,7 +32,7 @@ class HttpService {
   put<T, D = unknown>(
     url: string,
     data?: D,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<T> {
     return this.request<T>({
       ...config,
@@ -54,7 +45,7 @@ class HttpService {
   patch<T, D = unknown>(
     url: string,
     data?: D,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<T> {
     return this.request<T>({
       ...config,
@@ -64,10 +55,7 @@ class HttpService {
     });
   }
 
-  delete<T>(
-    url: string,
-    config?: AxiosRequestConfig
-  ): Promise<T> {
+  delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return this.request<T>({
       ...config,
       method: "DELETE",

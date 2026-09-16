@@ -3,7 +3,11 @@
 import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { toEnglishDigits, toPersianDigits } from "@/utils/numberConversions";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 
 export interface PersianNumberInputProps extends Omit<
   React.ComponentProps<"input">,

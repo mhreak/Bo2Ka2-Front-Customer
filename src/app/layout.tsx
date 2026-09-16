@@ -8,6 +8,8 @@ import { AuthProvider } from "@/context/AuthProvider";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import { ViewTransitions } from "next-view-transitions";
+import ToastContainer from "@/components/toast/ToastContainer";
+import { ToastProvider } from "@/context/ToastContext";
 
 export const metadata: Metadata = {
   title: "بدو کادو",
@@ -24,22 +26,18 @@ export default function RootLayout({
       <body>
         <AuthProvider>
           <DirectionProvider direction="rtl">
-            <SidebarProvider>
-              <div className="relative flex h-dvh w-full">
-                <div className="h-full w-full overflow-auto hide-scrollbar">
-                  <ViewTransitions>{children}</ViewTransitions>
-                </div>
+            {/* <SidebarProvider> */}
+            <div className="relative flex h-dvh w-full">
+              <div className="h-full w-full overflow-auto hide-scrollbar">
+                <ViewTransitions>
+                  <ToastProvider>
+                    {children}
+                    <ToastContainer />
+                  </ToastProvider>
+                </ViewTransitions>
               </div>
-              <Toaster
-              // toastOptions={{
-              //   classNames: {
-              //     toast: "cn-toast",
-              //   },
-              // }}
-              // position="top-center"
-              // closeButton
-              />
-            </SidebarProvider>
+            </div>
+            {/* </SidebarProvider> */}
           </DirectionProvider>
         </AuthProvider>
       </body>

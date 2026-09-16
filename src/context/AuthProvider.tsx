@@ -8,7 +8,11 @@ import {
   useState,
   ReactNode,
 } from "react";
+
 import { User } from "@/types/api/auth";
+
+import AuthService from "@/api/services/AuthService";
+import TokenService from "@/api/services/TokenService";
 
 interface LoginDto {
   username: string;
@@ -17,11 +21,12 @@ interface LoginDto {
 
 interface AuthContextType {
   user: User | null;
+
   isAuthenticated: boolean;
   isLoading: boolean;
 
   login: (data: LoginDto) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 
   setUser: (user: User | null) => void;
   refreshUser: () => Promise<void>;
@@ -36,69 +41,101 @@ interface Props {
 export function AuthProvider({ children }: Props) {
   const [user, setUser] = useState<User | null>(null);
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const stored = localStorage.getItem("user");
-
-    if (stored) {
-      setUser(JSON.parse(stored));
-    }
-
-    setIsLoading(false);
+    initializeAuth();
   }, []);
 
-  async function login(data: LoginDto) {
-    /**
-     * این قسمت را با API خودت جایگزین کن
-     */
+  async function initializeAuth() {
+    try {
+      const accessToken = TokenService.getAccessToken();
 
-    const response = {
-      id: 1,
-      fullName: "Nima",
-      username: data.username,
-      email: "test@test.com",
-      roles: ["Admin"],
-      token: "JWT_TOKEN",
-    };
+      const refreshToken = TokenService.getRefreshToken();
 
-    localStorage.setItem("user", JSON.stringify(response));
+      // هیچ Tokenای وجود ندارد
+      if (!accessToken && !refreshToken) {
+        setIsAuthenticated(false);
+        setUser(null);
+        return;
+      }
 
-    setUser(response);
+      // Access Token معتبر است
+      if (accessToken && !TokenService.isExpired()) {
+        setIsAuthenticated(true);
+        return;
+      }
+
+      // Access Token وجود دارد ولی منقضی شده
+      if (refreshToken) {
+        await AuthService.refreshToken();
+
+        setIsAuthenticated(true);
+        return;
+      }
+
+      // نه Access Token معتبر داریم
+      // نه Refresh Token
+      TokenService.clearTokens();
+
+      setIsAuthenticated(false);
+      setUser(null);
+    } catch (error) {
+      console.error("Auth initialization failed:", error);
+
+      TokenService.clearTokens();
+
+      setIsAuthenticated(false);
+      setUser(null);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
-  function logout() {
-    localStorage.removeItem("user");
-    setUser(null);
+  async function login(data: LoginDto) {
+    await AuthService.login(data);
+
+    setIsAuthenticated(true);
+  }
+
+  async function logout() {
+    try {
+      await AuthService.logout();
+    } finally {
+      setIsAuthenticated(false);
+      setUser(null);
+    }
   }
 
   async function refreshUser() {
-    /**
-     * اگر API داری:
-     * GET /me
-     */
+    // فعلاً API مربوط به User نداریم.
+    //
+    // بعداً مثلاً:
+    //
+    // const user = await AuthService.getCurrentUser();
+    // setUser(user);
 
-    const stored = localStorage.getItem("user");
-
-    if (!stored) {
+    if (!TokenService.hasValidAccessToken()) {
+      setIsAuthenticated(false);
       setUser(null);
-      return;
     }
-
-    setUser(JSON.parse(stored));
   }
 
   const value = useMemo(
     () => ({
       user,
-      isAuthenticated: !!user,
+      isAuthenticated,
       isLoading,
+
       login,
       logout,
+
       setUser,
       refreshUser,
     }),
-    [user, isLoading],
+    [user, isAuthenticated, isLoading],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -107,7 +144,9 @@ export function AuthProvider({ children }: Props) {
 export function useAuthContext() {
   const context = useContext(AuthContext);
 
-  if (!context) throw new Error("useAuth must be used inside AuthProvider");
+  if (!context) {
+    throw new Error("useAuthContext must be used inside AuthProvider");
+  }
 
   return context;
 }
