@@ -3,16 +3,24 @@
 import BadgeSelect, { BadgeSelectItem } from "@/components/shared/BadgeSelect";
 import ImageSelect from "@/components/shared/ImageSelect";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import GiftPersonAvatar from "../GiftPersonAvatar";
+import { useGiftAssistantStore } from "@/stores/gift-assistant/giftAssistant.store";
 
 export default function GiftReceiver() {
-  const [relationId, setRelationId] = useState<number>(1);
+  const giftReceiverData = useGiftAssistantStore((state) => state.giftReceiver);
+  const setRelationId = useGiftAssistantStore((state) => state.setRelationId);
+  const setGender = useGiftAssistantStore((state) => state.setGender);
+
   return (
     <>
-      <div className="size-60 bg-fuchsia-300 rounded-2xl mx-auto mb-10"></div>
-      
+      <GiftPersonAvatar
+        avatarSrc="/images/young-girl.png"
+        avatarAlt="young-girl"
+      />
+
       <ImageSelect
-      headerText="جنسیت"
+        headerText="جنسیت"
         items={[
           {
             id: 1,
@@ -23,9 +31,15 @@ export default function GiftReceiver() {
             id: 2,
             title: "آقا",
             imagePath: "/icons/man-icon.png",
+            imageClassName: "bottom-[0.7] scale-160",
+            imageWidth: 70,
+            imageHeight: 70,
           },
         ]}
-        onSelect={() => {}}
+        selectedId={giftReceiverData.gender}
+        onSelect={(id) => {
+          setGender(id);
+        }}
         className="mb-8"
       />
       <h3 className="font-semibold text-lg text-right mb-4">رابطه</h3>
@@ -36,10 +50,10 @@ export default function GiftReceiver() {
           { id: 3, title: "پدر یا مادر" },
           { id: 4, title: "همکلاسی" },
         ]}
-        selectedId={relationId}
-        onSelect={(id) =>{ 
-          if (typeof id ==="number")
-          setRelationId(id)}}
+        selectedId={giftReceiverData.relationsId}
+        onSelect={(id) => {
+          if (typeof id === "number") setRelationId(id);
+        }}
       />
     </>
   );

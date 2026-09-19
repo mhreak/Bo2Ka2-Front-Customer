@@ -1,9 +1,14 @@
 import ImageSelect from "@/components/shared/ImageSelect";
+import { useGiftAssistantStore } from "@/stores/gift-assistant/giftAssistant.store";
 import React from "react";
 
 export default function GiftFavorite() {
+  const giftFavoriteData = useGiftAssistantStore((store) => store.giftFavorite);
+  const setFavoriteIds = useGiftAssistantStore((store) => store.setFavoriteIds);
+  const setJobId = useGiftAssistantStore((store) => store.setJobId);
+
   return (
-    <>
+    <div className="h-full">
       <ImageSelect
         headerText="علاقه مندی ها"
         items={[
@@ -28,7 +33,11 @@ export default function GiftFavorite() {
             imagePath: "/samples/lux.png",
           },
         ]}
-        onSelect={() => {}}
+        selectedIds={giftFavoriteData.favoriteIds}
+        selectionMode="multiple"
+        onSelect={(ids) => {
+          setFavoriteIds(ids);
+        }}
         imageClassName="scale-120 bottom-2"
         className="mb-16"
       />
@@ -49,7 +58,7 @@ export default function GiftFavorite() {
             id: 3,
             title: "دکتر",
             imagePath: "/samples/doctor.png",
-            imageClassName: "bottom-0"
+            imageClassName: "bottom-0",
           },
           {
             id: 4,
@@ -57,9 +66,12 @@ export default function GiftFavorite() {
             imagePath: "/samples/artist.png",
           },
         ]}
-        onSelect={() => {}}
+        selectedId={giftFavoriteData.jobId}
+        onSelect={(id) => {
+          setJobId(id);
+        }}
         imageClassName="scale-120 bottom-2"
       />
-    </>
+    </div>
   );
 }

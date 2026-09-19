@@ -7,7 +7,8 @@ const SectionContentVariants = cva("", {
   variants: {
     variant: {
       default: "flex gap-8",
-      scroll: "flex gap-5 overflow-x-auto hide-scrollbar",
+      scroll:
+        "flex gap-5 overflow-x-auto hide-scrollbar show-scrollbar lg:pb-4",
       grid: "grid grid-cols-2 md:grid-cols-4 gap-6",
       wrap: "flex flex-wrap gap-6",
     },

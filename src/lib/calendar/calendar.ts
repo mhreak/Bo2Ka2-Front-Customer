@@ -9,8 +9,8 @@ import {
   MonthInfo,
   MonthNavigation,
   NavigationDirection,
-} from './types';
-import { CalendarService, ConversionService, HolidayService } from './services';
+} from "./types";
+import { CalendarService, ConversionService, HolidayService } from "./services";
 
 export class PersianCalendar {
   private calendarService: CalendarService;
@@ -26,7 +26,11 @@ export class PersianCalendar {
   /**
    * دریافت روزهای یک ماه
    */
-  getMonthDays(year: number, month: number, includeAdjacentDays?: boolean): DayInfo[] {
+  getMonthDays(
+    year: number,
+    month: number,
+    includeAdjacentDays?: boolean,
+  ): DayInfo[] {
     return this.calendarService.getMonthDays(year, month, includeAdjacentDays);
   }
 
@@ -61,7 +65,11 @@ export class PersianCalendar {
   /**
    * ناوبری ماهانه
    */
-  navigateMonth(year: number, month: number, direction: NavigationDirection): MonthNavigation {
+  navigateMonth(
+    year: number,
+    month: number,
+    direction: NavigationDirection,
+  ): MonthNavigation {
     return this.calendarService.navigateMonth(year, month, direction);
   }
 
@@ -115,7 +123,7 @@ export class PersianCalendar {
     return this.conversionService.gregorianToJalali(
       now.getFullYear(),
       now.getMonth() + 1,
-      now.getDate()
+      now.getDate(),
     );
   }
 
@@ -137,10 +145,10 @@ export class PersianCalendar {
    * فرمت‌بندی تاریخ شمسی
    */
   formatDate(
-    year: number, 
-    month: number, 
-    day: number, 
-    format?: 'full' | 'short' | 'numeric'
+    year: number,
+    month: number,
+    day: number,
+    format?: "full" | "short" | "numeric",
   ): string {
     return this.conversionService.formatDate(year, month, day, format);
   }
@@ -171,5 +179,12 @@ export class PersianCalendar {
    */
   getDayOfWeekName(dayOfWeek: number): string {
     return this.conversionService.getDayOfWeekName(dayOfWeek);
+  }
+
+  /**
+   * دریافت امروز به همراه ۱۰ روز آینده
+   */
+  getTodayAndNext10Days(): DayInfo[] {
+    return this.calendarService.getTodayAndNext10Days();
   }
 }

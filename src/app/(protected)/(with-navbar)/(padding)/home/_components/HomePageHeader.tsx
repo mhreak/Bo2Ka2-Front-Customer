@@ -6,7 +6,7 @@ import { Link } from "next-view-transitions";
 
 const HomePageHeader = () => {
   return (
-    <div className="flex flex-between">
+    <div className="flex flex-between mb-5">
       <ProfileHeader />
       <Link href={"/ai-assistant/gift-assistant"}>
         <Button

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -8,23 +8,22 @@ import { steps } from "./GiftAssistantSteps";
 import { Check } from "lucide-react";
 
 export default function GiftAssistantStepper() {
+  const [activeStep, setActiveStep] = useState(0);
+  const handleNext = () => {
+    if (activeStep < steps.length - 1) {
+      setActiveStep((prev) => prev + 1);
+    }
+  };
 
-      const [activeStep, setActiveStep] = useState(0);
-      const handleNext = () => {
-        if (activeStep < steps.length - 1) {
-          setActiveStep((prev) => prev + 1);
-        }
-      };
-    
-      const handleBack = () => {
-        if (activeStep > 0) {
-          setActiveStep((prev) => prev - 1);
-        }
-      };
-    
-      const handleReset = () => {
-        setActiveStep(0);
-      };
+  const handleBack = () => {
+    if (activeStep > 0) {
+      setActiveStep((prev) => prev - 1);
+    }
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
   return (
     <div className="w-full h-[92%] max-w-3xl mx-auto md:p-8 flex flex-col justify-start gap-12">
       {/* Stepper Header */}
@@ -61,7 +60,7 @@ export default function GiftAssistantStepper() {
                   "w-9 h-9 flex items-center justify-center rounded-lg text-sm font-semibold transition-colors duration-300 shadow-sm relative z-10",
                   isCompleted || isActive
                     ? "bg-gradient text-primary-foreground rounded-full"
-                    : "bg-muted text-muted-foreground"
+                    : "bg-muted text-muted-foreground rounded-full",
                 )}
                 animate={{
                   scale: isActive ? 1.05 : 1,
@@ -82,32 +81,19 @@ export default function GiftAssistantStepper() {
                     "text-sm font-medium transition-colors duration-300 ",
                     isActive || isCompleted
                       ? "text-gradient font-semibold"
-                      : "text-muted-foreground"
+                      : "text-muted-foreground",
                   )}
                 >
                   {step.title}
                 </p>
-                {/* <p
-                  className={cn(
-                    "text-xs transition-colors duration-300 hidden sm:block",
-                    isActive || isCompleted
-                      ? "text-muted-foreground"
-                      : "text-muted-foreground/50"
-                  )}
-                >
-                  {step.description}
-                </p> */}
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Divider */}
-      {/* <hr className="border-border/50" /> */}
-
       {/* Stepper Content Area with animations */}
-      <div className="flex flex-col justify-center items-center text-center overflow-auto hide-scrollbar mb-auto">
+      <div className="text-center overflow-auto hide-scrollbar mb-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeStep}
@@ -115,18 +101,15 @@ export default function GiftAssistantStepper() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="w-full px-6 sm:px-2"
+            className="flex-1 w-full h-fit px-6 sm:px-2"
           >
-              {steps[activeStep].contentNode}
-            
+            {steps[activeStep].contentNode}
           </motion.div>
         </AnimatePresence>
       </div>
 
       {/* Stepper Footer Controls */}
       <div className="flex justify-center items-center w-full pt-2">
-        
-
         <div className="flex items-center gap-2 w-full">
           {activeStep === steps.length - 1 ? (
             <Button

@@ -1,36 +1,21 @@
 "use client";
 
 import BackButton from "@/components/shared/BackButton";
-import React, { useState } from "react";
 import { CartItem } from "./_components/CartItem";
-import { ProductSection } from "@/components/product/ProductSection";
-import { ProductSectionHeader } from "@/components/product/ProductSectionHeader";
-import { SectionContent } from "@/components/SectionContent";
-import Image from "next/image";
-import ColorItem from "./_components/ColorItem";
-import RibbonItem from "./_components/RibbonItem";
-import BoxScentItem from "./_components/BoxScentItem";
-import AddressSection from "./_components/address-section/AddressSection";
-import AddressDetailSection from "./_components/address-section/AddressDetailSection";
-import { getRemainingDaysOfMonth } from "@/lib/calendar";
-import DateItem from "./_components/DateItem";
-import { InvoiceItem, Time } from "./add-details/types";
-import TimeItem from "./_components/TimeItem";
-import PayMethodItem from "./_components/PayMethodItem";
-import { Banknote, Wallet } from "lucide-react";
-import InvoiceSection from "./_components/InvoiceSection";
 import { Button } from "@/components/ui/button";
 import { Link } from "next-view-transitions";
 
 const CartPage = () => {
   return (
     <div className="flex h-full flex-col gap-6 lg:grid lg:grid-cols-[1fr_20rem] lg:items-start lg:gap-8">
-      <div className="flex flex-col gap-6 lg:col-start-1">
+      <div className="h-full flex flex-col gap-6 lg:col-start-1">
         <div className="flex flex-row">
           <BackButton />
-          <h3 className="flex-1 text-center text-2xl font-semibold">سبد خرید</h3>
+          <h3 className="flex-1 text-center text-2xl font-semibold">
+            سبد خرید
+          </h3>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 h-full">
           {Array.from({ length: 2 }).map((_, i) => (
             <CartItem
               key={i}

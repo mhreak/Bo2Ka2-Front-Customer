@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 
 import { Link } from "next-view-transitions";
 import SharedPageHeader from "@/components/shared/SharedPageHeader";
+import { getCalendar } from "@/lib/calendar";
 
 const times: Time[] = [
   {
@@ -63,6 +64,10 @@ export default function CartAddDetailsPage() {
   const [selectedDay, setSelectedDay] = useState<number>();
   const [selectedTime, setSelectedTime] = useState<number>(9);
   const [t, setT] = useState(true);
+
+  const calendar = getCalendar();
+
+  const remainingDays = calendar.getTodayAndNext10Days();
 
   return (
     <div className="mx-auto w-full lg:max-w-3xl space-y-5">
@@ -222,14 +227,14 @@ export default function CartAddDetailsPage() {
         />
       </AddressSection>
       <SectionContent>
-        {/* {remainingDays.days.map((day) => (
+        {remainingDays.map((day) => (
           <DateItem
-            key={day.date.day}
+            key={day.day}
             day={day}
-            isSelected={day.date.day === selectedDay}
+            isSelected={day.day === selectedDay}
             onSelect={(d) => setSelectedDay(d)}
           />
-        ))} */}
+        ))}
       </SectionContent>
       <SectionContent>
         {times.map((time) => (

@@ -213,6 +213,13 @@
       border-box;
 }
 
+@utility border-gradient-avatar {
+  border: 6px solid transparent;
+  background:
+    linear-gradient(white, white) padding-box,
+    linear-gradient(to right, #dfade7, #595a8d) border-box;
+}
+
 @utility text-gradient {
   @apply text-transparent bg-clip-text bg-linear-to-r from-primary-light to-primary;
 }
@@ -223,6 +230,32 @@
 }
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari and Opera */
+}
+
+@media (min-width: 1024px) {
+  .show-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-light, #c4c4c4) transparent;
+  }
+
+  .show-scrollbar::-webkit-scrollbar {
+    display: block;
+    width: 6px;
+    height: 6px;
+  }
+
+  .show-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .show-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--primary, #c4c4c4);
+    border-radius: 9999px;
+  }
+
+  .show-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-hover, #a3a3a3);
+  }
 }
 
 .gradient-ring {
