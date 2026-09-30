@@ -67,7 +67,7 @@ export interface ProductSectionHeaderProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof headerVariants> {
-  title: string;
+  title?: string;
   description?: string;
   link?: string;
   linkLabel?: string;
@@ -86,7 +86,7 @@ const ProductSectionHeader = React.forwardRef<
       className,
       variant,
 
-      title,
+      title = "عنوان محصول",
       description,
       link,
       linkLabel = "دیدن همه",

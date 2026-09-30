@@ -1,6 +1,12 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import { Gift, Heart, Calendar, Users, Sparkles } from "lucide-react";
 import Image from "next/image";
+import { useApi } from "@/hooks/useApi";
+import { APIGetTemplate } from "@/types/api/commonApiTypes";
+import { Story } from "@/types/api/endpointTypes/story.types";
+import storiesApi from "@/api/services/ApiService/storiesApi";
 
 const Stories = () => {
   const items = [
@@ -46,22 +52,34 @@ const Stories = () => {
     },
   ];
 
+  const {
+    data: storiesData,
+    isLoading: storiesLoading,
+    execute: getstories,
+  } = useApi<APIGetTemplate<Story[]>, { showPlace: Story["showPlace"] }>(
+    storiesApi.get,
+  );
+
+  useEffect(() => {
+    getstories({ showPlace: "ApplicationHomePageTopStorySection" });
+  }, []);
+
   return (
     <div className="w-full relative">
       {/* Container with horizontal scroll */}
       {/* <HiddenScrollbar> */}
       <div className="flex flex-row justify-start items-center gap-1 overflow-x-auto overflow-y-hidden py-4 px-2 scroll-smooth hide-scrollbar lg:gap-3 lg:px-0 lg:justify-center">
-        {items.map((item, idx) => (
+        {storiesData?.data.map((item, idx) => (
           <div
-            key={idx + 1}
+            key={item.id}
             className="shrink-0 flex flex-col items-center gap-2"
             style={{ width: "80px" }} // Fixed width for each item
           >
             {/* Story ring */}
             <div className="border-2 border-rose-400 rounded-full p-0.5 hover:border-rose-500 transition-colors duration-200">
               <Image
-                src={item.imageSrc}
-                alt={item.label}
+                src={item.mediaPath || "/"} //TODO: replace with default story photo
+                alt={item.storyButtonText || ""}
                 width={56}
                 height={56}
                 className="rounded-full object-cover"
@@ -71,7 +89,7 @@ const Stories = () => {
 
             {/* Label */}
             <span className="text-xs text-muted-foreground truncate w-full text-center">
-              {item.label}
+              {item.storyButtonText}
             </span>
           </div>
         ))}

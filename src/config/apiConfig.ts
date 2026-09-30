@@ -5,9 +5,7 @@ export const API_CONFIG = {
   prefix: "/api",
   version: "/v1",
   panel: {
-    admin: "/admin",
-    auth: "/auth",
-    files: "/files",
+    customer: "/customer",
     locations: "/locations",
   },
 

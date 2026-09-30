@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import {
   Coffee,
   Shirt,
@@ -12,10 +14,26 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { ProductCategory } from "@/types/api/endpointTypes/productCategory.types";
+import productCategoriesApi from "@/api/services/ApiService/productCategories";
+import { useApi } from "./../../../../../../hooks/useApi";
+import { APIGetTemplate } from "@/types/api/commonApiTypes";
 
 const Categories = () => {
   const [activeCategory, setActiveCategory] = useState("ظروف");
   const [isLiked, setIsLiked] = useState(false);
+
+  const {
+    data: productCategoriesData,
+    isLoading: productCategoriesLoading,
+    execute: getProductCategories,
+  } = useApi<APIGetTemplate<ProductCategory[]>, { asTree: boolean }>(
+    productCategoriesApi.getAll,
+  );
+
+  useEffect(() => {
+    getProductCategories({ asTree: false });
+  }, []);
 
   const categories = [
     {
@@ -67,17 +85,26 @@ const Categories = () => {
 
   return (
     <div className="w-full relative">
-      <div className="flex flex-row justify-start items-center gap-8 overflow-x-auto overflow-y-hidden py-4 px-2 scroll-smooth hide-scrollbar lg:justify-between lg:px-0">
-        {categories.map((category) => (
-          <div key={category.id} className="relative">
-            <div className="bg-[#EED5FF] size-13 rounded-full" />
-            <Image
-              src={category.imageSrc}
-              alt={category.id}
-              width={120}
-              height={140}
-              className="absolute bottom-2 right-0"
-            />
+      <div className="flex flex-row justify-start items-center gap-8 overflow-x-auto overflow-y-hidden py-4 px-2 scroll-smooth hide-scrollbar show-scrollbar lg:justify-between lg:px-0">
+        {productCategoriesData?.data.map((category) => (
+          <div
+            key={category.id}
+            className="relative flex flex-col justify-between h-full items-center gap-2"
+          >
+            <div className="relative bg-[#EED5FF] size-13 rounded-full mb-auto">
+              {category.imagePath && (
+                <Image
+                  src={category.imagePath || ""} //TODO: replace with default product catecory image
+                  alt={category.name}
+                  width={120}
+                  height={140}
+                  className="absolute bottom-2 right-0"
+                />
+              )}
+            </div>
+            <span className="text-sm text-muted-foreground text-center">
+              {category.name}
+            </span>
           </div>
         ))}
       </div>

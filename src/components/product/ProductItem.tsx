@@ -8,7 +8,7 @@ import { toPersianDigits } from "@/utils/numberConversions";
 import { Link } from "next-view-transitions";
 
 const productItemVariants = cva(
-  "relative flex flex-col items-center active:scale-95 transition-default",
+  "relative flex flex-col items-start active:scale-95 transition-default",
   {
     variants: {
       variant: {
@@ -100,7 +100,7 @@ export interface ProductItemProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof productItemVariants> {
-  productId?: number;
+  productId?: string;
   imageSrc: string;
   title: string;
   discountedPrice?: string | number;

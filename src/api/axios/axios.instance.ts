@@ -7,7 +7,7 @@ import ErrorService from "../services/ErrorService/ErrorService";
 import { API_CONFIG } from "@/config/apiConfig";
 
 export const axiosInstance = axios.create({
-  baseURL: API_CONFIG.baseURL,
+  baseURL: API_CONFIG.baseURL + API_CONFIG.panel.customer,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -69,7 +69,7 @@ axiosInstance.interceptors.response.use(
     // Refresh request خودش نباید وارد این چرخه شود
     if (
       originalRequest.url?.includes(
-        `${API_CONFIG.panel.admin}/auth/refresh-token`,
+        `${API_CONFIG.panel.customer}/auth/refresh-token`,
       )
     ) {
       TokenService.clearTokens();

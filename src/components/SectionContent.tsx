@@ -3,20 +3,23 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const SectionContentVariants = cva("", {
-  variants: {
-    variant: {
-      default: "flex gap-8",
-      scroll:
-        "flex gap-5 overflow-x-auto hide-scrollbar show-scrollbar lg:pb-4",
-      grid: "grid grid-cols-2 md:grid-cols-4 gap-6",
-      wrap: "flex flex-wrap gap-6",
+const SectionContentVariants = cva(
+  "lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible",
+  {
+    variants: {
+      variant: {
+        default: "flex gap-8",
+        scroll:
+          "flex gap-5 overflow-x-auto hide-scrollbar show-scrollbar lg:pb-4",
+        grid: "grid grid-cols-2 md:grid-cols-4 gap-6",
+        wrap: "flex flex-wrap gap-6",
+      },
+    },
+    defaultVariants: {
+      variant: "scroll",
     },
   },
-  defaultVariants: {
-    variant: "scroll",
-  },
-});
+);
 
 export interface SectionContentProps
   extends

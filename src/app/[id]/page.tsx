@@ -20,5 +20,5 @@ export default function IntroPages() {
     3: <IntroPage3 onNext={() => router.push("/home")} />,
   };
 
-  return <div className="h-full p-5">{pages[pageIndex]}</div>;
+  return <div className="h-full p-5 mx-auto max-w-4xl">{pages[pageIndex]}</div>;
 }

@@ -2,77 +2,25 @@
 
 import SearchInput from "@/components/shared/inputs/SearchInput";
 import HomePageHeader from "./_components/HomePageHeader";
-import Stories from "./_components/Stories";
 import Banner from "@/components/shared/Banner";
-import Categories from "./_components/Categories";
 import { ProductSection } from "@/components/product/ProductSection";
 import { ProductItem } from "@/components/product/ProductItem";
 import { ProductSectionHeader } from "@/components/product/ProductSectionHeader";
-
 import CountdownBanner from "./_components/CountdownBanner";
-import {
-  StoreCard,
-  StoreCardAction,
-  StoreCardContent,
-  StoreCardImage,
-  StoreCardRating,
-  StoreCardTitle,
-} from "./_components/store";
-import { Button } from "@/components/ui/button";
 import { SectionContent } from "@/components/SectionContent";
 import CategoryBanner from "./_components/CategoryBanner";
-import { useIsMobile } from "@/hooks/use-mobile";
+import RenderHomePageItems from "./_components/RenderHomePageItems";
 
 const HomePage = () => {
-  const isMobile = useIsMobile();
   return (
     <div className="flex flex-col gap-6 overflow-auto hide-scrollbar lg:gap-10">
       <div className="lg:hidden">
         <HomePageHeader />
         <SearchInput value="" onChange={() => {}} placeholder="جستجو" />
       </div>
-      <Stories />
-      <Banner
-        onClick={() => {}}
-        containerCalassName="bg-pink-300 w-[326px] h-[188px] lg:w-full lg:h-64"
-      />
-      <Categories />
-      <Banner
-        onClick={() => {}}
-        containerCalassName="bg-gradient w-[326px] h-[100px] lg:w-full lg:h-40"
-      />
-      <ProductSection>
-        <ProductSectionHeader
-          title="پیشنهاد ویژه"
-          description="قیمت استثنایی برای اعضا"
-          link="/products"
-          titleVariant={"default"}
-          linkVariant={"default"}
-          className="items-center"
-        />
-        <SectionContent
-          variant="scroll"
-          className="lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible"
-        >
-          <ProductItem
-            productId={1}
-            title="مجموعه اسانس‌های گیاهی"
-            imageSrc="/samples/sample-product-1.jpg"
-            discountedPrice="۱۸۰,۰۰۰ تومان"
-            price="۱۵۰,۰۰۰ تومان"
-            className="lg:w-full lg:min-w-0"
-          />
 
-          <ProductItem
-            productId={2}
-            title="مجموعه اسانس‌های گیاهی"
-            imageSrc="/samples/sample-product-2.png"
-            discountedPrice="۱۸۰,۰۰۰ تومان"
-            price="۱۵۰,۰۰۰ تومان"
-            className="lg:w-full lg:min-w-0"
-          />
-        </SectionContent>
-      </ProductSection>
+      <RenderHomePageItems />
+
       <Banner
         onClick={() => {}}
         containerCalassName="bg-linear-to-r from-[#9A0606] to-[#FF0000] w-[326px] h-[100px] lg:w-full lg:h-40"
@@ -189,60 +137,7 @@ const HomePage = () => {
           className="lg:w-full lg:min-w-0"
         />
       </SectionContent>
-      <h2 className="font-medium text-2xl">فروشگاه های معروف</h2>
-      <SectionContent
-        variant="scroll"
-        className="lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible"
-      >
-        <StoreCard
-          className="min-w-72 lg:w-full lg:min-w-0"
-          badge={
-            <div className="flex-center size-14 rounded-full border-4 border-background bg-white shadow-lg">
-              <div className="bg-black rounded-lg size-10 text-white flex-center text-2xl">
-                V
-              </div>
-            </div>
-          }
-        >
-          <StoreCardImage src="/samples/sample-store.png" alt="خانه گلد" />
 
-          <StoreCardContent>
-            <StoreCardTitle>خانه کادو</StoreCardTitle>
-
-            <StoreCardRating rating={4.9} reviews="1.2 هزار" />
-
-            <StoreCardAction>
-              <Button size={isMobile ? "sm" : "default"} variant="gradient">
-                مشاهده
-              </Button>
-            </StoreCardAction>
-          </StoreCardContent>
-        </StoreCard>
-        <StoreCard
-          className="min-w-72 lg:w-full lg:min-w-0"
-          badge={
-            <div className="flex-center size-14 rounded-full border-4 border-background bg-white shadow-lg">
-              <div className="bg-black rounded-lg size-10 text-white flex-center text-2xl">
-                V
-              </div>
-            </div>
-          }
-        >
-          <StoreCardImage src="/samples/sample-store.png" alt="خانه گلد" />
-
-          <StoreCardContent className="pt-6">
-            <StoreCardTitle>زیبا جو</StoreCardTitle>
-
-            <StoreCardRating rating={4.9} reviews="1.2 هزار" />
-
-            <StoreCardAction>
-              <Button size={isMobile ? "sm" : "default"} variant="gradient">
-                مشاهده
-              </Button>
-            </StoreCardAction>
-          </StoreCardContent>
-        </StoreCard>
-      </SectionContent>
       <ProductSection>
         <ProductSectionHeader
           title="دسته بند های محبوب"
