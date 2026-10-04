@@ -7,6 +7,7 @@ import { useApi } from "@/hooks/useApi";
 import { APIGetTemplate } from "@/types/api/commonApiTypes";
 import { Story } from "@/types/api/endpointTypes/story.types";
 import storiesApi from "@/api/services/ApiService/storiesApi";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Stories = () => {
   const items = [
@@ -63,6 +64,18 @@ const Stories = () => {
   useEffect(() => {
     getstories({ showPlace: "ApplicationHomePageTopStorySection" });
   }, []);
+
+  if (storiesLoading)
+    return (
+      <div className="flex items-center justify-start gap-4 lg:justify-center overflow-x-auto hide-scrollbar show-scrollbar">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <Skeleton
+            key={i + 1}
+            className="size-20 rounded-full min-w-20 lg:min-w-0"
+          />
+        ))}
+      </div>
+    );
 
   return (
     <div className="w-full relative">

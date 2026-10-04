@@ -21,7 +21,7 @@ const HomePage = () => {
 
       <RenderHomePageItems />
 
-      <Banner
+      {/* <Banner
         onClick={() => {}}
         containerCalassName="bg-linear-to-r from-[#9A0606] to-[#FF0000] w-[326px] h-[100px] lg:w-full lg:h-40"
       />
@@ -162,7 +162,7 @@ const HomePage = () => {
             className="lg:w-full"
           />
         </SectionContent>
-      </ProductSection>
+      </ProductSection> */}
     </div>
   );
 };

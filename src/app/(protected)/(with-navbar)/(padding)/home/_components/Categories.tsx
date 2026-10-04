@@ -18,6 +18,7 @@ import { ProductCategory } from "@/types/api/endpointTypes/productCategory.types
 import productCategoriesApi from "@/api/services/ApiService/productCategories";
 import { useApi } from "./../../../../../../hooks/useApi";
 import { APIGetTemplate } from "@/types/api/commonApiTypes";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Categories = () => {
   const [activeCategory, setActiveCategory] = useState("ظروف");
@@ -83,6 +84,18 @@ const Categories = () => {
     },
   ];
 
+  if (productCategoriesLoading)
+    return (
+      <div className="flex items-center justify-start gap-4 lg:justify-center overflow-x-auto hide-scrollbar show-scrollbar">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <Skeleton
+            key={i + 1}
+            className="size-20 rounded-full min-w-20 lg:min-w-0"
+          />
+        ))}
+      </div>
+    );
+
   return (
     <div className="w-full relative">
       <div className="flex flex-row justify-start items-center gap-8 overflow-x-auto overflow-y-hidden py-4 px-2 scroll-smooth hide-scrollbar show-scrollbar lg:justify-between lg:px-0">
@@ -91,16 +104,15 @@ const Categories = () => {
             key={category.id}
             className="relative flex flex-col justify-between h-full items-center gap-2"
           >
-            <div className="relative bg-[#EED5FF] size-13 rounded-full mb-auto">
-              {category.imagePath && (
+            <div className="relative bg-[#EED5FF] size-14 rounded-full mb-auto flex-center">
+              <div className="relative size-20 aspect-square">
                 <Image
-                  src={category.imagePath || ""} //TODO: replace with default product catecory image
+                  src={category.imagePath || "/samples/sample-category-1.png"} //TODO: replace with default product catecory image
                   alt={category.name}
-                  width={120}
-                  height={140}
-                  className="absolute bottom-2 right-0"
+                  fill
+                  className="absolute bottom-1 right-0"
                 />
-              )}
+              </div>
             </div>
             <span className="text-sm text-muted-foreground text-center">
               {category.name}

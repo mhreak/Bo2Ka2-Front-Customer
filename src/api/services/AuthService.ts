@@ -27,7 +27,7 @@ interface RefreshTokenResponse {
 class AuthService {
   async login(data: LoginDto): Promise<void> {
     const response = await HttpService.post<LoginResponse, LoginDto>(
-      `${API_CONFIG.panel.admin}/auth/login`,
+      `${API_CONFIG.panel.customer}/auth/login`,
       data,
     );
 
@@ -48,7 +48,7 @@ class AuthService {
     const response = await HttpService.post<
       RefreshTokenResponse,
       { refreshToken: string }
-    >(`${API_CONFIG.panel.admin}/auth/refresh-token`, {
+    >(`${API_CONFIG.panel.customer}/auth/refresh-token`, {
       refreshToken,
     });
 

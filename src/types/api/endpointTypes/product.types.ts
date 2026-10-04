@@ -34,3 +34,36 @@ export interface ProductParams {
   Page?: number; // int32
   PageSize?: number; // int32
 }
+
+export interface ProductGet {
+  id: string;
+  name: string;
+  description: string;
+  brand: string;
+  weightGrams: number | null;
+  lengthCm: number | null;
+  widthCm: number | null;
+  heightCm: number | null;
+  basePrice: number;
+  isDiscountEnabled: boolean;
+  discountPrice: number | null;
+  effectivePrice: number;
+  discountPercent: number | null;
+  isInStock: boolean;
+  hasSpecialPackaging: boolean;
+  isSpecial: boolean;
+  soldCount: number;
+  productType: "Simple" | "Variable";
+  mainImageFileId: string | null;
+  images: ProductImage[];
+  shopId: string;
+  shopName: string;
+  shopAvatarPath: string | null;
+  shopIsOpenNow: boolean;
+  createdAt: string;
+}
+
+export interface ProductImage {
+  id: string;
+  path: string;
+}

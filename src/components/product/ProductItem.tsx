@@ -186,20 +186,21 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
               // width={imageWidth}
               // height={imageHeight}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className={cn(
                 imageVariants({ variant: imageVariant }),
                 imageClassName,
               )}
             />
-            {badgeVariant === "like" && (
+            {onLike && (
               <span
                 className={cn(
-                  badgeVariants({ variant: badgeVariant }),
-                  badgeClassName,
+                  "absolute top-3 left-3 flex h-6 min-w-8 items-center justify-center rounded-md px-2 text-xs font-semibold",
+                  "rounded-full bg-card size-12",
                 )}
                 onClick={(e) => {
                   e.preventDefault();
-                  onLike?.(true);
+                  onLike?.(!isLiked);
                 }}
               >
                 {

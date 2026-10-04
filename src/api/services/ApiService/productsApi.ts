@@ -3,6 +3,7 @@ import { API_ENDPOINT } from "@/constants/api/apiEndpoints";
 import { APIGetTemplate } from "@/types/api/commonApiTypes";
 import {
   Product,
+  ProductGet,
   ProductParams,
 } from "@/types/api/endpointTypes/product.types";
 
@@ -13,7 +14,7 @@ const productsApi = {
     return api.get<APIGetTemplate<Product[]>>("", params);
   },
   get: (params?: { id: string }) => {
-    return api.get<APIGetTemplate<Product>>(`/${params?.id}`);
+    return api.get<APIGetTemplate<ProductGet>>(`/${params?.id}`);
   },
 };
 

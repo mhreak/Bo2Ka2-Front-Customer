@@ -1,16 +1,20 @@
-import { CalendarDay } from "@/lib/calendar";
+import { DayInfo } from "@/lib/calendar";
 import { cn } from "@/lib/utils";
 import { toPersianDigits } from "@/utils/numberConversions";
-import React from "react";
 
 interface DateItemProps {
-  day: CalendarDay;
+  day: DayInfo;
   isSelected: boolean;
-  onSelect: (day:number) => void;
-  isToday?:boolean;
+  onSelect: (day: number) => void;
+  isToday?: boolean;
 }
 
-export default function DateItem({ day, isSelected, isToday=false,onSelect }: DateItemProps) {
+export default function DateItem({
+  day,
+  isSelected,
+  isToday = false,
+  onSelect,
+}: DateItemProps) {
   return (
     <div
       className={cn(
@@ -18,11 +22,20 @@ export default function DateItem({ day, isSelected, isToday=false,onSelect }: Da
         "transition-default",
         isSelected && "bg-gradient text-secondary-foreground",
       )}
-      onClick={() => onSelect(day.date.day)}
+      onClick={() => onSelect(day.day)}
     >
-      <span className={cn("text-muted-foreground text-sm font-light", isSelected && "text-secondary-foreground")}>{day.date.monthName}</span>
-      <span className="font-semibold text-3xl">{toPersianDigits(day.date.day)}</span>
-      <span className="font-medium">{isToday ?"امروز": day.date.dayOfWeekName}</span>
+      <span
+        className={cn(
+          "text-muted-foreground text-sm font-light",
+          isSelected && "text-secondary-foreground",
+        )}
+      >
+        {day.monthName}
+      </span>
+      <span className="font-semibold text-3xl">{toPersianDigits(day.day)}</span>
+      <span className="font-medium">
+        {isToday ? "امروز" : day.dayOfWeekName}
+      </span>
     </div>
   );
 }

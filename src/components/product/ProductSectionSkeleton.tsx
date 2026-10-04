@@ -13,7 +13,7 @@ export default function ProductSectionSkeleton() {
       </div>
       <div className="w-full h-72 flex gap-5 overflow-x-auto hide-scrollbar show-scrollbar lg:pb-4 lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible">
         {Array.from({ length: 4 }).map((_, i) => (
-          <Skeleton className="rounded-2xl min-w-60 lg:min-w-0" />
+          <Skeleton key={i + 7} className="rounded-2xl min-w-60 lg:min-w-0" />
         ))}
       </div>
     </div>

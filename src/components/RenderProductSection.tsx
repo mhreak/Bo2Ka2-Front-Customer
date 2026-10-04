@@ -41,12 +41,15 @@ export default function RenderProductSection({
     <ProductSection>
       <ProductSectionHeader
         {...productHeaderProps}
-        link="/products"
+        link="/search"
         titleVariant={"default"}
         linkVariant={"default"}
         className="items-center"
       />
-      <SectionContent variant="scroll" className="">
+      <SectionContent
+        variant="scroll"
+        className="lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible"
+      >
         {productsData?.data.slice(0, 4).map((product) => (
           <ProductItem
             productId={product.id}
@@ -61,6 +64,7 @@ export default function RenderProductSection({
               product.discountPrice ? product.effectivePrice : product.basePrice
             }
             discountPercent={product.discountPercent || undefined}
+            variant={"animate"}
             storeName={product.shopName}
             className="min-w-48 lg:w-full lg:min-w-0"
             badgeVariant={"default"}
