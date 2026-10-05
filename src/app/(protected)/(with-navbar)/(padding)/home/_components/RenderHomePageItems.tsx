@@ -45,25 +45,31 @@ export default function RenderHomePageItems() {
   const renderItems = (section: HomepageSection): React.ReactNode => {
     switch (section.type) {
       case "banner":
-        return <BannersSection />;
+        return <BannersSection key={section.order} />;
 
       case "stories":
-        return <Stories />;
+        return <Stories key={section.order} />;
 
       case "categories":
-        return <Categories />;
+        return <Categories key={section.order} />;
 
       case "bestSellers":
       case "newest":
         return (
           <RenderProductSection
+            key={section.order}
             productHeaderProps={{ title: section.title || undefined }}
             productSort={convertToProductSort(section.type)}
           />
         );
 
       case "trustedShops":
-        return <RenderShopSection title={section.title || undefined} />;
+        return (
+          <RenderShopSection
+            key={section.order}
+            title={section.title || undefined}
+          />
+        );
       case "souvenirs":
         return null;
 

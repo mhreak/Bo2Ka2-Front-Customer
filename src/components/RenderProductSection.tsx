@@ -52,11 +52,10 @@ export default function RenderProductSection({
       >
         {productsData?.data.slice(0, 4).map((product) => (
           <ProductItem
+            key={product.id}
             productId={product.id}
             title={product.name}
-            imageSrc={
-              product.primaryImagePath || "/samples/sample-product-1.jpg"
-            }
+            imageSrc={product.primaryImagePath || undefined}
             discountedPrice={
               product.discountPrice ? product.basePrice : undefined
             }

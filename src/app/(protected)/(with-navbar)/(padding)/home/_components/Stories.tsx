@@ -8,6 +8,7 @@ import { APIGetTemplate } from "@/types/api/commonApiTypes";
 import { Story } from "@/types/api/endpointTypes/story.types";
 import storiesApi from "@/api/services/ApiService/storiesApi";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ENV } from "@/config/env";
 
 const Stories = () => {
   const items = [
@@ -91,7 +92,11 @@ const Stories = () => {
             {/* Story ring */}
             <div className="border-2 border-rose-400 rounded-full p-0.5 hover:border-rose-500 transition-colors duration-200">
               <Image
-                src={item.mediaPath || "/"} //TODO: replace with default story photo
+                src={
+                  item.mediaPath
+                    ? `${ENV.API_BASE_URL}/${item.mediaPath}`
+                    : "/images/default-image.jfif"
+                }
                 alt={item.storyButtonText || ""}
                 width={56}
                 height={56}

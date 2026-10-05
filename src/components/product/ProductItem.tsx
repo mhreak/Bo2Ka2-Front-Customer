@@ -101,7 +101,7 @@ export interface ProductItemProps
     React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof productItemVariants> {
   productId?: string;
-  imageSrc: string;
+  imageSrc?: string;
   title: string;
   discountedPrice?: string | number;
   price?: string | number;
@@ -139,7 +139,7 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
       variant,
 
       productId,
-      imageSrc,
+      imageSrc = "/images/no-photo-image.png",
       title,
       discountedPrice,
       price,

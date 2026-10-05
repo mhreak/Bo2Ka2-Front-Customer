@@ -83,7 +83,7 @@ export default function ShopPage() {
       </div>
       <div className="relative w-full aspect-video mb-16 lg:aspect-21/9 lg:rounded-3xl ">
         <Image
-          src={shopData?.data.coverPath || "/samples/sample-shop.png"} //TODO: replace with deafult shopcaver
+          src={shopData?.data.coverPath || "/images/default-image.jfif"}
           alt="shop-image"
           fill
           className="lg:rounded-3xl"
@@ -92,9 +92,7 @@ export default function ShopPage() {
           <div className="size-12 bg-stone-300 rounded-full flex-center text-2xl font-extralight text-tex">
             <div className="size-12 relative aspect-square rounded-full">
               <Image
-                src={
-                  shopData?.data.avatarPath || "/samples/sample-shop-avatar.png"
-                } //TODO: replace with deafult shopcaver
+                src={shopData?.data.avatarPath || "/images/default-image.jfif"}
                 alt="shop-avatar"
                 fill
                 className="lg:rounded-3xl"

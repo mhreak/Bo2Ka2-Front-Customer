@@ -70,7 +70,7 @@ export default function RenderShopSection({ title }: RenderShopSectionProps) {
               }
             >
               <StoreCardImage
-                src={shop.coverPath || "/samples/sample-store.png"}
+                src={shop.coverPath || undefined}
                 alt={shop.shopName}
               />
 

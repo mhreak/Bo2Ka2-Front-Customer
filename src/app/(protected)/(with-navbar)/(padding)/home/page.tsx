@@ -10,6 +10,7 @@ import CountdownBanner from "./_components/CountdownBanner";
 import { SectionContent } from "@/components/SectionContent";
 import CategoryBanner from "./_components/CategoryBanner";
 import RenderHomePageItems from "./_components/RenderHomePageItems";
+import IOSInstallDialog from "@/components/IOSInstallDialog";
 
 const HomePage = () => {
   return (
@@ -20,6 +21,8 @@ const HomePage = () => {
       </div>
 
       <RenderHomePageItems />
+
+      <IOSInstallDialog />
 
       {/* <Banner
         onClick={() => {}}

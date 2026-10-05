@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { Phone, User } from "lucide-react";
 
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   PersonalAccountLoginFormValues,
@@ -23,20 +23,32 @@ import {
 } from "./_schemas/organizationAccountLogin.schema";
 import PasswordInput from "@/components/shared/inputs/PasswordInput";
 import { Button } from "@/components/ui/button";
+import { toEnglishDigits, toPersianDigits } from "@/utils/numberConversions";
+import AuthService from "@/api/services/AuthService";
+import { toInternationalFormat } from "@/utils/utillityFunctions";
+import { useApi } from "@/hooks/useApi";
+import { APIGetTemplate } from "@/types/api/commonApiTypes";
+import { SendOtpDto, SendOtpResponse } from "@/types/api/auth.types";
+import { useTransitionRouter } from "next-view-transitions";
+import { Spinner } from "@/components/ui/spinner";
+import { PersianNumberInput } from "@/components/shared/inputs/PersianNumberInput";
 
 export default function LoginPage() {
+  const [isLogging, setIsLogging] = useState<boolean>(false);
+  const router = useTransitionRouter();
+
   const {
+    control,
     register,
     handleSubmit: handlePersonalAccountSubmit,
     formState: { errors: personalErrors },
   } = useForm<PersonalAccountLoginFormValues>({
     resolver: zodResolver(personalAccountLoginSchema),
     defaultValues: {
-      mobile: undefined,
+      phoneNumber: undefined,
     },
   });
   const {
-    control,
     register: organizationRegister,
     handleSubmit: handleOrganizationSubmit,
     formState: { errors: organizationErrors },
@@ -47,6 +59,26 @@ export default function LoginPage() {
       password: undefined,
     },
   });
+
+  const handlePersonalAccount = async (
+    data: PersonalAccountLoginFormValues,
+  ) => {
+    const formattedData = {
+      mobile: toEnglishDigits(data.phoneNumber) || "",
+    };
+
+    setIsLogging(true);
+    try {
+      const response = await AuthService.sendOtpGeneral(formattedData);
+      router.push(
+        `/login/otp?expiresIn=${encodeURIComponent(response.data.expiresIn)}&phoneNumber=${encodeURIComponent(formattedData.mobile)}`,
+      );
+    } catch (error) {
+    } finally {
+      setIsLogging(false);
+    }
+  };
+  const handleOrganization = (data: OrganizationAccountLoginFormValues) => {};
 
   return (
     <div className="mx-auto flex h-full w-full max-w-md flex-col justify-end items-start gap-5">
@@ -69,99 +101,122 @@ export default function LoginPage() {
           <TabsTrigger value={"organizationAccount"}>حساب سازمانی</TabsTrigger>
         </TabsList>
         <TabsContent value={"personalAccount"} className={"flex flex-col"}>
-          <div className="mt-20 h-60">
-            <div className="flex flex-col gap-2">
-              <label className="text-lg font-medium text-text/70">
-                شماره موبایل
-              </label>
-              <InputGroup className="rounded-4xl bg-background border-none">
-                <InputGroupInput
-                  {...register("mobile")}
-                  placeholder="لطفاً شماره موبایل خود را وارد کنید"
-                  className={cn(
-                    "text-text placeholder:text-muted-foreground/50",
-                    personalErrors.mobile &&
-                      "border-destructive focus-visible:ring-destructive",
+          <form
+            onSubmit={handlePersonalAccountSubmit(handlePersonalAccount)}
+            className="h-60"
+          >
+            <div className="mt-20 h-60">
+              <div className="flex flex-col gap-2">
+                <label className="text-lg font-medium text-text/70">
+                  شماره موبایل
+                </label>
+                <Controller
+                  name="phoneNumber"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <PersianNumberInput
+                      {...field}
+                      placeholder="لطفاً شماره موبایل خود را وارد کنید"
+                      className={cn(
+                        "text-text placeholder:text-muted-foreground/50",
+                      )}
+                      icon={
+                        <Phone className="size-6 text-muted-foreground/50" />
+                      }
+                      containerClassName={cn(
+                        "rounded-4xl bg-background",
+                        personalErrors.phoneNumber &&
+                          "border border-destructive focus-visible:ring-destructive",
+                      )}
+                    />
                   )}
                 />
-                <InputGroupAddon align="inline-start">
-                  <Phone className="size-6 text-muted-foreground/50" />
-                </InputGroupAddon>
-              </InputGroup>
-              {personalErrors.mobile && (
-                <p className="text-xs text-red-500">
-                  {personalErrors.mobile.message}
-                </p>
-              )}
+
+                {personalErrors.phoneNumber && (
+                  <p className="text-sm text-red-500 animate-shake">
+                    {personalErrors.phoneNumber.message}
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="h-full flex flex-col justify-end">
-            <Button variant={"gradient"} type="submit" className={"mt-auto"}>
-              ورود
-            </Button>
-          </div>
+            <div className="h-full flex flex-col justify-end">
+              <Button
+                variant={"gradient"}
+                type="submit"
+                className={"mt-auto"}
+                disabled={isLogging}
+              >
+                {isLogging && <Spinner />}
+                {isLogging ? "در حال ارسال کد..." : "ورود"}
+              </Button>
+            </div>
+          </form>
         </TabsContent>
-        <TabsContent value={"organizationAccount"} className={"flex flex-col"}>
-          <div className="mt-20 h-60">
-            <div className="flex flex-col gap-4 mb-8">
-              <label className="text-lg font-medium text-text/70">
-                نام کاربری
-              </label>
-              <InputGroup className="rounded-4xl bg-background border-none">
-                <InputGroupInput
-                  {...organizationRegister("username")}
-                  placeholder="لطفاً نام کاربری خود را وارد کنید"
-                  className={cn(
-                    "text-text placeholder:text-muted-foreground/50",
-                    organizationErrors.username &&
-                      "border-destructive focus-visible:ring-destructive",
-                  )}
-                />
-                {/* <InputGroupAddon align="inline-start">
-                  <User className="size-6 text-muted-foreground/50" />
-                </InputGroupAddon> */}
-              </InputGroup>
-              {organizationErrors.username && (
-                <p className="text-xs text-red-500">
-                  {organizationErrors.username.message}
-                </p>
-              )}
-            </div>
-            <div className="flex flex-col gap-4 mb-8">
-              <label className="text-lg font-medium text-text/70">
-                رمز عبور
-              </label>
-              <Controller
-                control={control}
-                name="password"
-                render={({
-                  field: { onChange, onBlur, value, ref },
-                  fieldState: { error },
-                }) => (
-                  <PasswordInput
-                    id={"password"}
-                    placeholder={"لطفا رمز عبور خود را وارد کنید"}
-                    value={value ?? ""}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    ref={ref}
+        {/* <TabsContent value={"organizationAccount"} className={"flex flex-col"}>
+          <form
+            onSubmit={handleOrganizationSubmit(handleOrganization)}
+            className="h-60"
+          >
+            <div className="mt-20 h-60">
+              <div className="flex flex-col gap-4 mb-8">
+                <label className="text-lg font-medium text-text/70">
+                  نام کاربری
+                </label>
+                <InputGroup className="rounded-4xl bg-background border-none">
+                  <InputGroupInput
+                    {...organizationRegister("username")}
+                    placeholder="لطفاً نام کاربری خود را وارد کنید"
                     className={cn(
-                      "placeholder:text-muted-foreground/50",
-                      error &&
+                      "text-text placeholder:text-muted-foreground/50",
+                      organizationErrors.username &&
                         "border-destructive focus-visible:ring-destructive",
                     )}
-                    inputClassName="border-none rounded-4xl bg-background px-4"
                   />
+                 
+                </InputGroup>
+                {organizationErrors.username && (
+                  <p className="text-xs text-red-500">
+                    {organizationErrors.username.message}
+                  </p>
                 )}
-              />
+              </div>
+              <div className="flex flex-col gap-4 mb-8">
+                <label className="text-lg font-medium text-text/70">
+                  رمز عبور
+                </label>
+                <Controller
+                  control={control}
+                  name="password"
+                  render={({
+                    field: { onChange, onBlur, value, ref },
+                    fieldState: { error },
+                  }) => (
+                    <PasswordInput
+                      id={"password"}
+                      placeholder={"لطفا رمز عبور خود را وارد کنید"}
+                      value={value ?? ""}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      ref={ref}
+                      className={cn(
+                        "placeholder:text-muted-foreground/50",
+                        error &&
+                          "border-destructive focus-visible:ring-destructive",
+                      )}
+                      inputClassName="border-none rounded-4xl bg-background px-4"
+                    />
+                  )}
+                />
+              </div>
             </div>
-          </div>
-          <div className="h-full flex flex-col justify-end">
-            <Button variant={"gradient"} type="submit" className={"mt-auto"}>
-              ورود
-            </Button>
-          </div>
-        </TabsContent>
+            <div className="h-full flex flex-col justify-end">
+              <Button variant={"gradient"} type="submit" className={"mt-auto"}>
+                {isLogging && <Spinner />}
+                {isLogging ? "در حال ارسال کد..." : "ورود"}
+              </Button>
+            </div>
+          </form>
+        </TabsContent> */}
       </Tabs>
     </div>
   );

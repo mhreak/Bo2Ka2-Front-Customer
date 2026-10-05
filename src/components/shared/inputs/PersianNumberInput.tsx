@@ -8,6 +8,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { cn } from "@/lib/utils";
 
 export interface PersianNumberInputProps extends Omit<
   React.ComponentProps<"input">,
@@ -16,12 +17,14 @@ export interface PersianNumberInputProps extends Omit<
   value?: string;
   onChange?: (value: string) => void;
   icon?: React.ReactNode;
+  containerClassName?: string;
 }
 
 export function PersianNumberInput({
   value = "",
   onChange,
   icon,
+  containerClassName,
   ...props
 }: Readonly<PersianNumberInputProps>) {
   const displayValue = React.useMemo(() => toPersianDigits(value), [value]);
@@ -36,7 +39,7 @@ export function PersianNumberInput({
   };
 
   return (
-    <InputGroup>
+    <InputGroup className={cn(containerClassName)}>
       <InputGroupInput
         {...props}
         inputMode="numeric"

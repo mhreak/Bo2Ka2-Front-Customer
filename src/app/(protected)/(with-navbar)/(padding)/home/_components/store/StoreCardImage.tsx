@@ -49,7 +49,7 @@ export interface StoreCardImageProps
   extends
     Omit<React.HTMLAttributes<HTMLDivElement>, "children">,
     VariantProps<typeof storeCardImageVariants> {
-  src: string;
+  src?: string;
   alt: string;
 
   width?: number;
@@ -67,7 +67,7 @@ const StoreCardImage = React.forwardRef<HTMLDivElement, StoreCardImageProps>(
       className,
       variant,
 
-      src,
+      src = "/images/default-image.jfif",
       alt,
 
       width = 500,

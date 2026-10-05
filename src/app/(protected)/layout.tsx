@@ -7,8 +7,8 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   return (
-    // <AuthGuard>
-    <>{children}</>
-    // </AuthGuard>
+    <AuthGuard>
+      <>{children}</>
+    </AuthGuard>
   );
 }

@@ -107,10 +107,7 @@ const SearchPage = () => {
                       key={product.id}
                       productId={product.id}
                       title={product.name}
-                      imageSrc={
-                        product.primaryImagePath ||
-                        `/samples/sample-product-${16}.jpg`
-                      }
+                      imageSrc={product.primaryImagePath || undefined}
                       discountedPrice={
                         product.discountPrice ? product.basePrice : undefined
                       }

@@ -9,15 +9,10 @@ import {
   ReactNode,
 } from "react";
 
-import { User } from "@/types/api/auth";
+import { LoginByPasswordDto, LoginOtpDto, User } from "@/types/api/auth.types";
 
 import AuthService from "@/api/services/AuthService";
 import TokenService from "@/api/services/TokenService";
-
-interface LoginDto {
-  username: string;
-  password: string;
-}
 
 interface AuthContextType {
   user: User | null;
@@ -25,7 +20,8 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
 
-  login: (data: LoginDto) => Promise<void>;
+  loginOtp: (data: LoginOtpDto) => Promise<void>;
+  loginByPassword: (data: LoginByPasswordDto) => Promise<void>;
   logout: () => Promise<void>;
 
   setUser: (user: User | null) => void;
@@ -94,8 +90,13 @@ export function AuthProvider({ children }: Props) {
     }
   }
 
-  async function login(data: LoginDto) {
-    await AuthService.login(data);
+  async function loginOtp(data: LoginOtpDto) {
+    await AuthService.loginOtp(data);
+
+    setIsAuthenticated(true);
+  }
+  async function loginByPassword(data: LoginByPasswordDto) {
+    await AuthService.loginByPassword(data);
 
     setIsAuthenticated(true);
   }
@@ -129,7 +130,8 @@ export function AuthProvider({ children }: Props) {
       isAuthenticated,
       isLoading,
 
-      login,
+      loginOtp,
+      loginByPassword,
       logout,
 
       setUser,
