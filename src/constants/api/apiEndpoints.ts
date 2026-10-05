@@ -12,4 +12,5 @@ export const API_ENDPOINT = {
   productCategories: "/ProductCategories",
   products: "/products",
   shops: "/shops",
+  users: "/users",
 };

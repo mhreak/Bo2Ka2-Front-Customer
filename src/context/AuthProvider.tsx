@@ -53,6 +53,7 @@ export function AuthProvider({ children }: Props) {
 
       // هیچ Tokenای وجود ندارد
       if (!accessToken && !refreshToken) {
+        console.log("1");
         setIsAuthenticated(false);
         setUser(null);
         return;
@@ -60,6 +61,7 @@ export function AuthProvider({ children }: Props) {
 
       // Access Token معتبر است
       if (accessToken && !TokenService.isExpired()) {
+        console.log("2");
         setIsAuthenticated(true);
         return;
       }
@@ -67,7 +69,7 @@ export function AuthProvider({ children }: Props) {
       // Access Token وجود دارد ولی منقضی شده
       if (refreshToken) {
         await AuthService.refreshToken();
-
+        console.log("3");
         setIsAuthenticated(true);
         return;
       }
@@ -75,14 +77,14 @@ export function AuthProvider({ children }: Props) {
       // نه Access Token معتبر داریم
       // نه Refresh Token
       TokenService.clearTokens();
-
+      console.log("4");
       setIsAuthenticated(false);
       setUser(null);
     } catch (error) {
       console.error("Auth initialization failed:", error);
 
       TokenService.clearTokens();
-
+      console.log("5");
       setIsAuthenticated(false);
       setUser(null);
     } finally {

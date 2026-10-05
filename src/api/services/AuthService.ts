@@ -67,7 +67,7 @@ class AuthService {
     const response = await HttpService.post<
       RefreshTokenResponse,
       { refreshToken: string }
-    >(`${API_CONFIG.panel.customer}/auth/refresh-token`, {
+    >(`/auth/refresh-token`, {
       refreshToken,
     });
 

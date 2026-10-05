@@ -41,7 +41,7 @@ export default function RenderProductSection({
     <ProductSection>
       <ProductSectionHeader
         {...productHeaderProps}
-        link="/search"
+        link={`/search?sort=${productSort}`}
         titleVariant={"default"}
         linkVariant={"default"}
         className="items-center"

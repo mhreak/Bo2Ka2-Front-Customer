@@ -18,6 +18,21 @@ import { Skeleton } from "@/components/ui/skeleton";
 import ProductSectionSkeleton from "@/components/product/ProductSectionSkeleton";
 import RenderShopSection from "./store/RenderShopSection";
 
+export const convertToProductSort = (
+  sectionType: SectionType,
+): ProductSortENUM => {
+  switch (sectionType) {
+    case "bestSellers":
+      return "BestSelling";
+
+    case "newest":
+      return "Newest";
+
+    default:
+      return "Newest";
+  }
+};
+
 export default function RenderHomePageItems() {
   const {
     data: settingData,
@@ -28,19 +43,6 @@ export default function RenderHomePageItems() {
   useEffect(() => {
     getSettings({ key: "homepage" });
   }, []);
-
-  const convertToProductSort = (sectionType: SectionType): ProductSortENUM => {
-    switch (sectionType) {
-      case "bestSellers":
-        return "BestSelling";
-
-      case "newest":
-        return "Newest";
-
-      default:
-        return "Newest";
-    }
-  };
 
   const renderItems = (section: HomepageSection): React.ReactNode => {
     switch (section.type) {

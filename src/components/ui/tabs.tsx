@@ -66,7 +66,7 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
         "group-data-[variant=accent]/tabs-list:data-active:text-accent",
         "group-data-[variant=secondary]/tabs-list:data-active:text-secondary-foreground group-data-[variant=secondary]/tabs-list:data-active:bg-secondary group-data-[variant=secondary]/tabs-list:bg-muted group-data-[variant=secondary]/tabs-list:text-muted-foreground group-data-[variant=secondary]/tabs-list:px-5",
         "after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-horizontal/tabs:after:inset-x-0 group-data-horizontal/tabs:after:bottom-[-5px] group-data-horizontal/tabs:after:h-0.5 group-data-vertical/tabs:after:inset-y-0 group-data-vertical/tabs:after:-right-1 group-data-vertical/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
-        "transition-all ease-in-out",
+        "transition-all ease-in-out cursor-pointer",
         className,
       )}
       {...props}

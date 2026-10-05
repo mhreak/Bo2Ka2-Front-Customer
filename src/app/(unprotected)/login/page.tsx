@@ -32,10 +32,13 @@ import { SendOtpDto, SendOtpResponse } from "@/types/api/auth.types";
 import { useTransitionRouter } from "next-view-transitions";
 import { Spinner } from "@/components/ui/spinner";
 import { PersianNumberInput } from "@/components/shared/inputs/PersianNumberInput";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
   const [isLogging, setIsLogging] = useState<boolean>(false);
   const router = useTransitionRouter();
+  const searchParams = useSearchParams();
+  const returnUrl = searchParams.get("returnUrl");
 
   const {
     control,
@@ -71,7 +74,7 @@ export default function LoginPage() {
     try {
       const response = await AuthService.sendOtpGeneral(formattedData);
       router.push(
-        `/login/otp?expiresIn=${encodeURIComponent(response.data.expiresIn)}&phoneNumber=${encodeURIComponent(formattedData.mobile)}`,
+        `/login/otp?expiresIn=${encodeURIComponent(response.data.expiresIn)}&phoneNumber=${encodeURIComponent(formattedData.mobile)}&returnUrl=${returnUrl && encodeURIComponent(returnUrl)}`,
       );
     } catch (error) {
     } finally {

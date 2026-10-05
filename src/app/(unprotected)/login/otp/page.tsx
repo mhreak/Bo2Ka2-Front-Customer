@@ -22,6 +22,9 @@ export default function OtpPage() {
 
   const expiresIn = searchParams.get("expiresIn");
   const phoneNumber = searchParams.get("phoneNumber") ?? "";
+  const returnUrl = searchParams.get("returnUrl");
+
+  console.log(returnUrl);
 
   const router = useTransitionRouter();
 
@@ -57,6 +60,8 @@ export default function OtpPage() {
           code: value,
           mobile: phoneNumber,
         });
+        // if (returnUrl) router.push(`${returnUrl}`);
+        // else
         router.push("/home");
         success("به وب سایت بدو کادو خوش آمدید", "ورود موفق", 3000);
       } catch (error) {
