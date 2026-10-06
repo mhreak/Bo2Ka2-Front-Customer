@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { ImagePlus, X } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { Camera, ImagePlus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -9,17 +9,27 @@ interface ImageUploadInputProps {
   value?: File | string | null;
   onChange?: (file: File | null) => void;
   className?: string;
+  showCameraIcon?: boolean;
+  defaultImage?: string;
 }
 
 export default function ImageUploadInput({
   value,
   onChange,
   className,
+  showCameraIcon = false,
+  defaultImage,
 }: ImageUploadInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(
     typeof value === "string" ? value : null,
   );
+
+  useEffect(() => {
+    if (defaultImage) {
+      setPreview(defaultImage);
+    }
+  }, [defaultImage]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -94,6 +104,16 @@ export default function ImageUploadInput({
             />
             <span className="text-[13px] text-muted-foreground">بارگذاری</span>
           </div>
+        )}
+        {showCameraIcon && (
+          <Button
+            variant={"gradient"}
+            size={"icon-lg"}
+            className={"absolute -bottom-2 right-0"}
+            onClick={() => inputRef.current?.click()}
+          >
+            <Camera className="size-6" />
+          </Button>
         )}
       </div>
     </div>

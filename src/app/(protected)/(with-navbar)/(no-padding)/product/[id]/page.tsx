@@ -13,6 +13,7 @@ import { useApi } from "@/hooks/useApi";
 import { APIGetTemplate } from "@/types/api/commonApiTypes";
 import { ProductGet } from "@/types/api/endpointTypes/product.types";
 import productsApi from "@/api/services/ApiService/productsApi";
+import { ENV } from "@/config/env";
 
 // const productMockData = {
 //   id: 1,
@@ -88,12 +89,13 @@ export default function ProductItemPage() {
       <div className="flex flex-col lg:grid lg:grid-cols-2 lg:items-start lg:gap-10">
         <div className="mb-5 lg:sticky lg:top-24 lg:mb-0">
           <CustomCarousel
-            imagePaths={[
-              "/samples/sample-product-3.jpg",
-              "/samples/sample-product-4.jpg",
-              "/samples/sample-product-5.jpg",
-              "/samples/sample-product-6.jpg",
-            ]}
+            imagePaths={
+              productData?.data?.images && productData?.data?.images?.length > 0
+                ? productData?.data.images.map(
+                    (image) => `${ENV.API_BASE_URL}/${image.path}`,
+                  )
+                : ["/images/no-photo-image.png"]
+            }
           />
         </div>
         <div className="p-5 mt-2 space-y-6 lg:px-0">
@@ -101,21 +103,25 @@ export default function ProductItemPage() {
             <span className="text-accent text-sm">
               {productData?.data.shopName}
             </span>
-            <Badge variant={"ghost"} className="text-md px-5 py-3">
-              {`(${productData?.data.brand})`}
-              {"  "}
-              {/* {productData?.data.rating} */}
-              <Star className="text-accent size-5" fill="currentColor" />
-            </Badge>
+            {productData?.data.brand && (
+              <Badge variant={"ghost"} className="text-md px-5 py-3">
+                {`(${productData?.data.brand})`}
+
+                {/* {productData?.data.rating} */}
+                <Star className="text-accent size-5" fill="currentColor" />
+              </Badge>
+            )}
           </div>
           <h4 className="text-2xl font-semibold">{productData?.data.name}</h4>
           <div>
             <h3 className="text-3xl font-bold ">
               {productData?.data.effectivePrice.toLocaleString()} تومان
             </h3>
-            <p className="text-lg text-muted-foreground line-through mb-2">
-              {productData?.data.basePrice.toLocaleString()} تومان
-            </p>
+            {productData?.data.isDiscountEnabled && (
+              <p className="text-lg text-muted-foreground line-through mb-2">
+                {productData?.data.basePrice.toLocaleString()} تومان
+              </p>
+            )}
             <Badge variant={"primaryLight"}>
               <AlarmClock className="size-10" />
               {/* {productData?.data.suggestedText} */}

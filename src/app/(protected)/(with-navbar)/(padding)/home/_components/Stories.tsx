@@ -87,22 +87,23 @@ const Stories = () => {
           <div
             key={item.id}
             className="shrink-0 flex flex-col items-center gap-2"
-            style={{ width: "80px" }} // Fixed width for each item
+            style={{ width: "80px", height: "100px" }} // Fixed width for each item
           >
             {/* Story ring */}
-            <div className="border-2 border-rose-400 rounded-full p-0.5 hover:border-rose-500 transition-colors duration-200">
-              <Image
-                src={
-                  item.mediaPath
-                    ? `${ENV.API_BASE_URL}/${item.mediaPath}`
-                    : "/images/default-image.jfif"
-                }
-                alt={item.storyButtonText || ""}
-                width={56}
-                height={56}
-                className="rounded-full object-cover"
-                priority={idx < 4}
-              />
+            <div className=" border-2 border-rose-400 rounded-full p-0.5 hover:border-rose-500 transition-colors duration-200">
+              <div className="relative aspect-square size-16 lg:size-20">
+                <Image
+                  src={
+                    item.mediaPath
+                      ? `${ENV.API_BASE_URL}/${item.mediaPath}`
+                      : "/images/default-image.jfif"
+                  }
+                  alt={item.storyButtonText || ""}
+                  fill
+                  className="rounded-full object-cover"
+                  priority={idx < 4}
+                />
+              </div>
             </div>
 
             {/* Label */}

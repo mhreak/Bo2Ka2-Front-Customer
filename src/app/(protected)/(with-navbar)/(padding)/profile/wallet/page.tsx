@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import SharedPageHeader from "@/components/shared/SharedPageHeader";
 import { toPersianDigits } from "@/utils/numberConversions";
 import {
@@ -14,6 +15,7 @@ import { ProductSectionHeader } from "@/components/product/ProductSectionHeader"
 import RecentTransactionItem, {
   TransactionItem,
 } from "./_components/RecentTransactionItem";
+import { useSearchParams } from "next/navigation";
 
 const transactionMockData: TransactionItem[] = [
   {
@@ -49,6 +51,8 @@ const transactionMockData: TransactionItem[] = [
 ];
 
 export default function WalletPage() {
+  const searchParams = useSearchParams();
+  const credit = Number(searchParams.get("credit")) ?? 0;
   return (
     <div className="space-y-12">
       <SharedPageHeader
@@ -60,7 +64,7 @@ export default function WalletPage() {
         <div className="flex-1 space-y-4">
           <p className="text-muted-foreground">{"موجودی"}</p>
           <h2 className="font-bold text-3xl">
-            {toPersianDigits((150000).toLocaleString()) + " تومان"}
+            {toPersianDigits(credit.toLocaleString()) + " تومان"}
           </h2>
         </div>
         <Wallet className="text-accent" />

@@ -40,13 +40,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl" className={cn(modam.variable)}>
-      <body>
+      <body className="overflow-hidden">
         <ServiceWorkerRegistration />
         <AuthProvider>
           <DirectionProvider direction="rtl">
             {/* <SidebarProvider> */}
             <div className="relative flex h-dvh w-full">
-              <div className="h-full w-full overflow-auto hide-scrollbar">
+              <div className="h-full w-full overflow-auto hide-scrollbar show-scrollbar">
                 <ViewTransitions>
                   <ToastProvider>
                     {children}

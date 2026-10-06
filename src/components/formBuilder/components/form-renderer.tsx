@@ -23,6 +23,9 @@ interface FormRendererProps {
   submitButtonText?: string;
   onCancel?: () => void;
   cancelButtonText?: string;
+  disableSubmitButton?: boolean;
+  isSubmitting?: boolean;
+  isSubmittingText?: string;
 }
 
 // تابع کمکی برای استخراج تمام فیلدهای ساده از درون کل ساختار درختی چیدمان‌ها
@@ -51,6 +54,9 @@ export function FormRenderer({
   submitButtonText = "ثبت فرم",
   onCancel,
   cancelButtonText = "لغو",
+  disableSubmitButton = false,
+  isSubmitting = false,
+  isSubmittingText,
 }: Readonly<FormRendererProps>) {
   const allFields = flattenFields(config);
 
@@ -127,9 +133,16 @@ export function FormRenderer({
             {cancelButtonText}
           </Button>
         </div> */}
-        <Button type="submit" className={"w-full mt-8"} variant={"gradient"}>
-            {submitButtonText}
-          </Button>
+        <Button
+          type="submit"
+          className={"w-full mt-8"}
+          variant={"gradient"}
+          disabled={disableSubmitButton}
+          isLoading={isSubmitting}
+          isLoadingText={isSubmittingText}
+        >
+          {submitButtonText}
+        </Button>
       </form>
     </FormProvider>
   );

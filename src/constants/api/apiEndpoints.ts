@@ -13,4 +13,5 @@ export const API_ENDPOINT = {
   products: "/products",
   shops: "/shops",
   users: "/users",
+  files: "/files",
 };

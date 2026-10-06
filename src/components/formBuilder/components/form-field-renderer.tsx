@@ -442,7 +442,7 @@ export function FormFieldRenderer({
 
               case "multiselect": {
                 const currentValues = Array.isArray(value) ? value : [];
-                const toggleOption = (optValue: string) => {
+                const toggleOption = (optValue: string | number) => {
                   const updated = currentValues.includes(optValue)
                     ? currentValues.filter((v: string) => v !== optValue)
                     : [...currentValues, optValue];

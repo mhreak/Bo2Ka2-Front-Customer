@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Heart, Star, Zap } from "lucide-react";
 import { toPersianDigits } from "@/utils/numberConversions";
 import { Link } from "next-view-transitions";
+import { ENV } from "@/config/env";
 
 const productItemVariants = cva(
   "relative flex flex-col items-start active:scale-95 transition-default",
@@ -139,7 +140,7 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
       variant,
 
       productId,
-      imageSrc = "/images/no-photo-image.png",
+      imageSrc,
       title,
       discountedPrice,
       price,
@@ -181,7 +182,11 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
         >
           <div className="relative w-full aspect-square">
             <Image
-              src={imageSrc}
+              src={
+                imageSrc
+                  ? `${ENV.API_BASE_URL}/${imageSrc}`
+                  : "/images/no-photo-image.png"
+              }
               alt={title}
               // width={imageWidth}
               // height={imageHeight}
@@ -196,7 +201,7 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
               <span
                 className={cn(
                   "absolute top-3 left-3 flex h-6 min-w-8 items-center justify-center rounded-md px-2 text-xs font-semibold",
-                  "rounded-full bg-card size-12",
+                  "rounded-full bg-card size-10",
                 )}
                 onClick={(e) => {
                   e.preventDefault();

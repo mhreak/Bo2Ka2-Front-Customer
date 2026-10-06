@@ -17,6 +17,7 @@ import { Menu, SlidersHorizontal } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { ENV } from "./../../../../../config/env";
 
 type CategoryValue = ProductSortENUM | "all";
 

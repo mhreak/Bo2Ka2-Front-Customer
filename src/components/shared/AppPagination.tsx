@@ -54,7 +54,7 @@ interface NormalizedMeta {
 /** مقادیر پیش‌فرض در صورت عدم وجود متادیتا */
 const DEFAULT_META: NormalizedMeta = {
   currentPage: 1,
-  totalCount: 20,
+  totalCount: 0,
   totalPages: 1,
   hasPrevious: false,
   hasNext: false,
@@ -69,7 +69,7 @@ const normalizeMeta = (
 
   return {
     currentPage: meta.page ?? 1,
-    totalCount: meta.totalCount ?? 20,
+    totalCount: meta.totalCount ?? 0,
     totalPages: meta.totalPages ?? 1,
     hasPrevious: meta.hasPrevious ?? false,
     hasNext: meta.hasNext ?? false,
@@ -193,7 +193,7 @@ const AppPagination: React.FC<AppPaginationProps> = ({
       )}
 
       {/* Pagination */}
-      {totalPages > 0 && (
+      {totalPages > 1 ? (
         <div className="col-span-2 flex justify-center md:col-span-1 md:col-start-2">
           <Pagination className="w-auto m-0">
             <PaginationContent className="gap-1">
@@ -268,6 +268,8 @@ const AppPagination: React.FC<AppPaginationProps> = ({
             </PaginationContent>
           </Pagination>
         </div>
+      ) : (
+        <div />
       )}
 
       {/* تعداد کل محصولات */}
@@ -279,7 +281,9 @@ const AppPagination: React.FC<AppPaginationProps> = ({
         </div>
       ) : (
         // در دسکتاپ جای ستون سوم را حفظ می‌کنیم
-        <div />
+        <div className="flex items-center gap-2 justify-self-start md:justify-self-end text-sm text-muted-foreground">
+          محصولی یافت نشد!
+        </div>
       )}
     </div>
   );

@@ -57,7 +57,7 @@ export default function CustomCarousel({ imagePaths }: CustomeCarouselProps) {
 
       {/* Dots Navigation */}
       <div className="flex justify-center gap-2 py-3 absolute bottom-2 inset-x-0">
-        {Array.from({ length: count }).map((_, index) => (
+        {Array.from({ length: imagePaths.length }).map((_, index) => (
           <button
             key={index}
             className={cn(

@@ -29,6 +29,14 @@ export interface FieldValidation {
   errorMessage?: string; // پیغام خطای دلخواه در صورت عدم تطابق
 }
 
+export type FieldOption = {
+  label: string;
+  value: string | number;
+  component?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+};
+
 export interface BaseFieldConfig {
   id: string; // شناسه منحصر به فرد فیلد (مثلا firstName)
   type: FieldType; // نوع فیلد
@@ -47,7 +55,7 @@ export interface BaseFieldConfig {
   computedValue?: (formValues: Record<string, any>) => any;
 
   // گزینه‌ها برای فیلدهایی مثل Select
-  options?: { label: string; value: string }[];
+  options?: FieldOption[];
 
   // سیستم چیدمان (مثلا این فیلد چقدر از گرید را بگیرد)
   colSpan?: number;
@@ -78,7 +86,7 @@ export interface LayoutConfig {
   }[];
 
   // برای گرید یا بخش‌های ساده
-  children?: FormNode[];
+  children?: BaseFieldConfig[];
   icon?: string;
   iconSize?: number; // اندازه آیکون به صورت عددی (px)
   wrapperVariant?: "default" | "card" | "bordered" | "gradient" | "dangerZone";

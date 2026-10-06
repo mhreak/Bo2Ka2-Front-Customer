@@ -1,27 +1,29 @@
-import { Button } from "@/components/ui/button";
-import { Camera } from "lucide-react";
-import Image from "next/image";
+import ImageUploadInput from "@/components/shared/inputs/ImageUploadInput";
 
-export default function EditAccountAvatarSection() {
+interface EditAccountAvatarSectionProps {
+  avatarFile?: File | null;
+  onChangeAvatarFile?: (file: File | null) => void;
+  avatarImagePath?: string;
+  name?: string;
+}
+
+export default function EditAccountAvatarSection({
+  avatarFile,
+  onChangeAvatarFile,
+  avatarImagePath,
+  name,
+}: EditAccountAvatarSectionProps) {
   return (
     <div className="my-10 flex flex-col items-center justify-center">
       <div className="relative mb-8">
-        <Image
-          src={"/samples/sample-avatar-3.jpg"}
-          alt="sample-avatar"
-          className="rounded-full"
-          width={92}
-          height={92}
+        <ImageUploadInput
+          value={avatarFile}
+          onChange={onChangeAvatarFile}
+          showCameraIcon={true}
+          defaultImage={avatarImagePath}
         />
-        <Button
-          variant={"gradient"}
-          size={"icon-lg"}
-          className={"absolute -bottom-2 right-0"}
-        >
-          <Camera />
-        </Button>
       </div>
-      <h3 className="font-semibold text-lg">{"اشکان طهماسبی"}</h3>
+      <h3 className="font-semibold text-lg">{name}</h3>
     </div>
   );
 }

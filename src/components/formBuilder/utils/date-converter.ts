@@ -8,7 +8,18 @@ import { DateTimeValue } from "@/components/persianDatePicker/PersianDateTimePic
 export function gregorianToJalali(date?: string | null): JalaliDate | null {
   if (!date) return null;
 
-  const [gy, gm, gd] = date.split("-").map(Number);
+  // استخراج YYYY-MM-DD از ابتدای تاریخ
+  const match = date.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+
+  if (!match) {
+    return null;
+  }
+
+  const [, year, month, day] = match;
+
+  const gy = Number(year);
+  const gm = Number(month);
+  const gd = Number(day);
 
   if (!gy || !gm || !gd) {
     return null;
@@ -29,7 +40,10 @@ export function jalaliToGregorian(date?: JalaliDate | null): string {
 
   const { gy, gm, gd } = toGregorian(date.year, date.month, date.day);
 
-  return `${gy}-${String(gm).padStart(2, "0")}-${String(gd).padStart(2, "0")}`;
+  return `${gy}-${String(gm).padStart(2, "0")}-${String(gd).padStart(
+    2,
+    "0",
+  )}T00:00:00`;
 }
 
 export function stringToTimeValue(time?: string | null): TimeValue | null {
