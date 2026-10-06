@@ -2,7 +2,14 @@
 
 import CustomCarousel from "@/components/shared/CustomCarousel";
 import { useParams } from "next/navigation";
-import { AlarmClock, Clock, Heart, Star } from "lucide-react";
+import {
+  AlarmClock,
+  Clock,
+  Heart,
+  ShoppingCart,
+  Star,
+  Trash,
+} from "lucide-react";
 import SharedPageHeader from "@/components/shared/SharedPageHeader";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,9 +18,38 @@ import CommentItem from "./_components/CommentItem";
 import { useEffect, useState } from "react";
 import { useApi } from "@/hooks/useApi";
 import { APIGetTemplate } from "@/types/api/commonApiTypes";
-import { ProductGet } from "@/types/api/endpointTypes/product.types";
+import { Product, ProductGet } from "@/types/api/endpointTypes/product.types";
 import productsApi from "@/api/services/ApiService/productsApi";
 import { ENV } from "@/config/env";
+import { Button } from "@/components/ui/button";
+import { useCartStore } from "@/stores/cart/cart.store";
+import Quantity from "@/components/shared/Quantity";
+import { CartItem } from "@/stores/cart/cart.types";
+
+export function mapProductToCartItem(
+  product: ProductGet,
+  quantity: number = 1,
+): CartItem {
+  return {
+    id: product.id,
+    name: product.name,
+    brand: product.brand,
+    basePrice: product.basePrice,
+    isDiscountEnabled: product.isDiscountEnabled,
+    discountPrice: product.discountPrice,
+    effectivePrice: product.effectivePrice,
+    discountPercent: product.discountPercent,
+    isInStock: product.isInStock,
+    isSpecial: product.isSpecial,
+    soldCount: product.soldCount,
+    primaryImagePath: product.images.find((i) => i.isPrimary)?.path || null,
+    productType: product.productType,
+    shopId: product.shopId,
+    shopName: product.shopName,
+    createdAt: product.createdAt,
+    quantity,
+  };
+}
 
 // const productMockData = {
 //   id: 1,
@@ -54,6 +90,9 @@ import { ENV } from "@/config/env";
 export default function ProductItemPage() {
   const params = useParams<{ id: string }>();
   const id = params?.id;
+
+  const { hasItem, getProductQuantity, setQuantity, addItem, removeItem } =
+    useCartStore();
 
   const {
     data: productData,
@@ -137,6 +176,40 @@ export default function ProductItemPage() {
                 style={{ backgroundColor: color }}
               ></span>
             ))} */}
+          </div>
+          <div className="flex items-center justify-end w-full">
+            {hasItem(productData?.data.id || "") ? (
+              <div className="flex items-center gap-2">
+                <Quantity
+                  value={getProductQuantity(productData?.data.id || "")}
+                  onChange={(val) => {
+                    setQuantity(productData?.data.id || "", val);
+                  }}
+                />
+                <Button
+                  variant={"destructive"}
+                  size={"icon"}
+                  onClick={() => {
+                    removeItem(productData?.data.id || "");
+                  }}
+                >
+                  <Trash />
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant={"gradient"}
+                className={"w-fit"}
+                onClick={() => {
+                  if (productData?.data) {
+                    addItem(mapProductToCartItem(productData?.data));
+                  }
+                }}
+              >
+                <ShoppingCart />
+                افزودن به سبد خرید
+              </Button>
+            )}
           </div>
           <Tabs>
             <TabsList

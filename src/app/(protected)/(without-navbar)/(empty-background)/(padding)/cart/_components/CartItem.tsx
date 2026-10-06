@@ -6,6 +6,7 @@ import { Trash2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Quantity from "@/components/shared/Quantity";
 import { toPersianDigits } from "@/utils/numberConversions";
+import { ENV } from "@/config/env";
 
 const cartItemVariants = cva(
   "flex items-center gap-4 rounded-xl border border-border p-4 mt-4 transition-colors relative",
@@ -19,18 +20,19 @@ const cartItemVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 export interface CartItemProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof cartItemVariants> {
-  imagePath: string;
+  imagePath?: string;
   title: string;
-  description?:string;
+  description?: string;
   price: number | string;
   quantity?: number;
-  onQuantityChange: (val:number) => void;
+  onQuantityChange: (val: number) => void;
   onRemove?: () => void;
 }
 
@@ -48,7 +50,7 @@ const CartItem = React.forwardRef<HTMLDivElement, CartItemProps>(
       onRemove,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <div
@@ -58,7 +60,11 @@ const CartItem = React.forwardRef<HTMLDivElement, CartItemProps>(
       >
         <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg">
           <Image
-            src={imagePath}
+            src={
+              imagePath
+                ? `${ENV.API_BASE_URL}/${imagePath}`
+                : "/images/no-photo-image.png"
+            }
             alt={title}
             fill
             className="object-cover"
@@ -68,32 +74,36 @@ const CartItem = React.forwardRef<HTMLDivElement, CartItemProps>(
         <div className="flex flex-1 flex-col justify-between">
           <div>
             <h3 className="font-semibold text-xl">{title}</h3>
-            {description && <p className="mt-1 text-sm text-muted-foreground">
-             {description}
-            </p>}
+            {description && (
+              <p className="mt-1 text-sm text-muted-foreground">
+                {description}
+              </p>
+            )}
           </div>
 
           <div className="mt-2 flex items-center justify-between">
-
-              <Quantity value={quantity} onChange={onQuantityChange}/>
+            <Quantity value={quantity} onChange={onQuantityChange} />
 
             <span className="font-bold text-lg text-foreground">
               {toPersianDigits(price.toLocaleString())} تومان
-            </span>         
+            </span>
           </div>
         </div>
-         {onRemove && (
-              <button
-                type="button"
-                onClick={onRemove}
-                className="text-muted-foreground transition-opacity hover:opacity-70 absolute top-3 left-3"
-              >
-                <X size={18} />
-              </button>
-            )}
+        {onRemove && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              onRemove();
+            }}
+            className="text-muted-foreground transition-opacity hover:opacity-70 absolute top-3 left-3"
+          >
+            <X size={18} />
+          </button>
+        )}
       </div>
     );
-  }
+  },
 );
 
 CartItem.displayName = "CartItem";

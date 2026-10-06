@@ -12,6 +12,7 @@ import { esfahanLatLng } from "@/constants/esfahanLatLng";
 import { MapPin } from "lucide-react";
 import { toLonLat } from "ol/proj";
 import BackButton from "./shared/BackButton";
+import { useMapStore } from "@/stores/map/map.store";
 
 export default function NeshanLocationPicker() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function NeshanLocationPicker() {
     lng: esfahanLatLng.lng,
   });
 
+  const { setLocation: setStoreLocation } = useMapStore((state) => state);
   useEffect(() => {
     const map = mapRef.current?.map;
 
@@ -67,7 +69,9 @@ export default function NeshanLocationPicker() {
      * استفاده کنی
      */
 
-    // router.back();
+    setStoreLocation(location.lat, location.lng);
+
+    router.back();
   };
 
   return (

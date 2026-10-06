@@ -61,13 +61,12 @@ const invoicItmes: InvoiceItem[] = [
 ];
 
 export default function CartAddDetailsPage() {
-  const [selectedDay, setSelectedDay] = useState<number>();
+  const calendar = getCalendar();
+  const remainingDays = calendar.getTodayAndNext10Days();
+
+  const [selectedDay, setSelectedDay] = useState<number>(remainingDays[0].day);
   const [selectedTime, setSelectedTime] = useState<number>(9);
   const [t, setT] = useState(true);
-
-  const calendar = getCalendar();
-
-  const remainingDays = calendar.getTodayAndNext10Days();
 
   return (
     <div className="mx-auto w-full lg:max-w-3xl space-y-5">

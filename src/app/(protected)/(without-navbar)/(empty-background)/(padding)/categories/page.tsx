@@ -7,6 +7,7 @@ import React from "react";
 import CategoryItem from "./_components/CategoryItem";
 import ComplexItem from "./_components/ComplexItem";
 import Gemini from "@/assets/icons/Gemini";
+import BackButton from "@/components/shared/BackButton";
 
 const categorItems = [
   {
@@ -44,7 +45,7 @@ export default function CategoriesPage() {
   return (
     <div>
       <div className="flex-between lg:hidden">
-        <Menu />
+        <BackButton />
         <Image
           src="/images/bodokado-logo.png"
           width={62}
@@ -52,6 +53,7 @@ export default function CategoriesPage() {
           alt="bodokado-logo"
         />
       </div>
+      <BackButton />
       <SearchInput
         value=""
         onChange={() => {}}

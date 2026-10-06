@@ -24,8 +24,6 @@ export default function OtpPage() {
   const phoneNumber = searchParams.get("phoneNumber") ?? "";
   const returnUrl = searchParams.get("returnUrl");
 
-  console.log(returnUrl);
-
   const router = useTransitionRouter();
 
   const { error, success } = useToast();

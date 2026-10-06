@@ -14,6 +14,7 @@ import productsApi from "@/api/services/ApiService/productsApi";
 import { APIGetTemplate } from "@/types/api/commonApiTypes";
 import { useApi } from "@/hooks/useApi";
 import { ProductSortENUM } from "@/types/api/enum.types";
+import { Skeleton } from "./ui/skeleton";
 
 export interface RenderProductSectionProps {
   productHeaderProps?: ProductSectionHeaderProps;
@@ -37,6 +38,30 @@ export default function RenderProductSection({
       getProducts();
     }
   }, []);
+
+  if (productsLoading)
+    return (
+      <div>
+        <ProductSectionHeader
+          {...productHeaderProps}
+          link={`/search?sort=${productSort}`}
+          titleVariant={"default"}
+          linkVariant={"default"}
+          className="items-center"
+        />
+        <SectionContent
+          variant={"scroll"}
+          className="flex items-center gap-5 w-full h-70"
+        >
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div>
+              <Skeleton key={i + 2} className="rounded-2xl size-60 w-70" />
+            </div>
+          ))}
+        </SectionContent>
+      </div>
+    );
+
   return (
     <ProductSection>
       <ProductSectionHeader

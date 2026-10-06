@@ -64,6 +64,8 @@ export interface ProductGet {
 }
 
 export interface ProductImage {
-  id: string;
+  fileAssetId: string;
   path: string;
+  sortOrder: number;
+  isPrimary: boolean;
 }

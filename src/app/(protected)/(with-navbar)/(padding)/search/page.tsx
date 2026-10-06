@@ -18,6 +18,8 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ENV } from "./../../../../../config/env";
+import { SectionContent } from "@/components/SectionContent";
+import { useCartStore } from "@/stores/cart/cart.store";
 
 type CategoryValue = ProductSortENUM | "all";
 
@@ -45,6 +47,10 @@ const SearchPage = () => {
   const [pageSize, setPageSize] = useState(20);
   const [searchValue, setSearchValue] = useState<string>("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
+
+  const { addItem, setQuantity, removeItem, getProductQuantity } = useCartStore(
+    (state) => state,
+  );
 
   const productsListRef = useRef<HTMLDivElement>(null);
 
@@ -163,13 +169,15 @@ const SearchPage = () => {
         {/* <SlidersHorizontal /> */}
       </div>
       <Tabs value={activeTab} onValueChange={handleTabChange}>
-        <TabsList variant={"accent"}>
-          {categories.map((category) => (
-            <TabsTrigger key={category.id} value={category.value}>
-              {category.name}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+        <SectionContent variant={"scroll"}>
+          <TabsList variant={"accent"}>
+            {categories.map((category) => (
+              <TabsTrigger key={category.id} value={category.value}>
+                {category.name}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </SectionContent>
         {categories.map((category) => (
           <TabsContent
             key={category.id}
@@ -208,6 +216,16 @@ const SearchPage = () => {
                       style={{
                         animationDelay: `${(i + 4) * 50}ms`,
                       }}
+                      onAddtoCart={() => {
+                        addItem(product, 1);
+                      }}
+                      onChangeQuantity={(val) => {
+                        setQuantity(product.id, val);
+                      }}
+                      onRemoveFromCart={() => {
+                        removeItem(product.id);
+                      }}
+                      quantity={getProductQuantity(product.id)}
                     />
                   ))}
             </div>

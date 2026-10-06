@@ -8,7 +8,7 @@ import { ProductSectionHeader } from "@/components/product/ProductSectionHeader"
 import { SectionContent } from "@/components/SectionContent";
 import { ProductItem } from "@/components/product/ProductItem";
 
-export interface Product {
+interface Product {
   id: number;
   title: string;
   category: string;

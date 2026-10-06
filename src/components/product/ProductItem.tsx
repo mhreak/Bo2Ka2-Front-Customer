@@ -3,17 +3,19 @@ import Image from "next/image";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
-import { Heart, Star, Zap } from "lucide-react";
+import { Heart, ShoppingCart, Star, Trash, Zap } from "lucide-react";
 import { toPersianDigits } from "@/utils/numberConversions";
 import { Link } from "next-view-transitions";
 import { ENV } from "@/config/env";
+import { Button } from "../ui/button";
+import Quantity from "../shared/Quantity";
 
 const productItemVariants = cva(
-  "relative flex flex-col items-start active:scale-95 transition-default",
+  "relative flex flex-col items-start  transition-default min-w-48 lg:w-full lg:min-w-0",
   {
     variants: {
       variant: {
-        default: "min-w-fit",
+        default: "min-w-48",
         bordered: "rounded-2xl border p-4",
         card: "rounded-2xl bg-card p-3 shadow-sm w-full",
         animate: "animate-slide-right",
@@ -25,18 +27,21 @@ const productItemVariants = cva(
   },
 );
 
-const imageVariants = cva("rounded-2xl object-cover", {
-  variants: {
-    variant: {
-      default: "",
-      rounded: "rounded-3xl",
-      square: "rounded-none",
+const imageVariants = cva(
+  "rounded-2xl object-cover active:scale-95 transition-default",
+  {
+    variants: {
+      variant: {
+        default: "",
+        rounded: "rounded-3xl",
+        square: "rounded-none",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
     },
   },
-  defaultVariants: {
-    variant: "default",
-  },
-});
+);
 
 const titleVariants = cva("mt-3 font-semibold", {
   variants: {
@@ -131,6 +136,12 @@ export interface ProductItemProps
 
   onLike?: (isLiked: boolean) => void;
   isLiked?: boolean;
+
+  showAddtoCart?: boolean;
+  onAddtoCart?: () => void;
+  onRemoveFromCart?: () => void;
+  quantity?: number;
+  onChangeQuantity?: (val: number) => void;
 }
 
 const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
@@ -168,6 +179,12 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
 
       onLike,
       isLiked,
+
+      showAddtoCart = true,
+      onAddtoCart,
+      onRemoveFromCart,
+      quantity = 0,
+      onChangeQuantity,
 
       ...props
     },
@@ -281,6 +298,41 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
             >
               <Star fill="currentColor" className="text-yellow-400" size={14} />
               <p className="text-text font-semibold">{rating}</p>
+            </div>
+          )}
+          {showAddtoCart && (
+            <div className="flex flex-row justify-end w-full">
+              {quantity > 0 ? (
+                <div className="flex items-center gap-2">
+                  <Quantity
+                    value={quantity}
+                    onChange={(val) => {
+                      onChangeQuantity?.(val);
+                    }}
+                  />
+                  <Button
+                    variant={"destructive"}
+                    size={"icon"}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onRemoveFromCart?.();
+                    }}
+                  >
+                    <Trash />
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  variant={"gradient"}
+                  size={"icon"}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onAddtoCart?.();
+                  }}
+                >
+                  <ShoppingCart />
+                </Button>
+              )}
             </div>
           )}
         </div>

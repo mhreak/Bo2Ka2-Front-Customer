@@ -1,4 +1,9 @@
-import { MessageScroller, MessageScrollerContent, MessageScrollerProvider, MessageScrollerViewport } from "@/components/ui/message-scroller";
+import {
+  MessageScroller,
+  MessageScrollerContent,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/components/ui/message-scroller";
 import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { ProductSection } from "@/components/product/ProductSection";
 import { ProductSectionHeader } from "@/components/product/ProductSectionHeader";
@@ -47,6 +52,12 @@ export const chatMessages = [
         price: 150000,
         image: "/images/products/chocolate-1.jpg",
       },
+      {
+        id: "p4",
+        name: "مجسمه استوانه‌ای",
+        price: 150000,
+        image: "/images/products/chocolate-1.jpg",
+      },
     ],
     createdAt: "10:31",
   },
@@ -70,53 +81,60 @@ export const chatMessages = [
 const bobbleContentClassName = {
   user: "rounded-l-3xl rounded-tr-4xl",
   assistant: "rounded-r-3xl rounded-tl-4xl",
-}
+};
 
 const ChatPage = () => {
   return (
-           <MessageScrollerProvider>
-          <MessageScroller>
-            <MessageScrollerViewport className="">
-              <MessageScrollerContent
-
-                className="p-(--card-spacing)"
-              >
-                {chatMessages.map((message) => {
-                  if (message.type === "text") return (
-                    <Bubble key={message.id} align={message.role === "assistant" ? "end" : "start"}
-                      variant={message.role === "assistant" ? "muted" : "default"}
+    <MessageScrollerProvider>
+      <MessageScroller>
+        <MessageScrollerViewport className="">
+          <MessageScrollerContent className="p-(--card-spacing)">
+            {chatMessages.map((message) => {
+              if (message.type === "text")
+                return (
+                  <Bubble
+                    key={message.id}
+                    align={message.role === "assistant" ? "end" : "start"}
+                    variant={message.role === "assistant" ? "muted" : "default"}
+                  >
+                    <BubbleContent
+                      className={
+                        message.role === "user"
+                          ? bobbleContentClassName.user
+                          : bobbleContentClassName.assistant
+                      }
                     >
-                      <BubbleContent className={message.role === "user" ? bobbleContentClassName.user : bobbleContentClassName.assistant}>{message.content}</BubbleContent>
-                    </Bubble>
-                  )
-                  else return (
-                    <ProductSection key={message.id}>
-                      <ProductSectionHeader
-                        title={message.title || ""}
-                        link="/products"
-                        className="items-center"
-                      />
-                      <SectionContent variant="scroll" className="lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible">
-                        {message.products?.map((product) => (
-                          <ProductItem
-                            key={product.id}
-                            title={product.name}
-                            imageSrc="/samples/sample-product-1.jpg"
+                      {message.content}
+                    </BubbleContent>
+                  </Bubble>
+                );
+              else
+                return (
+                  <ProductSection key={message.id}>
+                    <ProductSectionHeader
+                      title={message.title || ""}
+                      link="/search"
+                      className="items-center"
+                    />
+                    <SectionContent variant="scroll" className="">
+                      {message.products?.map((product) => (
+                        <ProductItem
+                          key={product.id}
+                          title={product.name}
+                          imageSrc={undefined}
+                          price={toPersianDigits(product.price)}
+                          className="min-w-40 lg:w-full lg:min-w-52"
+                        />
+                      ))}
+                    </SectionContent>
+                  </ProductSection>
+                );
+            })}
+          </MessageScrollerContent>
+        </MessageScrollerViewport>
+      </MessageScroller>
+    </MessageScrollerProvider>
+  );
+};
 
-                            price={toPersianDigits(product.price)}
-                          />
-                        ))}
-                      </SectionContent>
-                    </ProductSection>
-                  )
-
-
-                })}
-              </MessageScrollerContent>
-            </MessageScrollerViewport>
-          </MessageScroller>
-        </MessageScrollerProvider>
-  )
-}
-
-export default ChatPage
+export default ChatPage;
