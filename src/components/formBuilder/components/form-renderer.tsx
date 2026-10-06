@@ -111,10 +111,20 @@ export function FormRenderer({
     mode: "onChange",
   });
 
+  const handleFormSubmit = (data: Record<string, any>) => {
+    const cleanedData = Object.fromEntries(
+      Object.entries(data).filter(
+        ([, value]) => value !== "" && value !== null && value !== undefined,
+      ),
+    );
+
+    onSubmit(cleanedData);
+  };
+
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={methods.handleSubmit(onSubmit)}
+        onSubmit={methods.handleSubmit(handleFormSubmit)}
         className="relative flex flex-col justify-between h-full"
       >
         <div className="space-y-5">

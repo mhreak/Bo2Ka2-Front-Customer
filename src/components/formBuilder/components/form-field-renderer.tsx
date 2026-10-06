@@ -45,6 +45,9 @@ import {
 } from "../utils/date-converter";
 import { PersianTimePicker } from "@/components/persianDatePicker/PersianTimePicker";
 import { PersianDateTimePicker } from "@/components/persianDatePicker/PersianDateTimePicker";
+import NeshanLeafletMap from "@/components/NeshanLeafletMap";
+import { esfahanLatLng } from "@/constants/esfahanLatLng";
+import { ENV } from "@/config/env";
 
 interface FormFieldRendererProps {
   field: BaseFieldConfig;
@@ -528,7 +531,43 @@ export function FormFieldRenderer({
               }
 
               case "location": {
-                return null;
+                const lat = value?.lat ?? esfahanLatLng.lat;
+                const lng = value?.lng ?? esfahanLatLng.lng;
+
+                return (
+                  <div className="h-50 w-full rounded-3xl">
+                    <NeshanLeafletMap
+                      mapKey={ENV.NESHAN_MAP_API_KEY}
+                      center={{
+                        latitude: lat,
+                        longitude: lng,
+                      }}
+                      zoom={14}
+                      markers={[
+                        {
+                          id: 1,
+                          lat: lat,
+                          lng: lng,
+                          marker: (
+                            <div className="bg-gradient rounded-full size-10 rounded-br-none rotate-45 flex-center">
+                              <div className="size-3 rounded-full bg-white/90" />
+                            </div>
+                          ),
+                          iconAnchor: [17, 45],
+                        },
+                      ]}
+                      onMapClick={(coords) => {
+                        console.log("map", coords);
+                        onChange({
+                          lat: coords.lat,
+                          lng: coords.lng,
+                        });
+                      }}
+                      onMarkerClick={() => {}}
+                      className="rounded-3xl"
+                    />
+                  </div>
+                );
               }
 
               default:

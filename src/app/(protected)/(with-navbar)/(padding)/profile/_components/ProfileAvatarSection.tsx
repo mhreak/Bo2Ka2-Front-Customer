@@ -15,17 +15,16 @@ export default function ProfileAvatarSection({
 }: ProfileAvatarSectionProps) {
   return (
     <div className="my-10 flex flex-col items-center justify-center">
-      <div className="relative mb-8">
+      <div className="relative mb-8 aspect-square size-36">
         <Image
           src={avatarImagePath || "/images/default-user-avatar.jpg"}
           alt="sample-avatar"
-          className="rounded-full border-2 border-gradient "
-          width={92}
-          height={92}
+          className="rounded-full border-2 border-gradient p-0.5"
+          fill
         />
         {/* <Badge className='absolute -bottom-1 right-0 bg-gradient rounded-full'>{"نخبگان"}</Badge> */}
       </div>
-      <h3 className="font-semibold text-lg">{name}</h3>
+      <h3 className="font-semibold text-2xl">{name}</h3>
       {role && (
         <div className="flex-between gap-2">
           <Star className="text-accent size-3" fill="currentColor" />

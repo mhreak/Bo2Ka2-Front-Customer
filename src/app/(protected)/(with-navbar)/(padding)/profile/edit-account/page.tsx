@@ -19,6 +19,9 @@ import {
   FileUploadData,
   FileUploadResponse,
 } from "@/types/api/endpointTypes/files.types";
+import NeshanLeafletMap from "@/components/NeshanLeafletMap";
+import { ENV } from "@/config/env";
+import { esfahanLatLng } from "@/constants/esfahanLatLng";
 
 const formIconsClassName = "size-5";
 
@@ -105,14 +108,16 @@ export default function EditAccountPage() {
   const handleSubmitForm = async (data: any) => {
     let avatarFileId = undefined;
 
-    if (avatarFile) {
-      const uploadResponse = await uploadFile({
-        File: avatarFile,
-        FileType: "Avatar",
-      });
+    console.log(data);
 
-      avatarFileId = uploadResponse.data.id;
-    }
+    // if (avatarFile) {
+    //   const uploadResponse = await uploadFile({
+    //     File: avatarFile,
+    //     FileType: "Avatar",
+    //   });
+
+    //   avatarFileId = uploadResponse.data.id;
+    // }
 
     const formattedData: UserEdit = {
       firstName: data.fullName.split(" ")[0],
@@ -121,6 +126,8 @@ export default function EditAccountPage() {
       email: data.email,
       birthDate: data.birthDate,
       address: data.address,
+      latitude: data.location.lat,
+      longitude: data.location.lng,
       avatarFileId,
     };
 
@@ -129,6 +136,14 @@ export default function EditAccountPage() {
 
   const formConfig = generateFormConfig(editProfileFormConfig, {
     values: userData?.data,
+    fieldProps: {
+      location: {
+        defaultValue:
+          userData?.data.latitude !== 0
+            ? { lat: userData?.data.latitude, lng: userData?.data.longitude }
+            : undefined,
+      },
+    },
   });
 
   if (isLoading)
@@ -145,7 +160,7 @@ export default function EditAccountPage() {
       </div>
     );
   return (
-    <div>
+    <div className="mb-8">
       <SharedPageHeader title="ویرایش حساب" />
       <EditAccountAvatarSection
         name={

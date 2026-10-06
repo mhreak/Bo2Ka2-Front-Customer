@@ -4,6 +4,7 @@ import PersonWalkIcon from "@/assets/icons/PersonWalkIcon";
 import NeshanLeafletMap from "@/components/NeshanLeafletMap";
 import SearchInput from "@/components/shared/inputs/SearchInput";
 import { Button } from "@/components/ui/button";
+import { ENV } from "@/config/env";
 import { esfahanLatLng } from "@/constants/esfahanLatLng";
 import { toPersianDigits } from "@/utils/numberConversions";
 import {
@@ -173,7 +174,7 @@ export default function MapPage() {
       )}
 
       <NeshanLeafletMap
-        mapKey={process.env.NEXT_PUBLIC_NESHAN_API_KEY!}
+        mapKey={ENV.NESHAN_MAP_API_KEY}
         center={{
           latitude: esfahanLatLng.lat,
           longitude: esfahanLatLng.lng,
