@@ -13,13 +13,13 @@ import {
   ProductParams,
 } from "@/types/api/endpointTypes/product.types";
 import { ProductSortENUM } from "@/types/api/enum.types";
-import { Menu, SlidersHorizontal } from "lucide-react";
+import { Menu } from "lucide-react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ENV } from "./../../../../../config/env";
 import { SectionContent } from "@/components/SectionContent";
 import { useCartStore } from "@/stores/cart/cart.store";
+import { cn } from "@/lib/utils";
 
 type CategoryValue = ProductSortENUM | "all";
 
@@ -42,40 +42,64 @@ const isCategoryValue = (value: string): value is CategoryValue => {
 };
 
 const SearchPage = () => {
-  const [activeTab, setActiveTab] = useState<CategoryValue>("all");
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
+
+  const productsListRef = useRef<HTMLDivElement>(null);
+  const productRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const { addItem, setQuantity, removeItem, getProductQuantity } = useCartStore(
     (state) => state,
   );
 
-  const productsListRef = useRef<HTMLDivElement>(null);
+  /*
+   * -----------------------------------------
+   * URL STATE
+   * -----------------------------------------
+   */
 
-  const params = useSearchParams();
-  const sort = params.get("sort");
+  const sortParam = params.get("sort");
+  const pageParam = params.get("page");
+  const pageSizeParam = params.get("pageSize");
+
+  const activeTab: CategoryValue =
+    sortParam && isCategoryValue(sortParam) ? sortParam : "all";
+
+  const page = Math.max(1, Number(pageParam ?? "1"));
+
+  const pageSize = Math.max(1, Number(pageSizeParam ?? "20"));
+
+  /*
+   * -----------------------------------------
+   * SEARCH
+   * -----------------------------------------
+   */
+
+  const [searchValue, setSearchValue] = useState("");
+
+  const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
+
+  /*
+   * -----------------------------------------
+   * RESTORE SEARCH VALUE
+   * -----------------------------------------
+   */
 
   useEffect(() => {
-    if (sort && isCategoryValue(sort)) {
-      setActiveTab(sort);
+    const savedSearch = sessionStorage.getItem("products-search-value");
+
+    if (savedSearch !== null) {
+      setSearchValue(savedSearch);
+      setDebouncedSearchValue(savedSearch);
     }
-  }, [sort]);
+  }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearchValue(searchValue.trim());
-    }, 500);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [searchValue]);
-
-  useEffect(() => {
-    setPage(1);
-  }, [debouncedSearchValue]);
+  /*
+   * -----------------------------------------
+   * API
+   * -----------------------------------------
+   */
 
   const {
     data: productsData,
@@ -83,7 +107,12 @@ const SearchPage = () => {
     execute: getProducts,
   } = useApi<APIGetTemplate<Product[]>, ProductParams>(productsApi.getAll);
 
-  // تابع کمکی برای ساخت پارامترها
+  /*
+   * -----------------------------------------
+   * BUILD PARAMS
+   * -----------------------------------------
+   */
+
   const buildProductParams = useCallback(
     (overrides?: Partial<ProductParams>): ProductParams => {
       const baseParams: ProductParams = {
@@ -107,22 +136,119 @@ const SearchPage = () => {
     [page, pageSize, activeTab, debouncedSearchValue],
   );
 
-  // دریافت محصولات با تغییر تب، صفحه یا تعداد ردیف
+  /*
+   * -----------------------------------------
+   * FETCH PRODUCTS
+   * -----------------------------------------
+   */
+
   useEffect(() => {
     getProducts(buildProductParams());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, page, pageSize, debouncedSearchValue]);
+
+  /*
+   * -----------------------------------------
+   * UPDATE URL
+   * -----------------------------------------
+   */
+
+  const updateUrl = useCallback(
+    (values: {
+      sort?: CategoryValue;
+      page?: number;
+      pageSize?: number;
+      search?: string;
+    }) => {
+      const nextParams = new URLSearchParams(params.toString());
+
+      if (values.sort !== undefined) {
+        if (values.sort === "all") {
+          nextParams.delete("sort");
+        } else {
+          nextParams.set("sort", values.sort);
+        }
+      }
+
+      if (values.page !== undefined) {
+        nextParams.set("page", String(values.page));
+      }
+
+      if (values.pageSize !== undefined) {
+        nextParams.set("pageSize", String(values.pageSize));
+      }
+
+      if (values.search !== undefined) {
+        if (values.search.trim()) {
+          nextParams.set("search", values.search.trim());
+        } else {
+          nextParams.delete("search");
+        }
+
+        // با تغییر سرچ همیشه برو صفحه 1
+        nextParams.set("page", "1");
+      }
+
+      router.push(`${pathname}?${nextParams.toString()}`, {
+        scroll: false,
+      });
+    },
+    [params, pathname, router],
+  );
+
+  /*
+   * -----------------------------------------
+   * DEBOUNCE SEARCH
+   * -----------------------------------------
+   */
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const value = searchValue.trim();
+
+      setDebouncedSearchValue(value);
+      sessionStorage.setItem("products-search-value", value);
+
+      updateUrl({
+        search: value,
+      });
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchValue]);
+
+  /*
+   * -----------------------------------------
+   * TAB CHANGE
+   * -----------------------------------------
+   */
 
   const handleTabChange = (value: string) => {
     if (!isCategoryValue(value)) return;
 
-    setActiveTab(value);
-    setPage(1);
+    updateUrl({
+      sort: value,
+      page: 1,
+    });
+
+    /*
+     * چون یک لیست کاملاً جدید داریم،
+     * scroll قبلی نباید restore شود.
+     */
+    sessionStorage.removeItem(getScrollStorageKey());
   };
 
-  // تغییر صفحه
+  /*
+   * -----------------------------------------
+   * PAGE CHANGE
+   * -----------------------------------------
+   */
+
   const handlePageChanged = (newPage: number) => {
-    setPage(newPage);
+    updateUrl({
+      page: newPage,
+    });
 
     requestAnimationFrame(() => {
       productsListRef.current?.scrollIntoView({
@@ -132,10 +258,18 @@ const SearchPage = () => {
     });
   };
 
-  // تغییر تعداد ردیف در هر صفحه → برگشت به صفحه اول
+  /*
+   * -----------------------------------------
+   * PAGE SIZE CHANGE
+   * -----------------------------------------
+   */
+
   const handlePageSizeChanged = (newPageSize: number) => {
-    setPageSize(newPageSize);
-    setPage(1);
+    updateUrl({
+      page: 1,
+      pageSize: newPageSize,
+    });
+
     requestAnimationFrame(() => {
       productsListRef.current?.scrollIntoView({
         behavior: "smooth",
@@ -143,11 +277,79 @@ const SearchPage = () => {
       });
     });
   };
+
+  /*
+   * -----------------------------------------
+   * SCROLL STORAGE KEY
+   * -----------------------------------------
+   */
+
+  function getScrollStorageKey() {
+    return `products-scroll:${pathname}?${params.toString()}`;
+  }
+
+  /*
+   * -----------------------------------------
+   * SAVE SCROLL
+   * -----------------------------------------
+   */
+
+  useEffect(() => {
+    const handleScroll = () => {
+      sessionStorage.setItem(
+        getScrollStorageKey(),
+        String(productsListRef.current?.scrollHeight),
+      );
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [pathname, params]);
+
+  /*
+   * -----------------------------------------
+   * RESTORE SCROLL
+   * -----------------------------------------
+   */
+
+  useEffect(() => {
+    if (productsLoading) return;
+
+    const productId = sessionStorage.getItem("last-viewed-product");
+
+    if (!productId) return;
+
+    const productElement = productRefs.current[productId];
+
+    if (!productElement) return;
+
+    requestAnimationFrame(() => {
+      productElement.scrollIntoView({
+        behavior: "instant",
+        block: "center",
+      });
+
+      sessionStorage.removeItem("last-viewed-product");
+    });
+  }, [productsLoading, productsData]);
+
+  /*
+   * -----------------------------------------
+   * RENDER
+   * -----------------------------------------
+   */
 
   return (
-    <div ref={productsListRef}>
+    <div
+      ref={productsListRef}
+      className="flex h-full min-h-0 flex-col overflow-hidden"
+    >
       <div className="flex-between mb-5 lg:hidden">
         <Menu />
+
         <Image
           src="/images/bodokado-logo.png"
           width={62}
@@ -155,22 +357,29 @@ const SearchPage = () => {
           alt="bodokado-logo"
         />
       </div>
-      <div className="flex flex-row items-center gap-5 mb-5">
+
+      <div className="mb-5 flex flex-row items-center gap-5">
         <SearchInput
           value={searchValue}
           onChange={setSearchValue}
-          className="bg-background shadow flex-1"
+          className="flex-1 bg-background shadow"
           placeholder="جستجو"
           onClear={() => {
             setSearchValue("");
             setDebouncedSearchValue("");
+
+            sessionStorage.removeItem("products-search-value");
           }}
         />
-        {/* <SlidersHorizontal /> */}
       </div>
-      <Tabs value={activeTab} onValueChange={handleTabChange}>
-        <SectionContent variant={"scroll"}>
-          <TabsList variant={"accent"}>
+
+      <Tabs
+        value={activeTab}
+        onValueChange={handleTabChange}
+        className="flex h-full flex-col"
+      >
+        <SectionContent variant="scroll">
+          <TabsList variant="accent">
             {categories.map((category) => (
               <TabsTrigger key={category.id} value={category.value}>
                 {category.name}
@@ -178,66 +387,77 @@ const SearchPage = () => {
             ))}
           </TabsList>
         </SectionContent>
-        {categories.map((category) => (
-          <TabsContent
-            key={category.id}
-            value={category.value}
-            className={"animate-none"}
+
+        <TabsContent value={activeTab} className="flex min-h-0 flex-1 flex-col">
+          <div
+            className={cn(
+              "grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
+              productsData?.data.length === 0 &&
+                "flex-1 grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 h-full",
+            )}
           >
-            <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {productsLoading
-                ? Array.from({ length: 15 }).map((_, i) => (
-                    <Skeleton
-                      key={i + 1}
-                      className="rounded-2xl min-w-52 h-52 lg:min-w-0"
-                    />
-                  ))
-                : productsData?.data.map((product, i) => (
-                    <ProductItem
-                      key={product.id}
-                      productId={product.id}
-                      title={product.name}
-                      imageSrc={product.primaryImagePath || undefined}
-                      discountedPrice={
-                        product.discountPrice ? product.basePrice : undefined
-                      }
-                      price={
-                        product.discountPrice
-                          ? product.effectivePrice
-                          : product.basePrice
-                      }
-                      discountPercent={product.discountPercent || undefined}
-                      className="gap-2 items-start"
-                      titleClassName="lg:text-lg"
-                      variant={"animate"}
-                      storeName={product.shopName}
-                      badgeVariant={"default"}
-                      onLike={() => {}}
-                      style={{
-                        animationDelay: `${(i + 4) * 50}ms`,
-                      }}
-                      onAddtoCart={() => {
-                        addItem(product, 1);
-                      }}
-                      onChangeQuantity={(val) => {
-                        setQuantity(product.id, val);
-                      }}
-                      onRemoveFromCart={() => {
-                        removeItem(product.id);
-                      }}
-                      quantity={getProductQuantity(product.id)}
-                    />
-                  ))}
-            </div>
-            <AppPagination
-              paginationMeta={productsData?.meta}
-              onPageChanged={handlePageChanged}
-              onPageSizeChanged={handlePageSizeChanged}
-              showPageSizeSelector={true}
-              siblingCount={1}
-            />
-          </TabsContent>
-        ))}
+            {productsLoading ? (
+              Array.from({ length: 15 }).map((_, i) => (
+                <Skeleton
+                  key={i + 1}
+                  className="h-52 min-w-52 rounded-2xl lg:min-w-0"
+                />
+              ))
+            ) : productsData?.data && productsData.data.length > 0 ? (
+              productsData?.data.map((product, i) => (
+                <ProductItem
+                  key={product.id}
+                  ref={(el) => {
+                    productRefs.current[product.id] = el;
+                  }}
+                  productId={product.id}
+                  title={product.name}
+                  imageSrc={product.primaryImagePath || undefined}
+                  discountedPrice={
+                    product.discountPrice ? product.basePrice : undefined
+                  }
+                  price={
+                    product.discountPrice
+                      ? product.effectivePrice
+                      : product.basePrice
+                  }
+                  discountPercent={product.discountPercent || undefined}
+                  className="items-start gap-2"
+                  titleClassName="lg:text-lg"
+                  variant="animate"
+                  storeName={product.shopName}
+                  badgeVariant="default"
+                  onLike={() => {}}
+                  style={{
+                    animationDelay: `${(i + 4) * 50}ms`,
+                  }}
+                  onAddtoCart={() => {
+                    addItem(product, 1);
+                  }}
+                  onChangeQuantity={(val) => {
+                    setQuantity(product.id, val);
+                  }}
+                  onRemoveFromCart={() => {
+                    removeItem(product.id);
+                  }}
+                  quantity={getProductQuantity(product.id)}
+                />
+              ))
+            ) : (
+              <div className="flex flex-1 items-center justify-center text-2xl text-muted-foreground">
+                محصولی یافت نشد!
+              </div>
+            )}
+          </div>
+
+          <AppPagination
+            paginationMeta={productsData?.meta}
+            onPageChanged={handlePageChanged}
+            onPageSizeChanged={handlePageSizeChanged}
+            showPageSizeSelector
+            siblingCount={1}
+          />
+        </TabsContent>
       </Tabs>
     </div>
   );

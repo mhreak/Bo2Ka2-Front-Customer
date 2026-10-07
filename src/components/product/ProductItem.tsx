@@ -191,7 +191,12 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
     ref,
   ) => {
     return (
-      <Link href={`/product/${productId}`}>
+      <Link
+        href={`/product/${productId}`}
+        onClick={() => {
+          sessionStorage.setItem("last-viewed-product", productId || "ERR");
+        }}
+      >
         <div
           ref={ref}
           className={cn(productItemVariants({ variant }), className)}
