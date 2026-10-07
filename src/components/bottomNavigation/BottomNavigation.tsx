@@ -4,15 +4,14 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { navItems } from "./navItems";
 import { usePathname } from "next/navigation";
-import { Link } from "next-view-transitions"
-
+import { Link } from "next-view-transitions";
 
 const BottomNavigation = () => {
   const pathname = usePathname();
   const activeTab = pathname.split("/")[1];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-999 bg-stone-100 rounded-2xl mx-2 shadow-lg lg:hidden">
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-stone-100 rounded-2xl mx-2 shadow-lg lg:hidden">
       <div className="flex items-center justify-around h-20 px-4 max-w-md mx-auto">
         {navItems.map((item) => {
           const isActive = activeTab === item.id;

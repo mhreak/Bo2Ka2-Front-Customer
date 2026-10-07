@@ -67,9 +67,9 @@ const DesktopHeader = () => {
             <Bot className="text-primary-foreground" />
           </Button>
         </Link>
-        <div className="shrink-0">
+        {/* <div className="shrink-0">
           <ProfileAvatar />
-        </div>
+        </div> */}
       </div>
     </header>
   );

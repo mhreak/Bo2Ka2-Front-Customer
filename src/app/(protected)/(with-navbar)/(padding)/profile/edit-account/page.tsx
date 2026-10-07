@@ -108,8 +108,6 @@ export default function EditAccountPage() {
   const handleSubmitForm = async (data: any) => {
     let avatarFileId = undefined;
 
-    console.log(data);
-
     // if (avatarFile) {
     //   const uploadResponse = await uploadFile({
     //     File: avatarFile,

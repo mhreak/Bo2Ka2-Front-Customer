@@ -362,7 +362,7 @@ const SearchPage = () => {
         <SearchInput
           value={searchValue}
           onChange={setSearchValue}
-          className="flex-1 bg-background shadow"
+          className="flex-1 bg-background shadow m-2"
           placeholder="جستجو"
           onClear={() => {
             setSearchValue("");
@@ -392,7 +392,8 @@ const SearchPage = () => {
           <div
             className={cn(
               "grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
-              productsData?.data.length === 0 &&
+              (!productsData?.data || productsData?.data.length === 0) &&
+                !productsLoading &&
                 "flex-1 grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 h-full",
             )}
           >
