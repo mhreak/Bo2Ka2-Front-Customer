@@ -49,31 +49,39 @@ export default function RenderHomePageItems() {
       case "banner":
         return <BannersSection key={section.order} />;
 
-      case "stories":
-        return <Stories key={section.order} />;
+      // case "stories":
+      //   return <Stories key={section.order} />;
 
-      case "categories":
-        return <Categories key={section.order} />;
+      case "mainCategories":
+      case "giftIdeas":
+        if (section.isVisible)
+          return (
+            <Categories
+              key={section.order}
+              categoryData={section.categories}
+              title={section.title}
+            />
+          );
+        else return null;
 
-      case "bestSellers":
-      case "newest":
-        return (
-          <RenderProductSection
-            key={section.order}
-            productHeaderProps={{ title: section.title || undefined }}
-            productSort={convertToProductSort(section.type)}
-          />
-        );
+      // case "bestSellers":
+      // case "newest":
+      //   return (
+      //     <RenderProductSection
+      //       key={section.order}
+      //       productHeaderProps={{ title: section.title || undefined }}
+      //       productSort={convertToProductSort(section.type)}
+      //     />
+      //   );
 
       case "trustedShops":
-        return (
-          <RenderShopSection
-            key={section.order}
-            title={section.title || undefined}
-          />
-        );
-      case "souvenirs":
-        return null;
+        if (section.isVisible)
+          return (
+            <RenderShopSection
+              key={section.order}
+              title={section.title || undefined}
+            />
+          );
 
       default:
         return null;

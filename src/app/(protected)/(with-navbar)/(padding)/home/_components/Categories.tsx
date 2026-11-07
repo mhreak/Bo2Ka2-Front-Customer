@@ -19,22 +19,32 @@ import productCategoriesApi from "@/api/services/ApiService/productCategories";
 import { useApi } from "./../../../../../../hooks/useApi";
 import { APIGetTemplate } from "@/types/api/commonApiTypes";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ENV } from "@/config/env";
+import {
+  GiftIdeaCategory,
+  HomeCarouselCategory,
+} from "@/types/api/endpointTypes/setting.types";
 
-const Categories = () => {
+interface CategoriesProps {
+  categoryData: HomeCarouselCategory[] | GiftIdeaCategory[];
+  title?: string | null;
+}
+
+const Categories = ({ categoryData, title }: CategoriesProps) => {
   const [activeCategory, setActiveCategory] = useState("ظروف");
   const [isLiked, setIsLiked] = useState(false);
 
-  const {
-    data: productCategoriesData,
-    isLoading: productCategoriesLoading,
-    execute: getProductCategories,
-  } = useApi<APIGetTemplate<ProductCategory[]>, { asTree: boolean }>(
-    productCategoriesApi.getAll,
-  );
+  // const {
+  //   data: productCategoriesData,
+  //   isLoading: productCategoriesLoading,
+  //   execute: getProductCategories,
+  // } = useApi<APIGetTemplate<ProductCategory[]>, { asTree: boolean }>(
+  //   productCategoriesApi.getAll,
+  // );
 
-  useEffect(() => {
-    getProductCategories({ asTree: false });
-  }, []);
+  // useEffect(() => {
+  //   getProductCategories({ asTree: false });
+  // }, []);
 
   const categories = [
     {
@@ -84,41 +94,49 @@ const Categories = () => {
     },
   ];
 
-  if (productCategoriesLoading)
-    return (
-      <div className="flex items-center justify-start gap-4 lg:justify-center overflow-x-auto hide-scrollbar show-scrollbar">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <Skeleton
-            key={i + 1}
-            className="size-20 rounded-full min-w-20 lg:min-w-0"
-          />
-        ))}
-      </div>
-    );
+  // if (productCategoriesLoading)
+  //   return (
+  //     <div className="flex items-center justify-start gap-4 lg:justify-center overflow-x-auto hide-scrollbar show-scrollbar">
+  //       {Array.from({ length: 8 }).map((_, i) => (
+  //         <Skeleton
+  //           key={i + 1}
+  //           className="size-20 rounded-full min-w-20 lg:min-w-0"
+  //         />
+  //       ))}
+  //     </div>
+  //   );
 
   return (
-    <div className="w-full relative">
-      <div className="flex flex-row justify-start items-center gap-8 overflow-x-auto overflow-y-hidden py-4 px-2 scroll-smooth hide-scrollbar show-scrollbar lg:justify-between lg:px-0">
-        {productCategoriesData?.data.map((category) => (
-          <div
-            key={category.id}
-            className="relative flex flex-col justify-between h-full items-center gap-2"
-          >
-            <div className="relative bg-[#EED5FF] size-14 rounded-full mb-auto flex-center">
-              <div className="relative size-20 aspect-square">
-                <Image
-                  src={category.imagePath || "/samples/sample-category-1.png"} //TODO: replace with default product catecory image
-                  alt={category.name}
-                  fill
-                  className="absolute bottom-1 right-0"
-                />
+    <div>
+      {title && <h3 className="text-xl font-semibold">{title}</h3>}
+      <div className="w-full relative">
+        <div className="flex flex-row justify-start items-center gap-8 overflow-x-auto overflow-y-hidden py-4 px-2 scroll-smooth hide-scrollbar show-scrollbar lg:justify-between lg:px-0">
+          {categoryData.map((category) => (
+            <div
+              key={category.id}
+              className="relative flex flex-col justify-between h-full items-center gap-2"
+            >
+              <div className="relative bg-[#EED5FF] size-14 rounded-full mb-auto flex-center">
+                <div className="relative size-20 aspect-square">
+                  <Image
+                    src={
+                      category.imagePath
+                        ? `${ENV.API_BASE_URL}/${category.imagePath}`
+                        : "/samples/sample-category-1.png"
+                    } //TODO: replace with default product catecory image
+                    alt={category.name}
+                    fill
+                    className="absolute bottom-1 right-0"
+                    unoptimized
+                  />
+                </div>
               </div>
+              <span className="text-sm text-muted-foreground text-center">
+                {category.name}
+              </span>
             </div>
-            <span className="text-sm text-muted-foreground text-center">
-              {category.name}
-            </span>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,10 @@
 import bannersApi from "@/api/services/ApiService/bannersApi";
 import { useApi } from "@/hooks/useApi";
 import { APIGetTemplate } from "@/types/api/commonApiTypes";
-import { type Banner } from "@/types/api/endpointTypes/banner.types";
+import {
+  BannerShowPlace,
+  type Banner,
+} from "@/types/api/endpointTypes/banner.types";
 import React, { useEffect } from "react";
 import BannerComponent from "./shared/Banner";
 import { Skeleton } from "./ui/skeleton";
@@ -12,10 +15,12 @@ export default function BannersSection() {
     data: bannersData,
     isLoading: bannersLoading,
     execute: getbanners,
-  } = useApi<APIGetTemplate<Banner[]>>(bannersApi.get);
+  } = useApi<APIGetTemplate<Banner[]>, { showPlace?: BannerShowPlace }>(
+    bannersApi.get,
+  );
 
   useEffect(() => {
-    getbanners();
+    getbanners({ showPlace: "HomePage" });
   }, []);
 
   const banners: BannerItem[] =
@@ -23,7 +28,7 @@ export default function BannersSection() {
       id: b.id,
       title: b.title,
       description: b.description,
-      image: b.imagePath,
+      imagePath: b.imagePath,
     })) ?? [];
 
   if (bannersLoading)

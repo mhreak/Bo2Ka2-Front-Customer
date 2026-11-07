@@ -226,6 +226,7 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
                 imageVariants({ variant: imageVariant }),
                 imageClassName,
               )}
+              unoptimized
             />
             {onLike && (
               <span

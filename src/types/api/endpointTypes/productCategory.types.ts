@@ -8,4 +8,5 @@ export interface ProductCategory {
   imagePath: string | null;
   children: ProductCategory[];
   createdAt: string;
+  homeCarouselOrder: number;
 }

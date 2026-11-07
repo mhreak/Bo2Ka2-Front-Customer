@@ -18,7 +18,7 @@ export interface BannerItem {
   id: string | number;
   title?: string;
   description?: string;
-  imagePath?: string;
+  imagePath?: string | null;
   href?: string;
 }
 
@@ -35,6 +35,8 @@ const HomeBannerCarousel = ({
 }: HomeBannerCarouselProps) => {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
+
+  console.log(banners);
 
   const autoplay = React.useRef(
     Autoplay({
@@ -118,7 +120,7 @@ const BannerSlide = ({ banner }: BannerSlideProps) => {
   const content = (
     <div
       className={cn(
-        "relative aspect-16/6 w-full",
+        "relative aspect-16/6 w-full object-fill",
         "overflow-hidden rounded-2xl",
         "bg-muted",
       )}
@@ -134,6 +136,7 @@ const BannerSlide = ({ banner }: BannerSlideProps) => {
         priority
         sizes="100vw"
         className="object-cover"
+        unoptimized
       />
 
       {(banner.title || banner.description) && (

@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
         port: "30000",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "bo2ka2.erisagift.com",
+        pathname: "/uploads/**",
+      },
     ],
   },
   output: "standalone",

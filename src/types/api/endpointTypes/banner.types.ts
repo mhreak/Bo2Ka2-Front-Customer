@@ -10,3 +10,5 @@ export interface Banner {
   createdAt: string;
   updatedAt: string | null;
 }
+
+export type BannerShowPlace = "HomePage" | "ShopList" | "ProductDetail";

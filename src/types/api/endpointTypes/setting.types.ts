@@ -1,3 +1,4 @@
+// ---------- Setting ----------
 export interface Setting {
   id: string;
   key: string;
@@ -10,32 +11,73 @@ export interface HomepageSetting {
   sections: HomepageSection[];
 }
 
-export interface HomepageSection {
+// ---------- Sections (discriminated union) ----------
+export type HomepageSection =
+  | BannerSection
+  | MainCategoriesSection
+  | SimpleSection // sale, upcomingOccasion, priceCategories, expressDelivery, upcomingBirthday, trustedShops
+  | GiftIdeasSection;
+
+interface BaseSection {
   type: SectionType;
   order: number;
   isVisible: boolean;
   title: string | null;
-  style?: SectionStyle;
 }
 
+export interface BannerSection extends BaseSection {
+  type: "banner";
+  bannerIds: string[];
+}
+
+export interface MainCategoriesSection extends BaseSection {
+  type: "mainCategories";
+  showViewAll: boolean;
+  source: "homeCarousel";
+  categories: HomeCarouselCategory[];
+}
+
+export interface GiftIdeasSection extends BaseSection {
+  type: "giftIdeas";
+  source: "giftIdeaCategories";
+  categories: GiftIdeaCategory[];
+}
+
+// سکشن‌هایی که فقط فیلدهای پایه دارند
+export interface SimpleSection extends BaseSection {
+  type:
+    | "sale"
+    | "upcomingOccasion"
+    | "priceCategories"
+    | "expressDelivery"
+    | "upcomingBirthday"
+    | "trustedShops";
+}
+
+// ---------- Section types ----------
 export type SectionType =
-  | "stories"
   | "banner"
-  | "categories"
+  | "mainCategories"
+  | "sale"
+  | "upcomingOccasion"
+  | "priceCategories"
+  | "expressDelivery"
+  | "giftIdeas"
+  | "upcomingBirthday"
   | "bestSellers"
   | "newest"
-  | "souvenirs"
   | "trustedShops";
 
-export interface SectionStyle {
-  backgroundImage: string | null;
-  backgroundColor: string;
-  pattern: string;
-  gradient: Gradient | null;
+// ---------- Categories ----------
+export interface HomeCarouselCategory {
+  id: string;
+  name: string;
+  imagePath: string;
+  homeCarouselOrder: number;
 }
 
-export interface Gradient {
-  from: string;
-  to: string;
-  angle: number;
+export interface GiftIdeaCategory {
+  id: string;
+  name: string;
+  imagePath: string;
 }
