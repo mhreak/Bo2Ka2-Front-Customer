@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import Image from "next/image";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -190,6 +192,12 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
     },
     ref,
   ) => {
+    const [isLike, setIsLike] = React.useState<boolean>(isLiked ?? false);
+
+    React.useEffect(() => {
+      if (isLiked !== undefined) setIsLike(isLiked);
+    }, [isLiked]);
+
     return (
       <Link
         href={`/product/${productId}`}
@@ -227,13 +235,14 @@ const ProductItem = React.forwardRef<HTMLDivElement, ProductItemProps>(
                 )}
                 onClick={(e) => {
                   e.preventDefault();
-                  onLike?.(!isLiked);
+                  onLike?.(!isLike);
+                  setIsLike((prev) => !prev);
                 }}
               >
                 {
                   <Heart
                     className="text-rose-500 transition-all duration-300"
-                    fill={isLiked ? "currentColor" : "var(--color-background)"}
+                    fill={isLike ? "currentColor" : "var(--color-background)"}
                   />
                 }
               </span>

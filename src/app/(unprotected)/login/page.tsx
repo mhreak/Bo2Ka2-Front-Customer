@@ -33,6 +33,7 @@ import { useTransitionRouter } from "next-view-transitions";
 import { Spinner } from "@/components/ui/spinner";
 import { PersianNumberInput } from "@/components/shared/inputs/PersianNumberInput";
 import { useSearchParams } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginPage() {
   const [isLogging, setIsLogging] = useState<boolean>(false);

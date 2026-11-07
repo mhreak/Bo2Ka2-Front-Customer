@@ -17,6 +17,8 @@ export interface Product {
   shopId: string;
   shopName: string;
   createdAt: string;
+  isLiked: boolean;
+  isDisliked: boolean;
 }
 
 export interface ProductParams {
@@ -61,6 +63,12 @@ export interface ProductGet {
   shopAvatarPath: string | null;
   shopIsOpenNow: boolean;
   createdAt: string;
+  isLiked: boolean;
+  isDisliked: boolean;
+  likeCount: number;
+  dislikeCount: number;
+  variations: [];
+  attributes: [];
 }
 
 export interface ProductImage {

@@ -25,6 +25,8 @@ import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/stores/cart/cart.store";
 import Quantity from "@/components/shared/Quantity";
 import { CartItem } from "@/stores/cart/cart.types";
+import productReactionsApi from "@/api/services/ApiService/productReactionsApi";
+import { Spinner } from "@/components/ui/spinner";
 
 export function mapProductToCartItem(
   product: ProductGet,
@@ -48,6 +50,8 @@ export function mapProductToCartItem(
     shopName: product.shopName,
     createdAt: product.createdAt,
     quantity,
+    isLiked: product.isLiked,
+    isDisliked: product.isDisliked,
   };
 }
 
@@ -102,14 +106,29 @@ export default function ProductItemPage() {
     productsApi.get({ id: id }),
   );
 
+  const { isLoading: likeLoading, execute: likeProduct } = useApi<
+    Product,
+    { productId: string }
+  >(productReactionsApi.like, {
+    onError() {
+      setIsLike((prev) => !prev);
+    },
+  });
+
   useEffect(() => {
     getProduct();
   }, []);
 
   const [isLike, setIsLike] = useState(false);
 
+  useEffect(() => {
+    if (productData?.data.isLiked !== undefined)
+      setIsLike(productData?.data.isLiked);
+  }, [productData?.data.isLiked]);
+
   const handleLike = () => {
-    setIsLike(!isLike);
+    likeProduct({ productId: productData?.data.id || "" });
+    setIsLike((prev) => !prev);
   };
 
   return (

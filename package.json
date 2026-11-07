@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "copy:standalone": "xcopy public .next\\standalone\\public /E /I /Y && xcopy .next\\static .next\\standalone\\.next\\static /E /I /Y"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

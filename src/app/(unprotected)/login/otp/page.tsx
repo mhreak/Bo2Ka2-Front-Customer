@@ -9,6 +9,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { Spinner } from "@/components/ui/spinner";
+import { useAuth } from "@/hooks/useAuth";
 import useToast from "@/hooks/useToast";
 import { cn } from "@/lib/utils";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
@@ -27,6 +28,8 @@ export default function OtpPage() {
   const router = useTransitionRouter();
 
   const { error, success } = useToast();
+
+  const { loginOtp } = useAuth();
 
   const [value, setValue] = useState("");
   const [sec, setSec] = useState(120);
@@ -54,13 +57,13 @@ export default function OtpPage() {
     else {
       setIsLoading(true);
       try {
-        await AuthService.loginOtp({
+        await loginOtp({
           code: value,
           mobile: phoneNumber,
         });
         // if (returnUrl) router.push(`${returnUrl}`);
         // else
-        router.push("/home");
+        router.replace("/home");
         success("به وب سایت بدو کادو خوش آمدید", "ورود موفق", 3000);
       } catch (error) {
       } finally {

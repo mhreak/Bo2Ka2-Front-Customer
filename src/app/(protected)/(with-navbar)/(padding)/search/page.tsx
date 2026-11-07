@@ -20,6 +20,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { SectionContent } from "@/components/SectionContent";
 import { useCartStore } from "@/stores/cart/cart.store";
 import { cn } from "@/lib/utils";
+import productReactionsApi from "@/api/services/ApiService/productReactionsApi";
 
 type CategoryValue = ProductSortENUM | "all";
 
@@ -106,6 +107,11 @@ const SearchPage = () => {
     isLoading: productsLoading,
     execute: getProducts,
   } = useApi<APIGetTemplate<Product[]>, ProductParams>(productsApi.getAll);
+
+  const { isLoading: likeLoading, execute: likeProduct } = useApi<
+    Product,
+    { productId: string }
+  >(productReactionsApi.like);
 
   /*
    * -----------------------------------------
@@ -428,7 +434,6 @@ const SearchPage = () => {
                   variant="animate"
                   storeName={product.shopName}
                   badgeVariant="default"
-                  onLike={() => {}}
                   style={{
                     animationDelay: `${(i + 4) * 50}ms`,
                   }}
@@ -442,6 +447,10 @@ const SearchPage = () => {
                     removeItem(product.id);
                   }}
                   quantity={getProductQuantity(product.id)}
+                  isLiked={product.isLiked}
+                  onLike={() => {
+                    likeProduct({ productId: product.id });
+                  }}
                 />
               ))
             ) : (
