@@ -1,6 +1,6 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SharedPageHeader from "@/components/shared/SharedPageHeader";
 import ImageUploadInput from "@/components/shared/inputs/ImageUploadInput";
 import { Controller, FieldErrors, useForm } from "react-hook-form";
@@ -30,6 +30,41 @@ import {
   jalaliToGregorian,
 } from "@/components/formBuilder/utils/date-converter";
 import useToast from "@/hooks/useToast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { toPersianDigits } from "@/utils/numberConversions";
+import { useApi } from "@/hooks/useApi";
+import interestsApi from "@/api/services/ApiService/interestsApi";
+import jobsApi from "@/api/services/ApiService/jobsApi";
+import occasionsApi from "@/api/services/ApiService/occasionsApi";
+import { useTransitionRouter } from "next-view-transitions";
+
+const persianMonths = [
+  { id: 1, name: "فروردین" },
+  { id: 2, name: "اردیبهشت" },
+  { id: 3, name: "خرداد" },
+  { id: 4, name: "تیر" },
+  { id: 5, name: "مرداد" },
+  { id: 6, name: "شهریور" },
+  { id: 7, name: "مهر" },
+  { id: 8, name: "آبان" },
+  { id: 9, name: "آذر" },
+  { id: 10, name: "دی" },
+  { id: 11, name: "بهمن" },
+  { id: 12, name: "اسفند" },
+];
+
+const daysOfMonth: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
+
+const genderOptions = [
+  { id: true, name: "آقا" },
+  { id: false, name: "خانم" },
+];
 
 const relations = ["همسر", "خانواده", "دوست", "همکار"];
 
@@ -37,44 +72,105 @@ const colors = ["#171717", "#F5F3E3", "#E7E9FF", "#008B8B", "#32000E"];
 
 const notesOptions = ["چوب صندل", "ترنج", "عود", "کندر"];
 
-const favoriteOptions = [
-  {
-    icon: <Diamond />,
-    label: "لوکس",
-  },
-  {
-    icon: <MonitorSmartphone />,
-    label: "تکنولوژی",
-  },
-];
-
 const AddPerson = () => {
   const params = useSearchParams();
   const mode = params.get("mode");
   const id = params.get("id");
 
-  const { error } = useToast();
+  const { error, success } = useToast();
+
+  const router = useTransitionRouter();
+
+  const { data: interestsData, execute: getAllInterests } = useApi(
+    interestsApi.getAll,
+  );
+
+  const { data: jobsData, execute: getAllJobs } = useApi(jobsApi.getAll);
+
+  const { data: ageRangesData, execute: getAgeRanges } = useApi(
+    occasionsApi.getAgeRanges,
+  );
+
+  const { data: occasionTypesData, execute: getOccasionTypes } = useApi(
+    occasionsApi.getOccasionTypes,
+  );
+
+  const { data: occasionData, execute: getOccasion } = useApi(occasionsApi.get);
+
+  const { isLoading: addLoading, execute: addOccasion } = useApi(
+    occasionsApi.add,
+    {
+      onSuccess(response) {
+        success("مناسبت با موفقیت ایجاد شد");
+        router.back();
+      },
+    },
+  );
+  const { isLoading: editLoading, execute: editOccasion } = useApi(
+    occasionsApi.edit,
+    {
+      onSuccess(response) {
+        success("مناسبت با موفقیت ویرایش شد");
+      },
+    },
+  );
+
+  useEffect(() => {
+    getAllInterests({ onlyActive: true });
+    getAllJobs({ onlyActive: true });
+    getAgeRanges();
+    getOccasionTypes();
+
+    if (mode === "edit" && id !== null) {
+      getOccasion({ id: id });
+    }
+  }, [mode, id]);
 
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SpecialPersonFormValues>({
     resolver: zodResolver(specialPersonSchema),
     defaultValues: {
-      image: undefined,
-      name: "",
-      birthDate: "",
-      relation: "",
-      favoriteColors: [],
-      notes: [],
-      favorites: [],
+      // image: undefined,
+      contactName: "",
+      ageRange: undefined,
+      gender: undefined,
+      jobId: undefined,
+      occasionDay: undefined,
+      occasionMonth: undefined,
+      occasionType: undefined,
+      notes: "",
+      interestIds: [],
     },
   });
 
+  useEffect(() => {
+    if (mode !== "edit" || !occasionData?.data) return;
+
+    const data = occasionData.data;
+
+    reset({
+      contactName: data.contactName || "",
+      ageRange: data.ageRange,
+      gender: data.gender,
+      jobId: data.jobId,
+      occasionDay: data.occasionDay,
+      occasionMonth: data.occasionMonth,
+      occasionType: data.occasionType,
+      notes: data.notes || "",
+      interestIds: data.interests?.map((item) => item.id) || [],
+    });
+  }, [occasionData, mode, reset]);
+
   const onSubmit = (data: SpecialPersonFormValues) => {
     console.log("FORM DATA:", data);
+    if (mode === "add") addOccasion(data);
+    else if (mode === "edit" && id !== null)
+      editOccasion({ id: id, data: data });
   };
 
   const handleInvalidSubmit = (
@@ -89,14 +185,14 @@ const AddPerson = () => {
 
   return (
     <>
-      <SharedPageHeader title="ایجاد پروفایل" />
+      <SharedPageHeader title="ایجاد مناسبت جدید" />
       <form
         dir="rtl"
         onSubmit={handleSubmit(onSubmit, handleInvalidSubmit)}
         className="flex w-full flex-col gap-7 pb-10"
       >
         {/* Image */}
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center">
           <Controller
             name="image"
             control={control}
@@ -104,7 +200,7 @@ const AddPerson = () => {
               <ImageUploadInput value={field.value} onChange={field.onChange} />
             )}
           />
-        </div>
+        </div> */}
 
         {/* {errors.image && (
           <p className="text-center text-xs text-red-500">
@@ -117,9 +213,14 @@ const AddPerson = () => {
           <label className="text-lg font-medium text-text">
             نام و نام خانوادگی
           </label>
-          <InputGroup>
+          <InputGroup
+            className={cn(
+              errors.contactName &&
+                "border-destructive focus-visible:ring-destructive",
+            )}
+          >
             <InputGroupInput
-              {...register("name")}
+              {...register("contactName")}
               placeholder="لطفاً نام و نام خانوادگی را وارد کنید"
             />
             <InputGroupAddon align="inline-start">
@@ -131,8 +232,244 @@ const AddPerson = () => {
           )} */}
         </div>
 
+        <div className="flex items-center gap-2 w-full">
+          <div className="flex flex-col gap-2 w-full">
+            <label className="text-lg font-medium text-text">ماه مناسبت</label>
+            <Controller
+              name="occasionMonth"
+              control={control}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => {
+                const selectedOption = persianMonths?.find(
+                  (opt) => opt.id === value,
+                );
+                return (
+                  <Select onValueChange={onChange} value={value ?? undefined}>
+                    <SelectTrigger
+                      id={"occasionMonth"}
+                      className={cn(
+                        error &&
+                          "border-destructive focus-visible:ring-destructive",
+                      )}
+                    >
+                      <SelectValue placeholder={"انتخاب کنید..."}>
+                        {selectedOption ? selectedOption.name : null}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {persianMonths?.map((option) => (
+                        <SelectItem key={option.id} value={option.id}>
+                          {option.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                );
+              }}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 w-full">
+            <label className="text-lg font-medium text-text">روز مناسبت</label>
+            <Controller
+              name="occasionDay"
+              control={control}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => {
+                const selectedOption = daysOfMonth?.find(
+                  (opt) => opt === value,
+                );
+                return (
+                  <Select onValueChange={onChange} value={value ?? undefined}>
+                    <SelectTrigger
+                      id={"occasionDay"}
+                      className={cn(
+                        error &&
+                          "border-destructive focus-visible:ring-destructive",
+                      )}
+                    >
+                      <SelectValue placeholder={"انتخاب کنید..."}>
+                        {selectedOption
+                          ? toPersianDigits(selectedOption)
+                          : null}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {daysOfMonth?.map((option) => (
+                        <SelectItem key={option} value={option}>
+                          {toPersianDigits(option)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                );
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 w-full">
+          <div className="flex flex-col gap-2 w-full">
+            <label className="text-lg font-medium text-text">جنسیت</label>
+            <Controller
+              name="gender"
+              control={control}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => {
+                const selectedOption = genderOptions?.find(
+                  (opt) => opt.id === value,
+                );
+                return (
+                  <Select onValueChange={onChange} value={value ?? undefined}>
+                    <SelectTrigger
+                      id={"gender"}
+                      className={cn(
+                        error &&
+                          "border-destructive focus-visible:ring-destructive",
+                      )}
+                    >
+                      <SelectValue placeholder={"انتخاب کنید..."}>
+                        {selectedOption ? selectedOption.name : null}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {genderOptions?.map((option) => (
+                        <SelectItem key={option.id ? 1 : 2} value={option.id}>
+                          {option.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                );
+              }}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 w-full">
+            <label className="text-lg font-medium text-text">محدوده سنی</label>
+            <Controller
+              name="ageRange"
+              control={control}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => {
+                const selectedOption = ageRangesData?.data?.find(
+                  (opt) => opt.value === value,
+                );
+                return (
+                  <Select onValueChange={onChange} value={value ?? undefined}>
+                    <SelectTrigger
+                      id={"ageRange"}
+                      className={cn(
+                        error &&
+                          "border-destructive focus-visible:ring-destructive",
+                      )}
+                    >
+                      <SelectValue placeholder={"انتخاب کنید..."}>
+                        {selectedOption ? selectedOption.title : null}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ageRangesData?.data?.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                );
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 w-full">
+          <div className="flex flex-col gap-2 w-full">
+            <label className="text-lg font-medium text-text">شغل</label>
+            <Controller
+              name="jobId"
+              control={control}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => {
+                const selectedOption = jobsData?.data?.find(
+                  (opt) => opt.id === value,
+                );
+                return (
+                  <Select onValueChange={onChange} value={value ?? undefined}>
+                    <SelectTrigger
+                      id={"gender"}
+                      className={cn(
+                        error &&
+                          "border-destructive focus-visible:ring-destructive",
+                      )}
+                    >
+                      <SelectValue placeholder={"انتخاب کنید..."}>
+                        {selectedOption ? selectedOption.title : null}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {jobsData?.data?.map((option) => (
+                        <SelectItem key={option.id} value={option.id}>
+                          {option.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                );
+              }}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 w-full">
+            <label className="text-lg font-medium text-text">نوع مناسبت</label>
+            <Controller
+              name="occasionType"
+              control={control}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => {
+                const selectedOption = occasionTypesData?.data?.find(
+                  (opt) => opt.value === value,
+                );
+                return (
+                  <Select onValueChange={onChange} value={value ?? undefined}>
+                    <SelectTrigger
+                      id={"occasionType"}
+                      className={cn(
+                        error &&
+                          "border-destructive focus-visible:ring-destructive",
+                      )}
+                    >
+                      <SelectValue placeholder={"انتخاب کنید..."}>
+                        {selectedOption ? selectedOption.title : null}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {occasionTypesData?.data?.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                );
+              }}
+            />
+          </div>
+        </div>
+
         {/* Birth Date */}
-        <div className="flex flex-col gap-2">
+        {/* <div className="flex flex-col gap-2">
           <label className="text-lg font-medium text-text">تاریخ تولد</label>
 
           <div className="relative">
@@ -154,15 +491,15 @@ const AddPerson = () => {
                 />
               )}
             />
-          </div>
+          </div> */}
 
-          {/* {errors.birthDate && (
+        {/* {errors.birthDate && (
             <p className="text-xs text-red-500">{errors.birthDate.message}</p>
           )} */}
-        </div>
+        {/* </div> */}
 
         {/* Relation */}
-        <div className="flex flex-col gap-3">
+        {/* <div className="flex flex-col gap-3">
           <label className="text-lg font-medium text-text">رابطه</label>
 
           <Controller
@@ -177,15 +514,15 @@ const AddPerson = () => {
             )}
           />
 
-          {/* {errors.relation && (
+          {errors.relation && (
             <p className="text-xs text-red-500">{errors.relation.message}</p>
-          )} */}
-        </div>
+          )}
+        </div> */}
 
         <h2 className="my-5 text-3xl">هوش زیبایی شناختی</h2>
 
         {/* Favorite Color */}
-        <div className="flex flex-col gap-3">
+        {/* <div className="flex flex-col gap-3">
           <label className="text-lg font-medium text-[#555]">
             رنگ مورد علاقه
           </label>
@@ -252,12 +589,12 @@ const AddPerson = () => {
             )}
           />
 
-          {/* {errors.favoriteColors && (
+          {errors.favoriteColors && (
             <p className="text-xs text-red-500">
               {errors.favoriteColors.message}
             </p>
-          )} */}
-        </div>
+          )}
+        </div> */}
 
         {/* Notes */}
         <div className="flex flex-col gap-3">
@@ -269,8 +606,8 @@ const AddPerson = () => {
             render={({ field }) => (
               <BadgeSelect
                 items={notesOptions.map((n) => ({ id: n, title: n }))}
-                selectionMode="multiple"
-                selectedIds={field.value}
+                selectionMode="single"
+                selectedId={field.value}
                 onSelect={(val) => field.onChange(val)}
               />
             )}
@@ -288,32 +625,33 @@ const AddPerson = () => {
           </label>
 
           <Controller
-            name="favorites"
+            name="interestIds"
             control={control}
             render={({ field }) => (
-              <SectionContent className="flex-wrap gap-5">
-                {favoriteOptions.map((item) => {
-                  const selected = field.value?.includes(item.label);
+              <SectionContent className=" gap-5" variant={"scrollGrid"}>
+                {interestsData?.data.map((item) => {
+                  const selected = field.value?.includes(item.id);
 
                   return (
                     <button
-                      key={item.label}
+                      key={item.id}
                       type="button"
                       onClick={() => {
                         const current = field.value ?? [];
 
                         if (selected) {
                           field.onChange(
-                            current.filter((value) => value !== item.label),
+                            current.filter((value) => value !== item.id),
                           );
                         } else {
-                          field.onChange([...current, item.label]);
+                          field.onChange([...current, item.id]);
                         }
                       }}
                       className={cn(
                         `
                       h-32
                       w-40
+                      lg:w-full
                       shrink-0
                       rounded-4xl
                       border
@@ -330,8 +668,7 @@ const AddPerson = () => {
                         selected && "bg-secondary text-secondary-foreground",
                       )}
                     >
-                      {item.icon}
-                      {item.label}
+                      {item.title}
                     </button>
                   );
                 })}
@@ -341,7 +678,11 @@ const AddPerson = () => {
         </div>
 
         {/* Submit */}
-        <Button type="submit" variant={"gradient"}>
+        <Button
+          type="submit"
+          variant={"gradient"}
+          isLoading={addLoading || editLoading}
+        >
           ذخیره پروفایل
         </Button>
       </form>

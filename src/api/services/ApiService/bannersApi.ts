@@ -10,7 +10,7 @@ const api = new ApiClient(API_ENDPOINT.banners);
 
 const bannersApi = {
   get: (params?: { showPlace?: BannerShowPlace }) => {
-    return api.get<APIGetTemplate<Banner[]>>("");
+    return api.get<APIGetTemplate<Banner[]>>("", params);
   },
 };
 

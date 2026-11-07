@@ -5,12 +5,12 @@ import Image from "next/image";
 import React from "react";
 
 interface SpecialPersonItemProps {
-  id: number;
+  id: string;
   name: string;
-  avatarImagePath: string;
+  avatarImagePath?: string | null;
   description: string;
   colorPalette: string[];
-  notes: string[];
+  note: string;
   favorites: string[];
 }
 
@@ -20,14 +20,14 @@ export default function SpecialPersonItem({
   avatarImagePath,
   description,
   colorPalette,
-  notes,
+  note,
   favorites,
 }: SpecialPersonItemProps) {
   return (
     <div className="relative border border-border rounded-3xl p-5 mb-5">
       <div className="flex flex-row justify-start items-center gap-3 mb-8">
         <Image
-          src={avatarImagePath}
+          src={avatarImagePath || "/images/default-user-avatar.jpg"}
           alt={name}
           width={60}
           height={60}
@@ -37,7 +37,9 @@ export default function SpecialPersonItem({
           <h3 className="text-2xl font-semibold">{name}</h3>
           <div className="flex items-center gap-2">
             <Calendar className="text-primary size-4" />
-            <p className="text-gradient text-xs">{description}</p>
+            <p className="text-gradient text-xs" dir="ltr">
+              {description}
+            </p>
           </div>
         </div>
       </div>
@@ -61,14 +63,12 @@ export default function SpecialPersonItem({
       <div className="space-y-1 mb-5">
         <div className="flex flex-row items-center">
           <Wind className="size-5 ml-5" />
-          <p>یادداشت های امضا</p>
+          <p>رایحه های مورد علاقه</p>
         </div>
         <div className="mr-10">
-          {notes.map((note) => (
-            <Badge key={note} variant={"ghost"} className="ml-1 px-4 py-3">
-              {note}
-            </Badge>
-          ))}
+          <Badge key={note} variant={"ghost"} className="ml-1 px-4 py-3">
+            {note}
+          </Badge>
         </div>
       </div>
 
@@ -82,7 +82,7 @@ export default function SpecialPersonItem({
             <Badge
               key={favorite}
               variant={"secondary"}
-              className="ml-1 px-4 py-3 font-extralight"
+              className="ml-1 px-4 py-3 font-extralight mb-1"
             >
               {favorite}
             </Badge>

@@ -14,4 +14,7 @@ export const API_ENDPOINT = {
   shops: "/shops",
   users: "/users",
   files: "/files",
+  interests: "/interests",
+  jobs: "/jobs",
+  occasions: "/occasions",
 };

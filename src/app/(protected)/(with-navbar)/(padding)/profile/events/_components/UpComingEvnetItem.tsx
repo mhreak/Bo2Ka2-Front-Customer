@@ -24,7 +24,7 @@ interface UpcomingEventItemProps
     VariantProps<typeof upComingEvnetItemVariants> {
   title: string;
   description: string;
-  avatarImagePath: string;
+  avatarImagePath?: string | null;
   personName: string;
   iconPathName?: string;
 }
@@ -34,20 +34,59 @@ const UpComingEvnetItem = React.forwardRef<
   UpcomingEventItemProps
 >(
   (
-    { className, variant, title, description, avatarImagePath, personName,iconPathName, ...props },
+    {
+      className,
+      variant,
+      title,
+      description,
+      avatarImagePath,
+      personName,
+      iconPathName,
+      ...props
+    },
     ref,
   ) => {
     return (
-      <div ref={ref} className={cn(upComingEvnetItemVariants({ variant }),className)} {...props}> 
+      <div
+        ref={ref}
+        className={cn(upComingEvnetItemVariants({ variant }), className)}
+        {...props}
+      >
         <div className="flex flex-col gap-2">
-            <p className={cn("text-sm font-extralight", variant==="default" && "text-gradient")}>{description}</p>
-            <h3 className="font-bold text-3xl">{title}</h3>
-            <div className="flex flex-row items-center gap-2 mt-4">
-                <Image src={avatarImagePath} alt={avatarImagePath} width={25} height={25} className={cn("object-cover rounded-full",variant==="default"&&"ring-2 ring-muted-foreground")}/>
-                <p className="text-xs font-thin">{personName}</p>
-            </div>
+          <p
+            className={cn(
+              "text-sm font-extralight",
+              variant === "default" && "text-gradient",
+            )}
+          >
+            {description}
+          </p>
+          <h3 className="font-bold text-3xl">{title}</h3>
+          <div className="flex flex-row items-center gap-2 mt-4">
+            <Image
+              src={avatarImagePath || "/images/default-user-avatar.jpg"}
+              alt={avatarImagePath || "تصویر آواتار"}
+              width={25}
+              height={25}
+              className={cn(
+                "object-cover rounded-full",
+                variant === "default" && "ring-2 ring-muted-foreground",
+              )}
+            />
+            <p className="text-xs font-thin" dir="ltr">
+              {personName}
+            </p>
+          </div>
         </div>
-        {iconPathName && <Image src={iconPathName} alt={iconPathName} width={80} height={80} className={cn("absolute bottom-0 left-5")}/>}
+        {iconPathName && (
+          <Image
+            src={iconPathName}
+            alt={iconPathName}
+            width={80}
+            height={80}
+            className={cn("absolute bottom-0 left-5")}
+          />
+        )}
       </div>
     );
   },

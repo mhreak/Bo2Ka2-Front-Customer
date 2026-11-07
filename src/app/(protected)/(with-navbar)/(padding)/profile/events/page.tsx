@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import SharedPageHeader from "@/components/shared/SharedPageHeader";
 import UpComingEvnetItem from "./_components/UpComingEvnetItem";
 import { SectionContent } from "@/components/SectionContent";
@@ -6,6 +8,12 @@ import SpecialPersonItem from "./_components/SpecialPersonItem";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Link } from "next-view-transitions";
+import { useApi } from "@/hooks/useApi";
+import occasionsApi from "@/api/services/ApiService/occasionsApi";
+import { toPersianDigits } from "@/utils/numberConversions";
+import { Occasion } from "@/types/api/endpointTypes/occasion.types";
+
+const UPCAMING_DAYS_LIMIT = 30;
 
 const upComingMockData = [
   {
@@ -50,6 +58,25 @@ const personsMockData = [
 ];
 
 export default function EventsPage() {
+  const [upComingOccasions, setUpComingOccasions] = useState<Occasion[]>([]);
+
+  const {
+    data: occasionsData,
+    isLoading,
+    execute: getAllOccasions,
+  } = useApi(occasionsApi.getAll, {
+    onSuccess(response) {
+      const upComing = response.data.filter(
+        (occasion) => occasion.daysUntil <= UPCAMING_DAYS_LIMIT,
+      );
+      setUpComingOccasions(upComing);
+    },
+  });
+
+  useEffect(() => {
+    getAllOccasions();
+  }, []);
+
   return (
     <div>
       <SharedPageHeader
@@ -64,32 +91,43 @@ export default function EventsPage() {
         }
       />
       <h5 className="mb-5">نزدیک شدن سریع</h5>
-      <SectionContent className="lg:grid lg:grid-cols-2 lg:gap-5 lg:overflow-visible">
-        {upComingMockData.map((u) => (
-          <UpComingEvnetItem
-            key={u.id}
-            title={u.title}
-            description={u.description}
-            avatarImagePath={u.avatarImagePath}
-            personName={u.personName}
-            iconPathName={u.iconPathName}
-            //@ts-ignore
-            variant={u.variant as "primary" | "default"}
-          />
-        ))}
-      </SectionContent>
+      {upComingOccasions.length > 0 ? (
+        <SectionContent className="lg:grid lg:grid-cols-2 lg:gap-5 lg:overflow-visible">
+          {upComingOccasions.map((u) => (
+            <UpComingEvnetItem
+              key={u.id}
+              title={`${u.occasionTypeTitle} ${u.contactName}`}
+              description={`${toPersianDigits(u.daysUntil)} روز مانده`}
+              avatarImagePath={undefined}
+              personName={toPersianDigits(u.displayDate) || ""}
+              iconPathName={
+                u.occasionTypeName === "Birthday"
+                  ? "/icons/birthdate-cake.png"
+                  : undefined
+              }
+              //@ts-ignore
+              variant={u.daysUntil <= 10 ? "primary" : "default"}
+            />
+          ))}
+        </SectionContent>
+      ) : (
+        <div className="border border-dashed rounded-xl text-center font-semibold text-lg text-muted-foreground p-5 max-w-xl mx-auto mb-8">
+          در {toPersianDigits(UPCAMING_DAYS_LIMIT)} روز آینده هیچ مناسبتی وجود
+          ندارد!
+        </div>
+      )}
       <h5 className="mb-5">افراد خاص</h5>
       <div className="lg:grid lg:grid-cols-2 lg:gap-5">
-        {personsMockData.map((p) => (
+        {occasionsData?.data.map((p) => (
           <SpecialPersonItem
             key={p.id}
             id={p.id}
-            name={p.name}
-            description={p.description}
-            avatarImagePath={p.avatarImagePath}
-            colorPalette={p.colorPalette}
-            favorites={p.favorites}
-            notes={p.notes}
+            name={p.contactName}
+            description={`${p.occasionTypeTitle} - ${toPersianDigits(p.displayDate)}`}
+            avatarImagePath={""}
+            colorPalette={[]}
+            favorites={p.interests.map((f) => f.title)}
+            note={p.notes}
           />
         ))}
       </div>
