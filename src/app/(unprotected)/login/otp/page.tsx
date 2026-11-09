@@ -2,6 +2,7 @@
 
 import AuthService from "@/api/services/AuthService";
 import { NumberTicker } from "@/components/shadcn-space/number-ticker/number-ticker-03";
+import BackButton from "@/components/shared/BackButton";
 import { Button } from "@/components/ui/button";
 import {
   InputOTP,
@@ -87,8 +88,11 @@ export default function OtpPage() {
 
   return (
     <form onSubmit={(e) => handleOtpSubmit(e)}>
-      <div className="mx-auto flex h-full w-full max-w-md flex-col justify-center items-center gap-14">
-        <div className="flex flex-col items-center justify-center gap-5 mt-30">
+      <div className="mx-auto flex min-h-[calc(100dvh-40px)] w-full max-w-md flex-col justify-center items-center gap-14">
+        <div className="w-full flex items-center justify-start">
+          <BackButton />
+        </div>
+        <div className="flex flex-col items-center justify-center gap-5 mt-20">
           <Image
             src="/images/bodokado-logo.png"
             width={50}
@@ -140,7 +144,7 @@ export default function OtpPage() {
             </button>
           </span>
         </div>
-        <div className="h-full w-full flex flex-col justify-end">
+        <div className="h-full w-full flex flex-col justify-end mt-auto">
           <Button
             variant={"gradient"}
             type="submit"

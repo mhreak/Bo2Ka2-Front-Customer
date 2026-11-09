@@ -11,12 +11,21 @@ import ProfileAvatar from "./ProfileAvatar";
 import { Button } from "../ui/button";
 import { Bot } from "lucide-react";
 
-const DesktopHeader = () => {
+interface DesktopHeaderProps {
+  headerClassName?: string;
+}
+
+const DesktopHeader = ({ headerClassName }: DesktopHeaderProps) => {
   const pathname = usePathname();
   const activeTab = pathname.split("/")[1];
 
   return (
-    <header className="sticky top-0 z-50 hidden w-full border-b border-border bg-background/80 backdrop-blur-lg lg:block">
+    <header
+      className={cn(
+        "sticky top-0 z-50 hidden w-full border-b border-border rounded-xl bg-background/80 backdrop-blur-lg lg:block",
+        headerClassName,
+      )}
+    >
       <div className="mx-auto flex h-18 max-w-7xl items-center gap-8 px-8">
         <Link href="/home" className="flex shrink-0 items-center gap-2">
           <Image

@@ -353,7 +353,7 @@ const SearchPage = () => {
       ref={productsListRef}
       className="flex h-full min-h-0 flex-col overflow-hidden"
     >
-      <div className="flex-between mb-5 lg:hidden">
+      {/* <div className="flex-between mb-5 lg:hidden">
         <Menu />
 
         <Image
@@ -362,7 +362,7 @@ const SearchPage = () => {
           height={62}
           alt="bodokado-logo"
         />
-      </div>
+      </div> */}
 
       <div className="mb-5 flex flex-row items-center gap-5">
         <SearchInput

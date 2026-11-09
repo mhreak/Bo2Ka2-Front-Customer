@@ -34,6 +34,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { PersianNumberInput } from "@/components/shared/inputs/PersianNumberInput";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import BackButton from "@/components/shared/BackButton";
 
 export default function LoginPage() {
   const [isLogging, setIsLogging] = useState<boolean>(false);
@@ -49,20 +50,20 @@ export default function LoginPage() {
   } = useForm<PersonalAccountLoginFormValues>({
     resolver: zodResolver(personalAccountLoginSchema),
     defaultValues: {
-      phoneNumber: undefined,
+      phoneNumber: "",
     },
   });
-  const {
-    register: organizationRegister,
-    handleSubmit: handleOrganizationSubmit,
-    formState: { errors: organizationErrors },
-  } = useForm<OrganizationAccountLoginFormValues>({
-    resolver: zodResolver(organizationAccountLoginSchema),
-    defaultValues: {
-      username: undefined,
-      password: undefined,
-    },
-  });
+  // const {
+  //   register: organizationRegister,
+  //   handleSubmit: handleOrganizationSubmit,
+  //   formState: { errors: organizationErrors },
+  // } = useForm<OrganizationAccountLoginFormValues>({
+  //   resolver: zodResolver(organizationAccountLoginSchema),
+  //   defaultValues: {
+  //     username: undefined,
+  //     password: undefined,
+  //   },
+  // });
 
   const handlePersonalAccount = async (
     data: PersonalAccountLoginFormValues,
@@ -85,143 +86,76 @@ export default function LoginPage() {
   const handleOrganization = (data: OrganizationAccountLoginFormValues) => {};
 
   return (
-    <div className="mx-auto flex h-full w-full max-w-md flex-col justify-end items-start gap-5">
-      <div className="flex flex-row justify-start items-center gap-5 mt-30">
+    <div className="mx-auto flex min-h-[calc(100dvh-40px)] w-full max-w-md flex-col px-4">
+      <div>
+        <BackButton />
+      </div>
+      {/* Header */}
+      <div className="mt-20 flex items-center gap-5">
         <Image
           src="/images/bodokado-logo.png"
           width={50}
           height={50}
           alt="bodokado-logo"
         />
-        <h3 className="font-semibold text-lg">ورود به حساب</h3>
+        <h3 className="text-lg font-semibold">ورود به حساب</h3>
       </div>
-      <p className="text-sm text-muted-foreground">
-        ابتدا از طریق تب ها نوع اکانت خود را انتخاب کنید، سپس با وارد کردن
-        اطلاعات درست به حساب کاربری خود دسترسی پیدا کنید
-      </p>
-      <Tabs className={"w-full flex-1"}>
-        <TabsList className={"w-full"}>
-          <TabsTrigger value={"personalAccount"}>حساب شخصی</TabsTrigger>
-          <TabsTrigger value={"organizationAccount"}>حساب سازمانی</TabsTrigger>
-        </TabsList>
-        <TabsContent value={"personalAccount"} className={"flex flex-col"}>
-          <form
-            onSubmit={handlePersonalAccountSubmit(handlePersonalAccount)}
-            className="h-60"
-          >
-            <div className="mt-20 h-60">
-              <div className="flex flex-col gap-2">
-                <label className="text-lg font-medium text-text/70">
-                  شماره موبایل
-                </label>
-                <Controller
-                  name="phoneNumber"
-                  control={control}
-                  render={({ field, fieldState }) => (
-                    <PersianNumberInput
-                      {...field}
-                      placeholder="لطفاً شماره موبایل خود را وارد کنید"
-                      className={cn(
-                        "text-text placeholder:text-muted-foreground/50",
-                      )}
-                      icon={
-                        <Phone className="size-6 text-muted-foreground/50" />
-                      }
-                      containerClassName={cn(
-                        "rounded-4xl bg-background",
-                        personalErrors.phoneNumber &&
-                          "border border-destructive focus-visible:ring-destructive",
-                      )}
-                    />
-                  )}
-                />
 
-                {personalErrors.phoneNumber && (
-                  <p className="text-sm text-red-500 animate-shake">
-                    {personalErrors.phoneNumber.message}
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="h-full flex flex-col justify-end">
-              <Button
-                variant={"gradient"}
-                type="submit"
-                className={"mt-auto"}
-                disabled={isLogging}
-              >
-                {isLogging && <Spinner />}
-                {isLogging ? "در حال ارسال کد..." : "ورود"}
-              </Button>
-            </div>
-          </form>
-        </TabsContent>
-        {/* <TabsContent value={"organizationAccount"} className={"flex flex-col"}>
-          <form
-            onSubmit={handleOrganizationSubmit(handleOrganization)}
-            className="h-60"
-          >
-            <div className="mt-20 h-60">
-              <div className="flex flex-col gap-4 mb-8">
-                <label className="text-lg font-medium text-text/70">
-                  نام کاربری
-                </label>
-                <InputGroup className="rounded-4xl bg-background border-none">
-                  <InputGroupInput
-                    {...organizationRegister("username")}
-                    placeholder="لطفاً نام کاربری خود را وارد کنید"
-                    className={cn(
-                      "text-text placeholder:text-muted-foreground/50",
-                      organizationErrors.username &&
-                        "border-destructive focus-visible:ring-destructive",
-                    )}
-                  />
-                 
-                </InputGroup>
-                {organizationErrors.username && (
-                  <p className="text-xs text-red-500">
-                    {organizationErrors.username.message}
-                  </p>
-                )}
-              </div>
-              <div className="flex flex-col gap-4 mb-8">
-                <label className="text-lg font-medium text-text/70">
-                  رمز عبور
-                </label>
-                <Controller
-                  control={control}
-                  name="password"
-                  render={({
-                    field: { onChange, onBlur, value, ref },
-                    fieldState: { error },
-                  }) => (
-                    <PasswordInput
-                      id={"password"}
-                      placeholder={"لطفا رمز عبور خود را وارد کنید"}
-                      value={value ?? ""}
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      ref={ref}
-                      className={cn(
-                        "placeholder:text-muted-foreground/50",
-                        error &&
-                          "border-destructive focus-visible:ring-destructive",
-                      )}
-                      inputClassName="border-none rounded-4xl bg-background px-4"
-                    />
+      <p className="mt-5 text-sm text-muted-foreground">
+        با وارد کردن شماره همراه به حساب کاربری خود دسترسی پیدا کنید
+      </p>
+
+      {/* Form */}
+      <form
+        onSubmit={handlePersonalAccountSubmit(handlePersonalAccount)}
+        className="flex flex-1 flex-col"
+      >
+        {/* Input */}
+        <div className="mt-20">
+          <div className="flex flex-col gap-2">
+            <label className="text-lg font-medium text-text/70">
+              شماره موبایل
+            </label>
+
+            <Controller
+              name="phoneNumber"
+              control={control}
+              render={({ field }) => (
+                <PersianNumberInput
+                  {...field}
+                  placeholder="لطفاً شماره موبایل خود را وارد کنید"
+                  className="text-text placeholder:text-muted-foreground/50"
+                  icon={<Phone className="size-6 text-muted-foreground/50" />}
+                  containerClassName={cn(
+                    "rounded-4xl bg-background",
+                    personalErrors.phoneNumber &&
+                      "border border-destructive focus-visible:ring-destructive",
                   )}
                 />
-              </div>
-            </div>
-            <div className="h-full flex flex-col justify-end">
-              <Button variant={"gradient"} type="submit" className={"mt-auto"}>
-                {isLogging && <Spinner />}
-                {isLogging ? "در حال ارسال کد..." : "ورود"}
-              </Button>
-            </div>
-          </form>
-        </TabsContent> */}
-      </Tabs>
+              )}
+            />
+
+            {personalErrors.phoneNumber && (
+              <p className="animate-shake text-sm text-red-500">
+                {personalErrors.phoneNumber.message}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="mt-auto pb-6">
+          <Button
+            variant="gradient"
+            type="submit"
+            className="w-full"
+            disabled={isLogging}
+          >
+            {isLogging && <Spinner />}
+            {isLogging ? "در حال ارسال کد..." : "ورود"}
+          </Button>
+        </div>
+      </form>
     </div>
   );
 }

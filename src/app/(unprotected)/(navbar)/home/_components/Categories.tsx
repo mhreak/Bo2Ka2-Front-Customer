@@ -1,24 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import {
-  Coffee,
-  Shirt,
-  Flower2,
-  Palmtree,
-  Gem,
-  ChevronDown,
-  Star,
-  ShoppingBag,
-  Heart,
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { Coffee, Shirt, Flower2, Palmtree, Gem } from "lucide-react";
 import Image from "next/image";
-import { ProductCategory } from "@/types/api/endpointTypes/productCategory.types";
-import productCategoriesApi from "@/api/services/ApiService/productCategories";
-import { useApi } from "./../../../../../../hooks/useApi";
-import { APIGetTemplate } from "@/types/api/commonApiTypes";
-import { Skeleton } from "@/components/ui/skeleton";
+
 import { ENV } from "@/config/env";
 import {
   GiftIdeaCategory,

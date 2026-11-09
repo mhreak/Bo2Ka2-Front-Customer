@@ -5,5 +5,7 @@ export default function UnprotectedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="bg-gradient-light h-full w-full p-5">{children}</div>;
+  return (
+    <div className="bg-gradient-light min-h-dvh w-full p-5">{children}</div>
+  );
 }

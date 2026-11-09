@@ -1,6 +1,7 @@
 import ApiClient from "@/api/ApiClient";
 import { API_ENDPOINT } from "@/constants/api/apiEndpoints";
 import { APIGetTemplate } from "@/types/api/commonApiTypes";
+import { Interest } from "@/types/api/endpointTypes/interest.types";
 
 const api = new ApiClient(API_ENDPOINT.interests);
 
